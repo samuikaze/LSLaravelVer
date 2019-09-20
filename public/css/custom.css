@@ -1,0 +1,1329 @@
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');
+/*
+ * 此 CSS 用於快速覆蓋原版型的樣式
+ * 有網路時或上傳到伺服器前請將第一行的註解拿掉
+**/
+
+/* 字體設定 */
+.main-w3ls-logo a, 
+body, 
+.slider-info h3,
+.subheading-wthree,
+.main-w3l-title,
+.btm-logo-w3ls h2 a,
+body :not(i) {
+    font-family: 'Noto Sans TC' !important;
+    /* 'Alegreya Sans SC' */
+}
+
+/* form 的效果 */
+.subscribe-w3ls input[type="text"],
+.subscribe-w3ls input[type="email"],
+textarea {
+    outline: none;
+    border: none;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.23);
+    color: #212121;
+    font-size: 15px;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 5px 0;
+    text-align: start;
+    /* 禁止 TEXTAREA 大小可變 */
+    resize: none;
+    /* CSS3 動態效果 */
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+/* 輸入效果 */
+input {
+    padding: 2px 10px;
+    border-radius: 5px;
+    font-family: 'Noto Sans TC', '微軟正黑體';
+    border: 2px solid #D8D8D8;
+    box-shadow: 0px 0px 10px rgba(0,225,138,0.0);
+    text-shadow:0px 0px 0px rgba(255,255,138,0.9);
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+input:focus{
+    border: 2px solid #023B6B;
+    box-shadow: 0px 0px 10px rgba(255,255,138,0.9);
+    text-shadow:0px 0px 6px rgba(2,59,107,0.9);
+}
+
+.banner {
+    min-height: 120px;
+    background-image: url(../images/banner.jpg);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-size: cover;
+}
+
+.newsTable {
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.newsTable tbody tr td {
+    border-top: 2px dashed white;
+    font-family: 'Noto Sans TC' !important;
+}
+
+.newsbadge {
+    font-size: 0.8em;
+}
+
+.news-warn{
+    color: red !important;
+    padding: 0 auto;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
+.news-title{
+    margin: 0.1em 0 0 0;
+    font-weight: bold;
+}
+
+.testimonials-section {
+    padding: 1em;
+}
+
+.testimonials-section {
+    background: rgba(203, 203, 203, 0.7);
+}
+
+.memberForm {
+    /*border: 1px solid gray;*/
+    width: 80% !important;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.member-warn {
+    color: red;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* 
+ * 此樣式為有含載入動畫的 BANNER 背景圖設定，未來如不需使用請將這個樣式刪除
+ * 目前套用此樣式的頁面為：news.html、product.html
+ */
+.banner-load {
+    min-height: 120px;
+    background-image: url(images/banner.jpg);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-size: cover;
+    min-height: 795px;
+}
+
+.header-buttom-w3layouts {
+    color: black;
+}
+
+.test-name p {
+    margin: 0;
+}
+
+/* 返回頂端圖片設定 */
+.toTop {
+    position: fixed;
+    bottom: 25px;
+    right: 2%;
+    z-index: 999;
+    color: #FFFFFF;
+    width: 70px;
+    height: 70px;
+    display:none;
+    cursor:pointer;
+}
+
+#toTop {
+    width: 70px;
+    height: 70px;
+}
+
+/* 頭部 Banner */
+.header-wrap {
+    width: 98%;
+    margin: 0 auto;
+}
+
+header {
+    background: rgba(0, 0, 0, 0.35);
+    border-bottom: transparent;
+    position: fixed;
+    transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    z-index: 100;
+}
+
+h1 {
+    display: inline-block;
+}
+
+h2 {
+    color: white;
+    display: inline-block;
+    font-weight: normal;
+}
+
+textarea:focus{
+    box-shadow: 0px 0px 10px rgba(255,255,138,0.9);
+}
+
+.slider-info a {
+    background: rgb(151, 43, 0);
+}
+
+.slider-info p {
+    font-weight: bold;
+}
+
+.slider-info a:hover {
+    background: rgb(255, 72, 0);
+}
+
+.about-bottom {
+    background: rgb(255, 145, 0);
+}
+
+.about-img {
+    background: url(images/about.jpg)no-repeat 0px 0px !important;
+}
+
+.mid-info:nth-child(1) {
+    background: url(images/m1.jpg)no-repeat 0px 0px !important;
+}
+
+.mid-info:nth-child(2) {
+    background: url(images/m2.jpg)no-repeat 0px 0px !important;
+}
+
+.mid-info:nth-child(3) {
+    background: url(images/m3.jpg)no-repeat 0px 0px !important;
+}
+
+.header-top {
+    background: rgb(255, 145, 0);
+}
+
+.serv-left h6, .serv-right h6 {
+    color: rgb(255, 255, 255);
+}
+
+.navbar-default .navbar-nav li a
+:not(.navbar-default .navbar-nav li a ul li a) {
+    font-size: 16px;
+    color: white;
+}
+
+.main-w3ls-logo a{
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.main-w3ls-logo img {
+    height: 50px;
+}
+
+.navbar-nav {
+    float: right;
+    margin: 5px 10px 0 0;
+}
+
+.navbar-nav>li>a.active,
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:focus {
+	color: #944200;
+    border-bottom: 2px solid #fff;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    /*font-size: 12px;*/
+}
+
+.newsType {
+    width: 100px;
+}
+
+.post-nums {
+    width: 10%;
+}
+
+.post-title {
+    width: 60%;
+}
+
+.post-time {
+    width: 15%;
+}
+
+.postTitle {
+    color: black;
+    font-weight: bold;
+    margin: 0.3em 0 0.3em 0.3em;
+}
+
+.postHR {
+    margin: 2px 0 10px !important;
+}
+
+.postContent {
+    margin: 0 0 0 0.3em;
+}
+
+.post-link,
+.post-link :hover,
+.post-link :link,
+.post-link :visited
+.post-link :active {
+    color: white !important;
+}
+
+.releaseTime {
+    width: 12em;
+    font-size: 20px;
+}
+
+.postTime {
+    width: 200px;
+    font-size: 1em;
+}
+
+#news thead {
+    background-color: rgb(212, 212, 212);
+}
+
+.fLeft {
+    float: left;
+    width: 100%;
+}
+
+.prodTitle {
+    border-bottom: dotted gray 1.5px;
+    margin-bottom: 10px;
+    width: 100% !important;
+}
+
+.fRight {
+    float: right;
+}
+
+h3.fLeft {
+    width: 65%;
+}
+
+/*.top-main-banner-wrapper .slick-dots {
+    text-align: center;
+}
+
+.slick-dots li button {
+    font-size: 0;
+    line-height: 0;
+    display: block;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    color: transparent;
+    border: 0;
+    outline: none;
+    background: #000;
+    opacity: .25;
+    -webkit-border-radius: 99px;
+    -moz-border-radius: 99px;
+    border-radius: 99px;
+}*/
+
+/* 圖片輪播相關樣式 */
+.slick-dots li {
+    display: inline-block;
+    margin: auto 5px;
+}
+
+.carousel {
+    width: 100%;
+    height: 92vh;
+}
+
+.carousel-img {
+    width: 100vw !important;
+
+}
+
+.slick-track {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.slick-dots {
+    list-style: none;
+    text-align: center;
+}
+
+.top-main-banner-wrapper .navi-allow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -25px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 50;
+}
+
+.container {
+    width: 100% !important;
+}
+
+.cd-header-buttons {
+    right: unset;
+    top: -53px;
+    left: 97% !important;
+}
+
+.footer-agileits-w3layouts {
+    background-color: rgb(122, 122, 122);
+}
+
+.top-main-banner-wrapper .navi-allow.prev,
+.top-main-banner-wrapper .navi-allow.next {
+    font-size: 50px;
+
+}
+
+.prodLists > img, .prodLists a > img {
+    margin: 0;
+    width: calc(100% / 3);
+    float: left;
+}
+
+div .prodText {
+    float: right;
+    width: calc(100% * 2 / 3);
+    height: 100%;
+    margin: 0;
+    padding: 10px;
+}
+
+/*.prodLists {
+    height: 280px;
+}*/
+
+.login {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 200;
+    margin: calc(100% * 3 / (10 * 2) ) calc(100% * 2 / (3 * 2) );
+    text-align: center;
+}
+
+.register {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 201;
+    margin: calc(100% * 3 / (10 * 2) ) calc(100% * 2 / (3 * 2) );
+    text-align: center;
+}
+
+.hp_login {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 199;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/*.hp_register {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 8;
+    background: rgba(0, 0, 0, 0.3);
+}*/
+
+.goProd {
+    display: block;
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    float: right;
+}
+
+.prodList-noMargin {
+    margin: 0 !important;
+}
+
+/* 修改麵包屑外觀 */
+.breadcrumb{
+    background: unset;
+    border-bottom: dotted gray 1.5px;
+}
+
+.breadcrumb .thisPosition{
+    font-size: 20px;
+}
+
+/* 修改麵包屑的分隔符號 */
+.breadcrumb > li + li:before {
+    color: rgb(151, 151, 151);
+    content: " > ";
+    padding: 0 5px;
+}
+
+/* 修改各頁面的填白 */
+.about-section,
+.courses,
+.gallery,
+.contact-page {
+    padding: 10px 0 !important;
+}
+
+/* 作品頁面效果控制 */
+.gallery_grid_pos {
+	background: rgba(0, 0, 0, 0.73);
+	bottom: 10%;
+	left: 10%;
+	opacity: 0;
+	padding: 1em;
+	position: absolute;
+	right: 10%;
+	text-align: center;
+	top: 50%;
+	visibility: hidden;
+	-webkit-transform: scaleX(-1);
+	transform: scaleX(-1);
+	-moz-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	-ms-transform: scaleX(-1);
+	-webkit-transition: all 0.8s ease;
+	transition: all 0.8s ease;
+}
+
+.gallery_grid_pos h3,
+.gallery_grid_pos p {
+	font-size: 1.8em;
+	letter-spacing: 2px;
+	font-weight: 100;
+	margin-top: 1px;
+	text-transform: capitalize;
+	color: #ffffff;
+	font-family: 'Righteous', cursive;
+}
+
+/* 後令壓前令 */
+.gallery_grid_pos p{
+    font-size: 1.1em;
+
+}
+
+/* Font Awesome 相關設定 */
+.social-icons-agileits ul li a .fab.fa-facebook,
+.social-icons-agileits ul li a .fab.fa-twitter,
+.social-icons-agileits ul li a .fab.fa-google-plus {
+	height: 35px;
+	width: 35px;
+	background: #FFFFFF;
+	line-height: 37px;
+	color: #383838;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-o-border-radius: 50%;
+	-ms-border-radius: 50%;
+	transition: 0.5s all;
+	-webkit-transition: 0.5s all;
+	-moz-transition: 0.5s all;
+	-o-transition: 0.5s all;
+	-ms-transition: 0.5s all;
+}
+
+.social-icons-agileits ul li a .fab.fa-facebook:hover {
+	background: #3b5998;
+	color: #FFFFFF;
+}
+
+.social-icons-agileits ul li a .fab.fa-twitter:hover {
+	background: #1da1f2;
+	color: #FFFFFF;
+}
+
+.social-icons-agileits ul li a .fab.fa-google-plus:hover {
+	background: #dd4b39;
+	color: #FFFFFF;
+}
+
+.banner-text {
+    padding: 15em 3em 0 0;
+}
+
+.top-main-banner-wrapper {
+    position: relative;
+    margin-bottom: 10px;
+    /*height: calc(100vw / 1349 * 645);*/
+    /*height: calc(100vw / 16 * 9);*/
+    overflow: hidden;
+}
+
+.top-main-banner-item a img {
+    width: 100vw;
+    /*height: 35em;*/
+    z-index: -1;
+    margin: 0;
+}
+
+.top-main-banner-wrapper .slick-dots li button {
+    opacity: 1;
+    background: #cccccc;
+}
+
+.slick-dots li button {
+    font-size: 0;
+    line-height: 0;
+    display: block;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    color: transparent;
+    border: 0;
+    outline: none;
+    background: #000;
+    opacity: .25;
+    -webkit-border-radius: 99px;
+    -moz-border-radius: 99px;
+    border-radius: 99px;
+}
+
+.top-main-banner-item p.lead {
+    z-index: 50;
+    position: relative;
+    margin: -40px 15px 10px 0;
+    color: rgb(59, 59, 59);
+    text-shadow: 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff;
+    text-align: right;
+    font-weight: bold;
+    width: 98vw;
+}
+
+.wadj {
+    width: 13%;
+    float: right;
+}
+
+.goodDetail {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.goods-detail-text {
+    padding: 10px;
+}
+
+.goods-detail-img {
+    padding: 0;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.goodDescript {
+    padding-top: 1em;
+}
+
+/* 購物車的 CSS */
+.check h1 {
+    font-weight: bold;
+    display: block;
+}
+
+.cart-item {
+    width: 20%;
+    float: left;
+    margin-right: 5%;
+}
+
+.cart-item img {
+    width: 100%;
+}
+
+.cart-item-info {
+    width: 75%;
+    float: left;
+}
+
+.check {
+    padding: 1em 0;
+    width: 85%;
+    margin: 0 auto;
+}
+
+.cart-item-info h3 {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.cart-item-info h3 a {
+    color: #000;
+}
+
+.cart-item-info h3 span {
+    display: block;
+    font-weight: 400;
+    font-size: 0.85em;
+    margin: 0.7em 0;
+}
+
+.check h1 {
+    font-size: 1.5em;
+    margin-bottom: 2em;
+    /*font-family: 'Lato', sans-serif;*/
+}
+
+/*.total-item,
+.cart-items {
+    margin-top: 0em;
+    padding-bottom: 2em;
+}
+
+.cart-items,
+.cart-total {
+    padding: 0;
+}*/
+
+.cart-item-info {
+    width: 75%;
+    float: left;
+}
+
+.cart-item-info h3 {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.cart-item-info h3 a {
+    color: #000;
+}
+
+.cart-item-info h3 span {
+    display: block;
+    font-weight: 400;
+    font-size: 0.85em;
+    margin: 0.7em 0;
+}
+
+.cart-item-info h4 span {
+    font-size: 0.65em;
+    font-weight: 400;
+}
+
+.close1,
+.close2 {
+    background: url('../images/close_1.png') no-repeat 0px 0px;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    -webkit-transition: color 0.2s ease-in-out;
+    -moz-transition: color 0.2s ease-in-out;
+    -o-transition: color 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out;
+}
+
+.cart-header {
+    position: relative;
+}
+
+.cart-header2 {
+    position: relative;
+}
+
+.cart-sec {
+    margin-bottom: 3em;
+}
+
+.bottom-cd.simpleCart_shelfItem {
+    padding-right: 5em;
+}
+
+.bottom-cd.simpleCart_shelfItem {
+    width: 50%;
+}
+
+.bottom-cd.simpleCart_shelfItem {
+    padding-right: 2em;
+}
+
+.bottom-cd.simpleCart_shelfItem {
+    padding-right: 1em;
+}
+
+.bottom-cd.simpleCart_shelfItem {
+    padding-right: 0em;
+    width: 100%;
+    margin: 0 0 1em;
+}
+
+ul.qty {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+ul.qty li {
+    display: inline-block;
+    margin-right: 10%;
+}
+
+ul.qty li p {
+    font-size: 0.8125em;
+    color: #555;
+}
+
+.delivery {
+    margin-top: 3em;
+}
+
+.delivery p {
+    color: #A6A6A6;
+    font-size: 1em;
+    font-weight: 400;
+    float: left;
+}
+
+.delivery span {
+    color: #A6A6A6;
+    font-size: 1em;
+    font-weight: 400;
+    float: right;
+}
+
+a.continue {
+    background: #8ce78a;
+    padding: 10px 20px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1em;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+a.continue:hover {
+    background: #000;
+}
+
+.price-details {
+    border-bottom: 1px solid #DDD9D9;
+    padding-bottom: 10px;
+}
+
+.price-details h3 {
+    color: #000;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+}
+
+.price-details span {
+    width: 50%;
+    float: left;
+    font-size: 1.15em;
+    color: #000;
+    line-height: 1.8em;
+}
+
+ul.total_price {
+    padding: 0;
+    margin: 1em 0 0 0;
+    list-style: none;
+}
+
+ul.total_price li.last_price {
+    width: 50%;
+    float: left;
+
+}
+
+ul.total_price li.last_price span {
+    font-size: 1.15em;
+    color: #000;
+}
+
+a.order {
+    background: #8ce78a;
+    padding: 10px 20px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1em;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    text-align: center;
+    margin: 3em 0;
+}
+
+a.order:hover {
+    background: #000;
+}
+
+.total-item,
+.cart-items {
+    margin-top: 0em;
+    padding-bottom: 2em;
+}
+
+.total-item h3 {
+    color: #333;
+    font-size: 1.1em;
+    margin-bottom: 1em;
+}
+
+.total-item h4 {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #9C9C9C;
+    display: inline-block;
+    margin-right: 6em;
+}
+
+.total-item p {
+    font-size: 0.9em;
+    font-weight: 400;
+    margin-top: 1em;
+}
+
+.total-item p a {
+    color: #727272;
+}
+
+.total-item p a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.total-item h4 {
+    margin-right: 4em;
+}
+
+a.cpns {
+    background: #8ce78a;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    padding: 10px;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
+a.cpns:hover {
+    background: #000;
+}
+
+a.cpns {
+    padding: 7px;
+    font-size: 0.7em;
+}
+
+.prodDivide {
+    height: 1px;
+    border: none;
+    border-top: 1px dashed #0066CC;
+    width: 100%;
+    margin: 5px 15px 5px 0;
+}
+
+.relDate {
+    margin-bottom: 10px;
+}
+
+/* 討論串樣式 */
+.articles {
+    height: 500px;
+    min-height: 500px;
+    border: 2px solid #999;
+    padding: 0px;
+    margin: 5px 0 5px 0;
+}
+
+.postUser {
+    width: 100%;
+    background-color: rgb(236, 236, 236);
+    color: black;
+    padding: 0 0 0 10px;
+    height: 100%;
+}
+
+.avator{
+    margin-bottom: 10px;
+    padding: 10px 10px 10px 10px;
+}
+
+.post {
+    height: 100%;
+}
+
+.post p {
+    padding: 5px;
+}
+
+.postControl {
+    text-align: right;
+    width: 100%;
+    padding: 5px;
+    background-color: #5dc1ff;
+    color: white;
+    font-weight: bold;
+}
+
+.noPadding {
+    padding: 0px !important;
+    height: 100%;
+}
+
+/* 以下為 Responsive 的樣式設定 */
+@media(max-width:480px) {
+    .banner-text {
+		padding: 15em 0em 0 0;
+    }
+
+    .main-w3ls-logo {
+        float: left;
+    }
+
+    .navbar-nav {
+        float: none !important;
+    }
+
+    header {
+        background: rgba(0, 0, 0, 0.35);
+        border-bottom: transparent;
+        position: fixed;
+        transition-duration: 0.5s;
+        -moz-transition-duration: 0.5s;
+        -webkit-transition-duration: 0.5s;
+        -o-transition-duration: 0.5s;
+    }
+
+    div#bs-example-navbar-collapse-1 {
+        background: rgba(0, 0, 0, 0.83);
+        margin: 0;
+        padding: 0px 0;
+        position: absolute;
+        width: 100%;
+        transition-duration: 0.5s;
+        -moz-transition-duration: 0.5s;
+        -webkit-transition-duration: 0.5s;
+        -o-transition-duration: 0.5s;
+        z-index: 999;
+    }
+
+    .postTime{
+        width: 30%;
+    }
+
+    .loadscr .loadTitle {
+        font-size: 3em;
+        color: white;
+        text-align: center;
+        width: 100vw;
+        padding-top: 30vh;
+    }
+    
+    .loadscr .logo {
+        width: 1.4em;
+    }
+    
+    .loadscr .loadHint {
+        width: 100%;
+        text-align: center;
+        font-size: 1em;
+        color: white;
+    }
+
+    .loadscr .progress {
+        width: 80%;
+        margin: 15px auto;
+    }
+
+    .login {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+    
+    .register {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+
+    .articles {
+        height: unset;
+    }
+
+    .postUser {
+        width: 100%;
+        background-color: rgb(236, 236, 236);
+        color: black;
+        padding: 0 0 0 10px;
+        height: 8em;
+    }
+
+    .postUser h3 {
+        float: right;
+        font-size: 1.5em;
+        padding: 10px;
+        width: 100%;
+        text-align: right;
+    }
+
+    .postUser p {
+        float: right;
+        width: 100%;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .avator {
+        float: left;
+        width: 100%;
+    }
+}
+
+@media(max-width:568px) {
+    .banner-text {
+		padding: 15em 0em 0 0;
+    }
+    
+    .releaseTime {
+        width: 100px;
+        font-size: 14px;
+    }
+
+    .newsType {
+        width: 40px;
+        font-size: 12px;
+    }
+
+    .newsTitle {
+        font-size: 16px;
+    }
+
+    .wadj {
+        width: 100%;
+        float: right;
+    }
+
+    .loadscr .loadTitle {
+        font-size: 3em;
+        color: white;
+        text-align: center;
+        width: 100vw;
+        padding-top: 30vh;
+    }
+    
+    .loadscr .logo {
+        width: 1.4em;
+    }
+    
+    .loadscr .loadHint {
+        width: 100%;
+        text-align: center;
+        font-size: 1em;
+        color: white;
+    }
+
+    .loadscr .progress {
+        width: 90%;
+        margin: 15px auto;
+    }
+
+    .login {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+    
+    .register {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+
+    .articles {
+        height: unset;
+    }
+
+    .postUser {
+        width: 100%;
+        background-color: rgb(236, 236, 236);
+        color: black;
+        padding: 0 0 0 10px;
+        height: 100%;
+    }
+
+    .postUser h3 {
+        float: right;
+        font-size: 1.5em;
+        padding: 10px;
+        width: 100%;
+        text-align: right;
+    }
+
+    .postUser p {
+        float: right;
+        width: 100%;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .avator {
+        float: left;
+        width: 100%;
+    }
+}
+
+@media(max-width:991px) {
+    .banner-text {
+		padding: 15em 0em 0 0;
+    }
+    
+    header {
+        background: rgba(0, 0, 0, 0.35);
+        border-bottom: transparent;
+        position: fixed;
+        transition-duration: 0.5s;
+        -moz-transition-duration: 0.5s;
+        -webkit-transition-duration: 0.5s;
+        -o-transition-duration: 0.5s;
+        z-index: 100;
+    }
+
+    .navbar-nav {
+        float: right !important;
+    }
+
+    .navbar-nav > li {
+        float: left;
+        margin: 0 5px 0 0;
+    }
+
+    .main-w3ls-logo {
+        float: left;
+    }
+
+    .wadj {
+        width: 100%;
+        float: right;
+    }
+
+    .loadscr .progress {
+        width: 60%;
+        margin: 15px auto;
+    }
+
+    .login {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+    
+    .register {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 70px auto;
+        text-align: center;
+    }
+
+    .articles {
+        height: unset;
+    }
+
+    .postUser {
+        width: 100%;
+        background-color: rgb(236, 236, 236);
+        color: black;
+        padding: 0 0 0 10px;
+        height: 100%;
+    }
+
+    .postUser h3 {
+        float: right;
+        font-size: 2em;
+        padding: 10px;
+        width: 100%;
+        text-align: right;
+    }
+
+    .postUser p {
+        float: right;
+        width: 100%;
+        text-align: right;
+        padding-right: 10px;
+        font-size: 1.1em;
+    }
+
+    .avator {
+        float: left;
+        width: 100%;
+    }
+}
+
+@media(max-width:1366px) {
+    .banner-text {
+		padding: 15em 0em 0 0;
+    }
+
+    header {
+        background: rgba(0, 0, 0, 0.35);
+        border-bottom: transparent;
+        position: fixed;
+        transition-duration: 0.5s;
+        -moz-transition-duration: 0.5s;
+        -webkit-transition-duration: 0.5s;
+        -o-transition-duration: 0.5s;
+        z-index: 100;
+    }
+}
