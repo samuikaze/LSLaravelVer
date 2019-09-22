@@ -22,3 +22,5 @@ Route::get('/contact', 'Frontend\ContactController@index')->name('contact');
 Route::get('/faq', 'Frontend\FaqController@index')->name('faq');
 
 Route::get('/product', 'Frontend\ProductController@index')->name('product');
+
+Route::get('/goods/{page?}', 'Frontend\GoodsController@index')->name('goods');

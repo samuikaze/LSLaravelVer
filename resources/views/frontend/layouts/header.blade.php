@@ -28,7 +28,7 @@
                         </li>
                         <li><a class="colorTran" href="news.php">最新消息</a></li>
                         <li><a @if(Route::getCurrentRoute() == 'product') class="active" @else class="colorTran" @endif href="{{ route('product') }}">作品一覽</a></li>
-                        <li><a class="colorTran" href="goods.php">周邊產品</a></li>
+                        <li><a @if(Route::getCurrentRoute() == 'goods') class="active" @else class="colorTran" @endif href="{{ route('goods')}}">周邊產品</a></li>
                         <li><a class="colorTran" href="bbs.php">討論專區</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
