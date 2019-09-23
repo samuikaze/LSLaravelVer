@@ -15,12 +15,26 @@ Route::get('/', function () {
     return view('welcome');
 })->name('index');
 
-Route::get('/about', 'Frontend\AboutController@index')->name('about');
+// 最新消息
+Route::get('/news/{page?}', 'Frontend\NewsController@index')->name('news');
 
-Route::get('/contact', 'Frontend\ContactController@index')->name('contact');
+// 消息詳細
+Route::get('/news/detail/{id}', 'Frontend\NewsController@show')->name('news.detail');
 
-Route::get('/faq', 'Frontend\FaqController@index')->name('faq');
-
+// 作品一覽
 Route::get('/product', 'Frontend\ProductController@index')->name('product');
 
+// 商品一覽
 Route::get('/goods/{page?}', 'Frontend\GoodsController@index')->name('goods');
+
+// 商品詳細
+Route::get('/goods/goodDetail/{goodId}', 'Frontend\GoodsController@show')->name('gooddetail');
+
+// 關於團隊
+Route::get('/about', 'Frontend\AboutController@index')->name('about');
+
+// 常見問題
+Route::get('/faq', 'Frontend\FaqController@index')->name('faq');
+
+// 連絡我們
+Route::get('/contact', 'Frontend\ContactController@index')->name('contact');
