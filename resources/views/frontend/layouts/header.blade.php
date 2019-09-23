@@ -26,7 +26,7 @@
                                 <li><a href="ebook/mobile/index.html">作品集</a></li>
                             </ul>
                         </li>
-                        <li><a class="colorTran" href="news.php">最新消息</a></li>
+                        <li><a @if(Route::getCurrentRoute() == 'product') class="active" @else class="colorTran" @endif href="{{ route('news') }}">最新消息</a></li>
                         <li><a @if(Route::getCurrentRoute() == 'product') class="active" @else class="colorTran" @endif href="{{ route('product') }}">作品一覽</a></li>
                         <li><a @if(Route::getCurrentRoute() == 'goods') class="active" @else class="colorTran" @endif href="{{ route('goods')}}">周邊產品</a></li>
                         <li><a class="colorTran" href="bbs.php">討論專區</a></li>

@@ -1,1 +1,3 @@
-Product頁面
+前台登入狀態判斷
+Font Awesome 問題
+麵包屑
