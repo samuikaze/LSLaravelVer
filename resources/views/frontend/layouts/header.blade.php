@@ -1,5 +1,6 @@
-<div id="home" class="banner banner-load inner-banner">
-    <header style="padding: 15px;">
+<div id="home" @if (Route::currentRouteName() == 'index') class="banner" style="background: black;" @else class="banner banner-load inner-banner" @endif>
+    <header @if (Route::currentRouteName() == 'index') id="headerForCalc" @else style="padding: 15px;" @endif>
+        @if (Route::currentRouteName() == 'index') <div class="header-wrap"> @endif
         <div class="header-bottom-w3layouts">
             <div class="main-w3ls-logo">
                 <a href="{{ route('index') }}">
@@ -26,9 +27,9 @@
                                 <li><a href="ebook/mobile/index.html">作品集</a></li>
                             </ul>
                         </li>
-                        <li><a @if(Route::getCurrentRoute() == 'product') class="active" @else class="colorTran" @endif href="{{ route('news') }}">最新消息</a></li>
-                        <li><a @if(Route::getCurrentRoute() == 'product') class="active" @else class="colorTran" @endif href="{{ route('product') }}">作品一覽</a></li>
-                        <li><a @if(Route::getCurrentRoute() == 'goods') class="active" @else class="colorTran" @endif href="{{ route('goods')}}">周邊產品</a></li>
+                        <li><a @if(in_array(Route::currentRouteName(), ['news', 'news.detail'])) class="active" @else class="colorTran" @endif href="{{ route('news') }}">最新消息</a></li>
+                        <li><a @if(Route::currentRouteName() == 'product') class="active" @else class="colorTran" @endif href="{{ route('product') }}">作品一覽</a></li>
+                        <li><a @if(in_array(Route::currentRouteName(), ['goods', 'gooddetail'])) class="active" @else class="colorTran" @endif href="{{ route('goods')}}">周邊產品</a></li>
                         <li><a class="colorTran" href="bbs.php">討論專區</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
@@ -44,5 +45,67 @@
             </nav>
         </div>
         <div class="clearfix"></div>
+        @if (Route::currentRouteName() == 'index') </div> @endif
     </header>
+    @if (Route::currentRouteName() == 'index')
+        <!-- 圖片輪播 v3 -->
+        @if ($carouselCount == 0)
+            <div id="lsgames-index" class="carousel slide" data-ride="carousel">
+                <!-- 底部指示器（小圓點） -->
+                <ol class="carousel-indicators">
+                    <li data-target="#lsgames-index" data-slide-to="0" class="active"></li>
+                </ol>
+                <!-- 輪播項目 -->
+                <div class="carousel-inner" role="listbox">
+                    <!-- 一個輪播項目 -->
+                    <div class="item active">
+                        <img src="{{ asset('images/carousel/default.jpg') }}" class="carousel-img">
+                        <div class="carousel-caption carousel-text">
+                            目前網站無輪播圖可顯示
+                        </div>
+                    </div>
+                    <!-- /一個輪播項目 -->
+                </div>
+                <!-- /輪播項目 -->
+            </div>
+        @else
+            <div id="lsgames-index" class="carousel slide" data-ride="carousel">
+                <!-- 底部指示器（小圓點） -->
+                <ol class="carousel-indicators">
+                    @for ($i = 0; $i < $carouselCount; $i++)
+                        <li data-target="#lsgames-index" data-slide-to="{{ $i }}" @if ($i == 0) class="active" @endif></li>
+                    @endfor
+                </ol>
+
+                <!-- 輪播項目 -->
+                <div class="carousel-inner" role="listbox">
+                    @foreach($carousel as $j => $ca)
+                        <!-- 一個輪播項目 -->
+                        <div @if ($j == 0) class="item active" @else class="item" @endif>
+                            @if (!empty($ca->imgReferUrl))
+                                <a href="{{ $ca->imgReferUrl }}">
+                            @endif
+                            <img src="{{ asset('images\carousel\\') . $ca->imgUrl }}" class="carousel-img">
+                            <div class="carousel-caption carousel-text">
+                                {{ $ca->imgDescript }}
+                            </div>
+                            @if (!empty($ca->imgReferUrl))
+                                </a>
+                            @endif
+                        </div>
+                        <!-- /一個輪播項目 -->
+                    @endforeach
+                </div>
+                <!-- 左右控制項 -->
+                <a class="left carousel-control" href="#lsgames-index" role="button" data-slide="prev">
+                    <div class="carousel-control-arrow"><i class="fas fa-chevron-left"></i></div>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#lsgames-index" role="button" data-slide="next">
+                    <div class="carousel-control-arrow"><i class="fas fa-chevron-right"></i></div>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        @endif
+    @endif
 </div>

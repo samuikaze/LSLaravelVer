@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('index');
+// 首頁
+Route::get('/', 'Frontend\IndexController@index')->name('index');
 
 // 最新消息
 Route::get('/news/{page?}', 'Frontend\NewsController@index')->name('news');
