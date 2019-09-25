@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\News;
 use App\Models\GlobalSettings;
+use Illuminate\Support\Facades\Route;
 
 class NewsController extends Controller
 {
@@ -20,12 +21,19 @@ class NewsController extends Controller
         $start = ($cPage - 1) * $newsQty;
         // 取得消息
         $newsData = News::skip($start)->take($newsQty)->orderBy('newsOrder', 'DESC')->get();
-        return view('frontend.news', compact('newsData', 'cPage', 'tPage'));
+        $bc = [
+            ['url' => route('news'), 'name' => '最新消息一覽']
+        ];
+        return view('frontend.news', compact('newsData', 'cPage', 'tPage', 'bc'));
     }
 
     public function show($id)
     {
         $newsData = News::where('newsOrder', $id)->first();
-        return view('frontend.newsdetail', compact('newsData'));
+        $bc = [
+            ['url' => route('news'), 'name' => '最新消息一覽'],
+            ['url' => route(Route::currentRouteName(), ['id' => $id]), 'name' => $newsData->newsTitle]
+        ];
+        return view('frontend.newsdetail', compact('newsData', 'bc'));
     }
 }

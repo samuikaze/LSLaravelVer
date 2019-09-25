@@ -9,6 +9,9 @@ class FaqController extends Controller
 {
     public function index()
     {
-        return view('frontend.faq');
+        $bc = [
+            ['url' => route('faq'), 'name' => '常見問題']
+        ];
+        return view('frontend.faq', compact('bc'));
     }
 }
