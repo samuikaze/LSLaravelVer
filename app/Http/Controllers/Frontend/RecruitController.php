@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ContactController extends Controller
+class RecruitController extends Controller
 {
     public function index()
     {
         $bc = [
-            ['url' => route('contact'), 'name' => '連絡我們']
+            ['url' => route('recruit'), 'name' => '招募新血']
         ];
-        return view('frontend.contact', compact('bc'));
+        return view('frontend.recruit', compact('bc'));
     }
 }

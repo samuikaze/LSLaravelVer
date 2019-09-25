@@ -162,8 +162,18 @@
             <div id="content-wrap" class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
-                    <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
-                    <li class="thisPosition">關於團隊</li>
+                    @if (Route::currentRouteName() == 'index')
+                        <li class="thisPosition" style="color: #23527c;"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</li>
+                    @else
+                        <li><a href="{{ route('index') }}"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
+                        @foreach ($bc as $i => $b)
+                            @if ($i == count($bc) - 1)
+                                <li class="thisPosition">{{ $b['name'] }}</li>
+                            @else
+                                <li><a href="{{ $b['url'] }}">{{ $b['name'] }}</a></li>
+                            @endif
+                        @endforeach
+                    @endif
                     <!-- loginbutton.php -->
                 </ol>
                 @yield('content')

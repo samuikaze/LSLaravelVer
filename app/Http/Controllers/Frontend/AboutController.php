@@ -9,6 +9,9 @@ class AboutController extends Controller
 {
     public function index()
     {
-        return view('frontend.about');
+        $bc = [
+            ['url' => route('about'), 'name' => '關於團隊']
+        ];
+        return view('frontend.about', compact('bc'));
     }
 }

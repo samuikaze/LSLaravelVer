@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Models\Goods;
 use App\Models\GlobalSettings;
@@ -26,7 +27,10 @@ class GoodsController extends Controller
          * take 是 SQL 中 LIMIT a, b 中的 b 值
          */
         $goods = Goods::skip($start)->take($goodsNum)->get();
-        return view('frontend.goods', compact('goods', 'cPage', 'tPage'));
+        $bc = [
+            ['url' => route('goods'), 'name' => '周邊商品一覽']
+        ];
+        return view('frontend.goods', compact('goods', 'cPage', 'tPage', 'bc'));
     }
 
     public function show($goodId)
@@ -35,6 +39,10 @@ class GoodsController extends Controller
         $goodQtyDanger = GlobalSettings::where('settingName', 'goodQtyDanger')->value('settingValue');
         // 取得目標商品的資料列
         $goodData = Goods::where('goodsOrder', $goodId)->first();
-        return view('frontend.gooddetail', compact('goodData', 'goodQtyDanger'));
+        $bc = [
+            ['url' => route('goods'), 'name' => '周邊商品一覽'],
+            ['url' => route(Route::currentRouteName(), ['id' => $goodId]), 'name' => $goodData->goodsName]
+        ];
+        return view('frontend.gooddetail', compact('goodData', 'goodQtyDanger', 'bc'));
     }
 }

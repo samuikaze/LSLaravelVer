@@ -35,7 +35,7 @@
                             <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{ route('about') }}">關於團隊</a></li>
-                                <li><a href="recruit.php">招募新血</a></li>
+                                <li><a href="{{ route('recruit') }}">招募新血</a></li>
                                 <li><a href="{{ route('faq') }}">常見問題</a></li>
                                 <li><a href="{{ route('contact') }}">連絡我們</a></li>
                             </ul>

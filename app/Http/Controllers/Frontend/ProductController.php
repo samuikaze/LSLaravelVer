@@ -11,6 +11,9 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::orderBy('prodOrder')->get();
-        return view('frontend.product', compact('product'));
+        $bc = [
+            ['url' => route('product'), 'name' => '作品一覽']
+        ];
+        return view('frontend.product', compact('product', 'bc'));
     }
 }

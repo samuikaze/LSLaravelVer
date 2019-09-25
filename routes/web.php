@@ -32,6 +32,9 @@ Route::get('/goods/goodDetail/{goodId}', 'Frontend\GoodsController@show')->name(
 // 關於團隊
 Route::get('/about', 'Frontend\AboutController@index')->name('about');
 
+// 招募新血
+Route::get('/recruit', 'Frontend\RecruitController@index')->name('recruit');
+
 // 常見問題
 Route::get('/faq', 'Frontend\FaqController@index')->name('faq');
 
