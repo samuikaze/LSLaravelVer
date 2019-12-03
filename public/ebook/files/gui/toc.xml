@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asul>
+    <style>
+    <![CDATA[
+			.main{filter:dropshadow(2,45,0x000000,1,3,3,0.5,2)}
+			.box{background:gradient(linear-vertical,0x888888,0xFFFFFF)}
+			
+    ]]>
+    </style>
+ 
+	<box id="container" anchors="0, 80, 270, ph-75" background="image(files/assets/skin/window/leftbox.png)" scale9grid="8,45,9,47">
+		<box anchors="0,40,pw,ph"/>
+		<box id="top" anchors="4,0,pw-4,40">
+			<box anchors="3,6" width="24" height="25" background="image(files/assets/skin/window/toc.png)" />
+			<text name="title" anchors="35,8" value="localize(LNG_TOC_TITLE, Table of contents)"  style="title"/>
+			<button onclick="megazine.go_toc()" anchors="pw-w, 5" name="$scroll_handle$" width="24" height="24" style="btn_close"/>
+		</box> 
+		 
+		<box name="contents" anchors="14,40+4,pw-14,ph-11"> 
+			<box anchors="0, 0, pw, ph" name="body"/>
+		</box>
+		
+	</box>	 
+</asul>

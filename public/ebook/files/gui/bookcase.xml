@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE asul SYSTEM "http://www.megazine3.de/asul.dtd">
+<asul>
+	<style>
+	<![CDATA[
+
+	}
+	]]>
+	</style>
+	
+	<box id="container" anchors="0, 80, 150, ph-75" background="image(files/assets/skin/window/leftbox.png)" scale9grid="8,45,9,47">
+		<box id="top" anchors="4,0,pw-4,40">
+			<box anchors="3,6" width="24" height="25" background="image(files/assets/skin/window/bookcase.png)" />
+			<text name="title" anchors="35,8" value="localize(LNG_BOOKCASE_TITLE, Bookcase)" style="title" />
+			<button onclick="megazine.go_bookcase()" anchors="pw-w, 5" name="$scroll_handle$" width="24" height="24" style="btn_close"/>
+		</box> 		
+		
+		<!-- change this anchors if using other layout -->
+		<box name="contents" anchors="0,0,pw,ph"> 
+			<scrollpane name="scrollpane" anchors="0,35,pw,ph" mousewheel="y" align="top">
+				<box maxwidth="pw-17" name="$viewport$" resize="true">
+					<hflow maxwidth="pmaxw" name="elements"/>
+				</box>
+				<scrollbar anchors="pw-17,0,pw,ph-2" background="image(files/assets/skin/window/scrollbar/scrollBar_track.png)" scale9grid="1,8,16,20" name="$scroll_y$" orientation="vertical">
+					<button name="$btn_reduce$" anchors="0,0,17,pw">
+	          <box name="$up$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/upArrow_up.png)"/>
+	          <box name="$over$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/upArrow_hot.png)"/>
+	          <box name="$down$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/upArrow_down.png)"/>
+	        </button>
+	        <button name="$btn_increase$" anchors="pw-17,ph-17,pw,ph">
+	            <box name="$up$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/downArrow_up.png)"/>
+	            <box name="$over$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/downArrow_hot.png)"/>
+	            <box name="$down$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/downArrow_down.png)"/>
+	        </button>
+					<button width="17" height="80" name="$scroll_handle$">
+		          <box name="$up$" anchors="(pw-w)/2,0,pw,ph" width="13" scale9grid="9,19,10,20" background="image(files/assets/skin/window/scrollbar/scrollBar_thumb_up.png)"/>
+		          <box name="$over$" anchors="(pw-w)/2,0,pw,ph" width="13" scale9grid="9,19,10,20"  background="image(files/assets/skin/window/scrollbar/scrollBar_thumb_hot.png)"/>
+		          <box name="$down$" anchors="(pw-w)/2,0,pw,ph" width="13" scale9grid="9,19,10,20"  background="image(files/assets/skin/window/scrollbar/scrollBar_thumb_down.png)"/>
+		      </button>
+				</scrollbar>
+			</scrollpane>
+		</box>
+	</box>	
+	
+	<button width="120" height="150" id="content">
+		<box name="$up$" anchors="5,10,pw-10,ph-10" background="color(0x5AB8BFDB)"/>	
+		<box name="$down$" anchors="5,10,pw-10,ph-10" background="color(0x5AB8BFDB)"/>
+		<box name="$over$" anchors="0,5,pw-5,ph-5" background="color(0x5AB8BFDB)"/>
+	
+		<box anchors="0,5,pw-5,ph-5" name="if_even" style="pagelink"/>
+		<box anchors="0,5,pw,ph-5" name="if_odd" style="pagelink"/>
+		<box anchors="5,10,pw-10,ph-10" name="thumb"/>
+		<box anchors="5,10,pw-10,ph-10" background="color(0x666666)" blendmode="hardlight">
+			<box anchors="0,ph-20,pw,ph" background="color(0x40ffffff)">
+				<text anchors="0,0,pw" name="text" align="center" style="content"/>
+			</box>
+		</box>
+
+	</button>
+
+</asul>
