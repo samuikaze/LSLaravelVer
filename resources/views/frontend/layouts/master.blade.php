@@ -26,6 +26,7 @@
     <link href="{{ asset('css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/style.min.css') }}" rel="stylesheet" type="text/css" media="all" />
     <link rel="stylesheet" href="{{ asset('css/jquery.fancybox.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style type="text/css">
         /* Loading Screen */
         .loadscr {
