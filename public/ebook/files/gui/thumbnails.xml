@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<asul>
+<style><![CDATA[
+	button.thumb box{background:image(res/other/toc/thumb_up.png)}
+	button.element button{anchors:10,10,pw-10,ph-10}
+	button.element button.box{anchors:0,0,pw,ph}
+	button.element button box.over{background:color(0x330000FF)}
+	button.element button box.down{background:color(0x330000FF)}
+	button.element button.selected{background:color(0x7F0000FF)}
+	box.pagelink{background:gradient(linear-vertical,0x7f999999,0x7f333333)}]]>
+</style>
+
+
+<window anchors="0,0,pw,ph" id="container" mouseenabled="true" style="container">
+	<scrollpane anchors="0,30,pw,ph-30" mousewheel="y">
+		<box anchors="50,50,pw-50,ph-50">
+			<box maxwidth="pw" name="$viewport$" resize="true">
+				<hflow maxwidth="pmaxw" name="elements"/>
+			</box>
+		</box>
+		
+		<button anchors="30,ph/2" width="20" height="32" name="btn_previous" background="image(files/assets/skin/print/btn_prev.png)" title="localize(LNG_THUMBNAIL_PREV, Previous pages)"/>
+		<button anchors="pw-w-30,ph/2" width="20" height="32" name="btn_next" background="image(files/assets/skin/print/btn_next.png)" title="localize(LNG_THUMBNAIL_NEXT, Next pages)"/>
+		
+		
+		<!-- right bar -->
+		<scrollbar anchors="pw-17-5,5,pw-5,ph-5" background="image(files/assets/skin/window/scrollbar/scrollBar_track.png)" scale9grid="1,8,16,20" name="$scroll_y$" orientation="vertical">
+			<button name="$btn_reduce$" anchors="0,0,18,pw">
+        <box name="$up$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/upArrow_up.png)"/>
+        <box name="$over$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/upArrow_hot.png)"/>
+        <box name="$down$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/upArrow_down.png)"/>
+      </button>
+      <button name="$btn_increase$" anchors="pw-17,ph-17,pw,ph">
+          <box name="$up$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/downArrow_up.png)"/>
+          <box name="$over$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/downArrow_hot.png)"/>
+          <box name="$down$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/scrollbar/downArrow_down.png)"/>
+      </button>
+			<button width="17" height="80" name="$scroll_handle$">
+          <box name="$up$" anchors="(pw-w)/2,0,pw,ph" width="13" scale9grid="9,19,10,20" background="image(files/assets/skin/window/scrollbar/scrollBar_thumb_up.png)"/>
+          <box name="$over$" anchors="(pw-w)/2,0,pw,ph" width="13" scale9grid="9,19,10,20"  background="image(files/assets/skin/window/scrollbar/scrollBar_thumb_hot.png)"/>
+          <box name="$down$" anchors="(pw-w)/2,0,pw,ph" width="13" scale9grid="9,19,10,20"  background="image(files/assets/skin/window/scrollbar/scrollBar_thumb_down.png)"/>
+      </button>
+		</scrollbar>
+	</scrollpane>
+	<button anchors="pw-25,10" width="24" height="24" name="$btn_close$" title="localize(LNG_CLOSE, Close)">
+    <box name="$up$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/close_up.png)"/>
+    <box name="$over$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/close_hot.png)"/>
+    <box name="$down$" anchors="0,0,pw,ph" background="image(files/assets/skin/window/close_hot.png)"/>
+	</button>
+</window>
+
+
+<button width="120" height="150" id="page_button" style="element">
+	<box anchors="0,5,pw-5,ph-5" name="if_even" style="pagelink"/>
+	<box anchors="5,5,pw,ph-5" name="if_odd" style="pagelink"/>
+	<box anchors="10,10,pw-10,ph-10" name="thumb"/>
+	<box anchors="10,10,pw-10,ph-10" background="color(0x666666)" blendmode="hardlight">
+	<text font="Verdana, Helvetica, Arial, _sans" align="center" anchors="0,(ph-h)/2,pw" bold="true" color="0xffffff" height="55" name="number" size="40"/>
+	</box><button name="$btn_normal$"/>
+</button>
+
+
+</asul>

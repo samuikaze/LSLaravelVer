@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flipbookmaker version="4.3.0" IsQuick="false" QuickFile="" ProjectName="" DefaultName="00" SearchOrder="ltr" Google="" UseMiniMode="true" UsePSW="false" MiniWidth="400" MiniHeight="300" PSW="" StartPage="0" UseFlipSound="true" UseBackSound="false" UseSingleSound="false" BackSoundPath="" IsRight2Left="false" IsFastene="false" IsHardCover="0" IsHardPage="0" IsAnimate="true" IsCenterBook="true" IsLandScape="0" IsOpenBook="1" DragArea="top,middle,bottom" FlipSpeed="0.3" PageThick="0.1" SpineColor="13421772" Curvature="-0.5" PageBackColor="13421772" PageTranColor="0" FoldLine="0.5" ZoomStep="0.25, 0.5, 1, 2, 4, 8" UseReflection="false" RefTransparent="75" RefOffset="0" IsAutoPlay="false" IsRepeat="false" DurationPlay="3" Preloader="bookcase" LoadText="" PowerBy="" NavigationStyle="" ButtonStyle="" ShowCover="true" ShowPreNext="true" ShowPlayStop="true" ShowScreen="true" ShowToc="true" ShowZoom="true" ShowBookmark="true" ShowDownload="true" DownloadUrl="" ShowText="true" ShowSlider="false" ShowShare="true" ShowPrint="true" ShowZoomBar="true" ShowSearch="true" ShowSearchBox="true" ShowMusic="true" ShowThumbnail="true" ShowExit="true" ShowBookCase="true" ButtonScale="0" IntroMovie="" IntroEffect="" Scene="" ShowAbout="true" ShowDraw="true" ShowLang="true" UseGradient="true" Edge="1" EdgeColor="13421772" TemplateGroup="normal" TemplateName="kid" ExeTitle="" HtmlTitle="" HtmlKeywords="" HtmlDescription="" HtmlScript="" PageWidth="1600" PageHeight="1131" CoverWidth="1600" CoverHeight="1131" Langs="en" LangHints="English" BookLangs="en,jp,fr,de,ar">
+  <book title="kvisoft.com" plugins="navigationbar, keyboardnavigation, links, password, pdflinks, anchors, index, titles, search, gestures, draw, tuio, slideshow,javascript,swfaddress,print,thumbnails,bookmarks,select,musicplayers, toc, share, about, bookcase" pagewidth="1600" pageheight="1131" searchindex="files/search_index/en.txt" stiffskew="1" guipath="files/gui/" asulextension="xml" lang="en,jp,fr,de,ar" langpath="files/langs/" flagpath="files/flags/" pluginpath="files/plugins/" priorities="vid(20); snd(15); area(5); nav(5); txt(5); gal(30)" sndpath="files/snd/" dragspeed="0.3" password="" pwstart="0" thumbloadtext="Loading" zoommaxscale="2" zoomminscale="0.1" zoomsnap="0.25, 0.5, 1, 2, 4, 8" zoomstep="" slidestart="false" slidedelay="3" sliderepeat="false" toc="files/data/toc.xml" bookcase="files/data/bookcase.xml" download="" minimode="true" miniwidth="400" miniheight="300" layout="files/data/layout.xml" buttoncfg="files/data/buttoncfg.xml" about="files/data/about.xml" abc="chdb">
+    <background>
+      <box name="" anchors="0,0,ph,pw"/>
+    </background>
+    <bookmarks/>
+    <chapter pagewidth="1600" pageheight="1131">
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\00_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\00_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\01_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\01_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+    </chapter>
+    <chapter pagewidth="1600" pageheight="1131">
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\02_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\02_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\03_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\03_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\04_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\04_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\05_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\05_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\06_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\06_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\07_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\07_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\08_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\08_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\09_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\09_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\10_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\10_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\11_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\11_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\12_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\12_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\13_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\13_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\14_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\14_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\15_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\15_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\16_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\16_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\17_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\17_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\18_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\18_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\19_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\19_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+    </chapter>
+    <chapter pagewidth="1600" pageheight="1131">
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\20_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\20_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+      <page stiffskew="1">
+        <img width="1600" height="1131" position="center middle" alpha="1" rotation="0" caption="" event="0" mask="" filetype="0" id="" ytparam="autoplay=0&amp;loop=0">
+          <action actionid="0" gui="" widthpop="400" heightpop="300" galxml="">
+            <wincontents>
+              <![CDATA[]]>
+            </wincontents>
+          </action>
+          <effmenter Param1="" Param2=""/>
+          <effenter value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <effleave value="" funname="" delay="0" loop="0" rollback="false" loopdelay="0" speed="0" stagger="0"/>
+          <src lang="en">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\low\21_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+          <src lang="en" scale="1.1">C:\Users\wda\AppData\Local\Temp\flipbook_{E74BE0C1-1CAF-4C90-A331-371A52D7C080}\files\pages\en\high\21_{F8EA8D94-F265-414A-AFF1-D26F5E2CBF2B}.jpg</src>
+        </img>
+      </page>
+    </chapter>
+  </book>
+  <MyFont Name="Verdana" Color="3355443" Size="12" Style="1" Text="kvisoft.com" Url=""/>
+  <Backgd UseBackImg="true" BackColor1="10066329" BackColor2="335544" ColorStyle="radial" ImagePath="files/assets/skin/bg.swf" ImageStyle="Tile" TransParent="10" AType="0"/>
+  <Logo Name="" Color="0" Size="0" Style="0" Text="" Url="" UseLogo="false" UseImage="false" ImagePath="" ImageTrans="0" BackColor="0" Width="100" Height="100" Target="_blank"/>
+  <FontObj Name="" Color="0" Size="0" Style="0"/>
+  <Bookmarks/>
+  <Playlist skin="" miniskin="" startmini="false" onlywhenactive="false" playmode="1" loopmode="1"/>
+  <BookCase/>
+</flipbookmaker>
