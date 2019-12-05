@@ -29,6 +29,15 @@ Route::get('/goods/{page?}', 'Frontend\GoodsController@index')->name('goods');
 // 商品詳細
 Route::get('/goods/goodDetail/{goodId}', 'Frontend\GoodsController@show')->name('gooddetail');
 
+// 討論區（選擇討論板）
+Route::get('/bbs', 'Frontend\BBSController@index')->name('boardselect');
+
+// 討論區（討論板/討論串）
+Route::get('/bbs/{bid}', 'Frontend\BBSController@show')->name('showboard');
+
+// 檢視討論串
+Route::get('bbs/{bid}/post/{postid}', 'Frontend\BBSController@view')->name('viewdiscussion');
+
 // 關於團隊
 Route::get('/about', 'Frontend\AboutController@index')->name('about');
 
