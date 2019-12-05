@@ -30,7 +30,7 @@
                         <li><a @if(in_array(Route::currentRouteName(), ['news', 'news.detail'])) class="active" @else class="colorTran" @endif href="{{ route('news') }}">最新消息</a></li>
                         <li><a @if(Route::currentRouteName() == 'product') class="active" @else class="colorTran" @endif href="{{ route('product') }}">作品一覽</a></li>
                         <li><a @if(in_array(Route::currentRouteName(), ['goods', 'gooddetail'])) class="active" @else class="colorTran" @endif href="{{ route('goods')}}">周邊產品</a></li>
-                        <li><a class="colorTran" href="bbs.php">討論專區</a></li>
+                        <li><a @if(in_array(Route::currentRouteName(), ['boardselect'])) class="active" @else class="colorTran" @endif href="{{ route('boardselect') }}">討論專區</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
                             <ul class="dropdown-menu">

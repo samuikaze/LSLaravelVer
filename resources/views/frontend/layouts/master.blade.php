@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="洛嬉遊戲 L.S. Games LSGames lsgames" />
-    <link rel="shortcut icon" href="images/favicon.ico" />
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
     <script type="application/x-javascript">
         addEventListener("load", function () {
             setTimeout(hideURLbar, 0);
