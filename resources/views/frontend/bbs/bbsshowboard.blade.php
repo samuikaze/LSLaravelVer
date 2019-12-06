@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', "$boardInfo->boardName | 討論區")
+@section('title', $boardinfo['name'] . " | 討論區")
 
 @section('content')
 <div class="container">
@@ -54,7 +54,7 @@
                             <li><a href="#">同人創作</a></li>
                         </ul>
                     @endif
-                    <a href="?action=addnewpost&boardid=<?php echo $bid; ?>&refpage=<?php echo $page; ?>" class="btn btn-success">張貼文章</a>
+                    <a href="?action=addnewpost&boardid={{ $boardinfo['id'] }}" class="btn btn-success">張貼文章</a>
                 </div>
             </div>
             @if($postNums != 0)
@@ -72,7 +72,7 @@
                         <tr>
                             {{-- $articleNums 是一個儲存各討論串回文數量的陣列，取值用 laravel foreach 內置的 $loop 變數取次數就好 --}}
                             <td class="post-nums text-left">@if($articleNums[$loop->index] >= $hotpost) <span class="text-danger"><strong>{{ $articleNums[$loop->index] }}</strong> @else <span class="text-info">{{ $articleNums[$loop->index] }} @endif </span></td>
-                            <td class="post-title"><a href="{{ route('viewdiscussion', ['bid' => $bid, 'postid' => $post['postID']]) }}"><span class="badge badge-warning">{{ $post['postType'] }}</span> {{ $post['postTitle'] }}</a></td>
+                            <td class="post-title"><a href="{{ route('viewdiscussion', ['bid' => $boardinfo['id'], 'postid' => $post['postID']]) }}"><span class="badge badge-warning">{{ $post['postType'] }}</span> {{ $post['postTitle'] }}</a></td>
                             <td class="post-time">{{ $post['postUserID'] }}<br />{{ $post['postTime'] }}</td>
                             <td class="post-time last-operatime">@if(!empty($post['lastUpdateUserID'])) {{ $post['lastUpdateUserID'] }}<br />{{ $post['lastUpdateTime'] }} @else <span style="color: gray;">目前尚無回覆</span> @endif</td>
                         </tr>
@@ -92,16 +92,16 @@
                     <a href="{{-- URL 記得填 --}}" class="btn btn-success">張貼文章</a>
                 </div>
             </div>
-            @if($tpage > 1)
+            @if($page['total'] > 1)
                 <div class="clearfix"></div>
                 <!-- 頁數按鈕開始 -->
                 <div class="text-center">
                     <ul class="pagination">
-                        @if($page == 1) <li class="disabled"><a  aria-label="Previous">@else <li><a href="{{ route(Route::currentRouteName(), ['bid' => $bid]) . "?p=" . ($page - 1) }}" aria-label="Previous"> @endif<span aria-hidden="true">«</span></a></li>
-                        @for($i = 1; $i <= $tpage; $i++)
-                            @if($page == $i) <li class="active"><a><span class="sr-only">(current)</span> @else <li><a href="{{ route(Route::currentRouteName(), ['bid' => $bid]) . "?p=" . $i }}"> @endif {{ $i }} </a></li>
+                        @if($page['this'] == 1) <li class="disabled"><a  aria-label="Previous">@else <li><a href="{{ route(Route::currentRouteName(), ['bid' => $boardinfo['id']]) . "?p=" . ($page['this'] - 1) }}" aria-label="Previous"> @endif<span aria-hidden="true">«</span></a></li>
+                        @for($i = 1; $i <= $page['total']; $i++)
+                            @if($page['this'] == $i) <li class="active"><a><span class="sr-only">(current)</span> @else <li><a href="{{ route(Route::currentRouteName(), ['bid' => $boardinfo['id']]) . "?p=" . $i }}"> @endif {{ $i }} </a></li>
                         @endfor
-                        @if($page == $tpage) <li class="disabled"><a aria-label="Next"> @else <li><a href="{{ route(Route::currentRouteName(), ['bid' => $bid]) . "?p=" . ($page + 1) }}" aria-label="Next"> @endif<span aria-hidden="true">»</span></a></li>
+                        @if($page['this'] == $page['total']) <li class="disabled"><a aria-label="Next"> @else <li><a href="{{ route(Route::currentRouteName(), ['bid' => $boardinfo['id']]) . "?p=" . ($page['this'] + 1) }}" aria-label="Next"> @endif<span aria-hidden="true">»</span></a></li>
                     </ul>
                 </div>
                 <!-- 頁數按鈕結束 -->
@@ -115,7 +115,7 @@
                     <h2 class="news-warn" style="color: #8a6d3b !important;">討論板目前無文章<br /><br />
                         <div class="btn-group" role="group">
                             <a href="{{ route('boardselect') }}" class="btn btn-lg btn-info">返回討論板一覽</a>
-                            <a href="?action=addnewpost&boardid=<?php echo $bid; ?>" class="btn btn-lg btn-success">按此張貼新文章</a>
+                            <a href="?action=addnewpost&boardid={{ $boardinfo['id'] }}" class="btn btn-lg btn-success">按此張貼新文章</a>
                         </div>
                     </h2>
                 </div>
