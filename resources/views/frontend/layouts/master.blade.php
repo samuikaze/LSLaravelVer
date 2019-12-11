@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="洛嬉遊戲 L.S. Games LSGames lsgames" />
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
     <script type="application/x-javascript">
         addEventListener("load", function () {
@@ -157,7 +159,60 @@
         <div class="loadHint">頁面載入中...</div>
     </div>
     <div class="pageWrap">
-        <!-- loginform.php -->
+        <!-- 登入與註冊開始 -->
+        <div class="hp_login" style="display: none;">
+            <div class="login">
+                <div class="container">
+                    <div id="login" class="col-md-4 text-center">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">登入</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form name="login-form" method="POST" action="{{ route('login') }}">
+                                    @csrf
+                                    <div class="form-group"><input type="text" class="form-control" name="username" placeholder="請輸入帳號" /></div>
+                                    <div class="form-group"><input type="password" class="form-control" name="password" placeholder="請輸入密碼" /></div>
+                                    <input type="hidden" name="refer" value="{{ url()->current() }}" />
+                                    <div class="text-center" style="margin: 10px auto 0 0;">
+                                        <input type="submit" class="btn btn-success" name="loginButton" value="登入" />
+                                        <input type="button" id="register" class="btn btn-info" value="註冊" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hp_register" style="display: none;">
+            <div class="register">
+                <div class="container">
+                    <div id="reg" class="col-md-4 text-center">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">註冊</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form name="register-form" method="POST" action="{{ route('register') }}">
+                                    @csrf
+                                    <div class="form-group"><input type="text" class="form-control" name="username" placeholder="請輸入帳號" /></div>
+                                    <div class="form-group"><input type="text" class="form-control" name="usernickname" placeholder="請輸入您的暱稱" /></div>
+                                    <div class="form-group"><input type="password" class="form-control" name="password" placeholder="請輸入密碼" /></div>
+                                    <div class="form-group"><input type="password" class="form-control" name="password_confirmation" placeholder="請再次輸入密碼" /></div>
+                                    <div class="form-group"><input type="email" class="form-control" name="email" placeholder="請輸入電子信箱地址" /></div>
+                                    <input type="hidden" name="refer" value="{{ url()->current() }}" />
+                                    <div class="text-center" style="margin: 10px auto 0 0;">
+                                        <input type="submit" class="btn btn-success" name="registerButton" id="reg-submit" value="註冊" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 登入與註冊結束 -->
         @include('frontend.layouts.header')
         <div class="about-section" id="about">
             <div id="content-wrap" class="container">
@@ -175,7 +230,25 @@
                             @endif
                         @endforeach
                     @endif
-                    <!-- loginbutton.php -->
+                    @if(!Auth::check())
+                        <a id="loginForm" class="btn btn-info pull-right">登入</a>
+                    @else
+                        <div class="dropdown pull-right" style="display: inline-block; ">
+                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{ Auth::user()->userNickname }}&nbsp;&nbsp;<span id="notifyFQty" class="badge">{{-- $notifyunreadnums --}}0</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                                <li class="dropdown-header">使用者選單</li>
+                                <li><a href="notification.php?action=viewnotifies"><span id="notifyQty" class="badge">{{-- $notifyunreadnums --}}0</span>&nbsp;則通知</a></li>
+                                <li><a href="user.php?action=orderlist">確認訂單</a></li>
+                                <li><a href="user.php?action=usersetting">使用者設定</a></li>
+                                <li><a href="{{ route('logout') }}">登出</a></li>
+                                <?php echo (Auth::user()->userPriviledge == 99) ? "<li class=\"dropdown-header\">管理者選單</li>" : "";
+                                echo (Auth::user()->userPriviledge == 99) ? "<li><a href=\"admin/index.php\">後台管理</a>" : "";?>
+                            </ul>
+                        </div>
+                    @endif
                 </ol>
                 @yield('content')
             </div>

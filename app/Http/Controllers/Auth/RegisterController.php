@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Request;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -49,9 +51,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'username' => ['required', 'string', 'max:50', 'unique:member'],
+            'usernickname' => ['required', 'string', 'max:50'],
+            'password' => ['required', 'string', 'min:1', 'confirmed'],
+            'email' => ['required', 'string', 'email', 'max:50', 'unique:member,userEmail'],
         ]);
     }
 
@@ -59,14 +62,43 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'userName' => $data['username'],
+            'userNickname' => $data['usernickname'],
+            'userPW' => Hash::make($data['password']),
+            'userEmail' => $data['email'],
         ]);
+    }
+
+    /**
+     * 執行註冊
+     * @param Request $request
+     * @return redirect()
+     */
+    public function register(Request $request)
+    {
+        // 驗證表單資料
+        $validator = $this->validator($request->all());
+
+        // 有問題就退回
+        if ($validator->fails()) {
+            $validator->errors()->add('type', 'error');
+            return redirect(route('useraction') . '?a=register')
+                   ->withErrors($validator)
+                   ->withInput();
+        }else{
+            // 寫入資料庫
+            $this->create($request->all());
+            // 導回登入頁面
+            return redirect(route('useraction'))
+                   ->withErrors([
+                       'msg' => '註冊成功，請重新登入',
+                       'type' => 'info',
+                   ]);
+        }
     }
 }

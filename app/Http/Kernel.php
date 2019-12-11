@@ -36,6 +36,12 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+        
+        // 每個頁面都檢查有沒有被登出
+        'sessions' => [
+            \Illuminate\Session\Middleware\StartSession::class,
+            \App\Http\Middleware\CheckLoginSession::class,
+        ],
 
         'api' => [
             'throttle:60,1',
