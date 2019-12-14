@@ -72,8 +72,8 @@ class LoginController extends Controller
         $input = $request->all();
         // 驗證輸入的表單內容
         $validator = Validator::make($input,[
-            'username' => 'required',
-            'password' => 'required'
+            'username' => ['required', 'string', 'max:50'],
+            'password' => ['required', 'string']
         ]);
 
         // 若驗證失敗
@@ -105,8 +105,8 @@ class LoginController extends Controller
             // 把 refer 網址丟進 session 的 flash 內
             $request->session()->flash('refer', $redirectTarget);
             // 把 SESSION_ID 寫入 Cookie 中
-            $request->session()->put('loginSession', $session_id);
-            return redirect($redirectTarget);
+            $cookie = cookie('loginSession', $session_id, 2629800);
+            return redirect($redirectTarget)->withCookie($cookie);
         }
         // 驗證失敗
         else
@@ -133,12 +133,13 @@ class LoginController extends Controller
         User::find($uid)->sessions()->where('sessionID', $sessId)->delete();
         // 如果 Sessions 資料表中已經沒有這個帳號的資料就把登入資料整個登出清掉
         if(User::find($uid)->sessions()->count() == 0){
+            // 用此方式 remember_token 會重新產生
             Auth::logout();
         }else{
-            // 否則就只登出這個裝置（token 不清）
+            // 否則就只登出這個裝置（token 不蟲新產生）
             $this->guard()->logoutCurrentDevice();
         }
         $request->session()->invalidate();
-        return back();
+        return back()->withCookie(cookie()->forget('loginSession'));
     }
 }

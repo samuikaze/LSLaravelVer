@@ -22,4 +22,11 @@ class Sessions extends Model
     protected $fillable = [
         'userName', 'sessionID', 'useBrowser', 'ipRmtAddr'
     ];
+
+    /**
+     * 讓 Eloquent ORM 返回 datetime 格式
+     */
+    protected $dates = [
+        'loginTime'
+    ];
 }

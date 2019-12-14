@@ -7,44 +7,8 @@
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
             <div class="container-fluid" style="margin: 5px 0;">
-                <?php /*
-                <?php if (!empty($_GET['msg']) && $_GET['msg'] == 'addnewpostsuccess') { ?>
-                    <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>張貼新文章成功！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delposterrtype') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>無法判別貼文的屬性，請依正常程序刪除貼文！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delposterrpostid') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>無法判別貼文的識別碼，請依正常程序刪除貼文！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delposterrnotfound') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>找不到這篇文章，請依正常程序刪除貼文！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delposterrauthfail') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>欲刪除的文章發文者與您的登入身份不符，請依正常程序刪除貼文！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delpostsuccess') { ?>
-                    <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>刪除文章成功！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delpostsuccessnopostid') { ?>
-                    <div class="alert alert-warning alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>刪除文章成功，但因為無法識別文章 ID ，故跳轉至本頁面。</strong></h4>
-                    </div>
-                <?php }*/ ?>
                 <div class="dropdown pull-right">
+                    {{-- 有文章才顯示分類按鈕 --}}
                     @if($postNums != 0)
                         <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">全部主題 <span class="caret"></span></button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -54,9 +18,10 @@
                             <li><a href="#">同人創作</a></li>
                         </ul>
                     @endif
-                    <a href="?action=addnewpost&boardid={{ $boardinfo['id'] }}" class="btn btn-success">張貼文章</a>
+                    <a href="{{ route('bbs.showcreatepostform', ['bid' => $boardinfo['id']]) }}" class="btn btn-success">張貼文章</a>
                 </div>
             </div>
+            {{-- 如果討論板有文章就開始處理顯示文章 --}}
             @if($postNums != 0)
                 <table class="table table-hover" style="vertical-align: middle;">
                     <thead>
@@ -68,14 +33,31 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{-- 凱始跑文張烈表 --}}
                         @foreach($boardcontents as $post)
-                        <tr>
-                            {{-- $articleNums 是一個儲存各討論串回文數量的陣列，取值用 laravel foreach 內置的 $loop 變數取次數就好 --}}
-                            <td class="post-nums text-left">@if($articleNums[$loop->index] >= $hotpost) <span class="text-danger"><strong>{{ $articleNums[$loop->index] }}</strong> @else <span class="text-info">{{ $articleNums[$loop->index] }} @endif </span></td>
-                            <td class="post-title"><a href="{{ route('viewdiscussion', ['bid' => $boardinfo['id'], 'postid' => $post['postID']]) }}"><span class="badge badge-warning">{{ $post['postType'] }}</span> {{ $post['postTitle'] }}</a></td>
-                            <td class="post-time">{{ $post['postUserID'] }}<br />{{ $post['postTime'] }}</td>
-                            <td class="post-time last-operatime">@if(!empty($post['lastUpdateUserID'])) {{ $post['lastUpdateUserID'] }}<br />{{ $post['lastUpdateTime'] }} @else <span style="color: gray;">目前尚無回覆</span> @endif</td>
-                        </tr>
+                            {{-- 文章未被刪除 或 是板主 就顯示文章 --}}
+                            @if($post['postStatus'] != 4 || (Auth::check() && Auth::user()->userPriviledge >= $boardinfo['adminPriv']))
+                                <tr>
+                                    {{-- $articleNums 是一個儲存各討論串回文數量的陣列，取值用 laravel foreach 內置的 $loop 變數取次數就好 --}}
+                                    <td class="post-nums text-left">@if($articleNums[$loop->index] >= $hotpost) <span class="text-danger"><strong>{{ $articleNums[$loop->index] }}</strong> @else <span class="text-info">{{ $articleNums[$loop->index] }} @endif </span></td>
+                                    <td class="post-title"><a href="{{ route('viewdiscussion', ['bid' => $boardinfo['id'], 'postid' => $post['postID']]) }}"><span class="badge badge-warning">{{ $post['postType'] }}</span> {{ $post['postTitle'] }}</a></td>
+                                    <td class="post-time">{{ $post['postUserID'] }}<br />{{ $post['postTime'] }}</td>
+                                    {{-- 文章狀態只要是已被刪除就通通顯示為刪除 --}}
+                                    @if($post['postStatus'] != 4)
+                                        <td class="post-time last-operatime">@if($articleNums[$loop->index] > 0) {{ $post['lastUpdateUserID'] }}<br />{{ $post['lastUpdateTime'] }} @else <span style="color: gray;">目前尚無回覆</span> @endif</td>
+                                    @else
+                                        <td class="post-time last-operatime"><span style="color: gray;">文章已被刪除</span></td>
+                                    @endif
+                                </tr>
+                            {{-- 否則就顯示為刪除 --}}
+                            @else
+                                <tr>
+                                    <td class="post-nums text-left"><span class="text-info">-</span></td>
+                                    <td class="post-title"><span class="badge badge-warning">{{ $post['postType'] }}</span> <span style="color: gray;">[ 此文章已被刪除 ]</span></td>
+                                    <td class="post-time">{{ $post['postUserID'] }}<br />{{ $post['postTime'] }}</td>
+                                    <td class="post-time last-operatime"><span style="color: gray;">文章已被刪除</span></td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -89,9 +71,10 @@
                             <li><a href="#">同人創作</a></li>
                         </ul>
                     @endif
-                    <a href="{{-- URL 記得填 --}}" class="btn btn-success">張貼文章</a>
+                    <a href="{{ route('bbs.showcreatepostform', ['bid' => $boardinfo['id']]) }}" class="btn btn-success">張貼文章</a>
                 </div>
             </div>
+            {{-- 總頁數大於一頁就顯示頁數按鈕 --}}
             @if($page['total'] > 1)
                 <div class="clearfix"></div>
                 <!-- 頁數按鈕開始 -->
@@ -106,6 +89,7 @@
                 </div>
                 <!-- 頁數按鈕結束 -->
             @endif
+        {{-- 討論板如果沒有任何文章就顯示警示訊息 --}}
         @else
             <div class="panel panel-warning">
                 <div class="panel-heading">
@@ -115,7 +99,7 @@
                     <h2 class="news-warn" style="color: #8a6d3b !important;">討論板目前無文章<br /><br />
                         <div class="btn-group" role="group">
                             <a href="{{ route('boardselect') }}" class="btn btn-lg btn-info">返回討論板一覽</a>
-                            <a href="?action=addnewpost&boardid={{ $boardinfo['id'] }}" class="btn btn-lg btn-success">按此張貼新文章</a>
+                            <a href="{{ route('bbs.showcreatepostform', ['bid' => $boardinfo['id']]) }}" class="btn btn-lg btn-success">按此張貼新文章</a>
                         </div>
                     </h2>
                 </div>

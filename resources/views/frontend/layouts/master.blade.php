@@ -250,6 +250,17 @@
                         </div>
                     @endif
                 </ol>
+                {{-- 顯示錯誤訊息 --}}
+                @if($errors->any())
+                    <div @if($errors->first('type') == 'error') class="alert alert-danger alert-dismissible fade in" @elseif($errors->first('type') == 'warning')  class="alert alert-warning alert-dismissible fade in"  @else class="alert alert-success alert-dismissible fade in" @endif role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        @foreach($errors->all() as $msg)
+                            @if(!$loop->last)
+                                <h4><strong>{{ $msg }}</strong></h4>@if($loop->index != ($loop->count - 2)) <br /> @endif
+                            @endif
+                        @endforeach
+                    </div>
+                @endif
                 @yield('content')
             </div>
         </div>

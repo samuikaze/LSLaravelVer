@@ -150,6 +150,11 @@ return [
         'password' => '密碼',
         'usernickname' => '暱稱',
         'email' => '電子郵件',
+        'posttitle' => '文章標題',
+        'posttype' => '文章分類',
+        'postcontent' => '文章內容',
+        'replytitle' => '回文標題',
+        'replycontent' => '回文內容',
     ],
 
 ];

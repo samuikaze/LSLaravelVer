@@ -27,6 +27,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
+        // web 的 route 預設會使用名為 web 裡面所有的 middleware
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -35,11 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ],
-        
-        // 每個頁面都檢查有沒有被登出
-        'sessions' => [
-            \Illuminate\Session\Middleware\StartSession::class,
+            // 每個頁面都檢查有沒有被登出
             \App\Http\Middleware\CheckLoginSession::class,
         ],
 

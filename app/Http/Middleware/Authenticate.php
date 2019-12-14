@@ -15,7 +15,11 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('login');
+            $request->session()->flash('errormsg', [
+                'msg' => '該功能僅限會員使用，請先登入',
+                'type' => 'error',
+            ]);
+            return route('useraction');
         }
     }
 }
