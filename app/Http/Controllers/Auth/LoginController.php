@@ -106,6 +106,7 @@ class LoginController extends Controller
             $request->session()->flash('refer', $redirectTarget);
             // 把 SESSION_ID 寫入 Cookie 中
             $cookie = cookie('loginSession', $session_id, 2629800);
+            $request->session()->put('sessionStillAlive', 'true');
             return redirect($redirectTarget)->withCookie($cookie);
         }
         // 驗證失敗
@@ -137,7 +138,7 @@ class LoginController extends Controller
             Auth::logout();
         }else{
             // 否則就只登出這個裝置（token 不蟲新產生）
-            $this->guard()->logoutCurrentDevice();
+            Auth::logoutCurrentDevice();
         }
         $request->session()->invalidate();
         return back()->withCookie(cookie()->forget('loginSession'));

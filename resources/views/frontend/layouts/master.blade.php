@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="洛嬉遊戲 L.S. Games LSGames lsgames" />
-    <!-- CSRF Token -->
+    {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
     <script type="application/x-javascript">
@@ -216,7 +216,7 @@
         @include('frontend.layouts.header')
         <div class="about-section" id="about">
             <div id="content-wrap" class="container">
-                <!-- 麵包屑 -->
+                {{-- 麵包屑 --}}
                 <ol class="breadcrumb">
                     @if (Route::currentRouteName() == 'index')
                         <li class="thisPosition" style="color: #23527c;"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</li>
@@ -230,7 +230,8 @@
                             @endif
                         @endforeach
                     @endif
-                    @if(!Auth::check())
+                    {{-- 登入/使用者選單鈕 --}}
+                    @if(! Auth::check())
                         <a id="loginForm" class="btn btn-info pull-right">登入</a>
                     @else
                         <div class="dropdown pull-right" style="display: inline-block; ">
@@ -241,8 +242,8 @@
                             <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                                 <li class="dropdown-header">使用者選單</li>
                                 <li><a href="notification.php?action=viewnotifies"><span id="notifyQty" class="badge">{{-- $notifyunreadnums --}}0</span>&nbsp;則通知</a></li>
-                                <li><a href="user.php?action=orderlist">確認訂單</a></li>
-                                <li><a href="user.php?action=usersetting">使用者設定</a></li>
+                                <li><a href="{{ route('dashboard.form', ['a=userdata']) }}">使用者設定</a></li>
+                                <li><a href="{{ route('dashboard.form', ['a=userorders']) }}">確認訂單</a></li>
                                 <li><a href="{{ route('logout') }}">登出</a></li>
                                 <?php echo (Auth::user()->userPriviledge == 99) ? "<li class=\"dropdown-header\">管理者選單</li>" : "";
                                 echo (Auth::user()->userPriviledge == 99) ? "<li><a href=\"admin/index.php\">後台管理</a>" : "";?>

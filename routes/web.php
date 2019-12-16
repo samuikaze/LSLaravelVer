@@ -37,7 +37,7 @@ Route::get('/bbs', 'Frontend\BBSController@index')->name('boardselect');
 Route::get('/bbs/{bid}', 'Frontend\BBSController@show')->name('showboard');
 
 // 檢視討論串
-Route::get('bbs/{bid}/post/{postid}', 'Frontend\BBSController@view')->name('viewdiscussion');
+Route::get('/bbs/{bid}/post/{postid}', 'Frontend\BBSController@view')->name('viewdiscussion');
 
 // 關於團隊
 Route::get('/about', 'Frontend\AboutController@index')->name('about');
@@ -52,44 +52,59 @@ Route::get('/faq', 'Frontend\FaqController@index')->name('faq');
 Route::get('/contact', 'Frontend\ContactController@index')->name('contact');
 
 // 顯示建立討論串
-Route::get('bbs/{bid}/createpost', 'Frontend\BBSController@showCreatePostForm')
+Route::get('/bbs/{bid}/createpost', 'Frontend\BBSController@showCreatePostForm')
         ->name('bbs.showcreatepostform')
         ->middleware('auth');
 
 // 顯示回覆討論串
-Route::get('bbs/{bid}/post/{postid}/replypost', 'Frontend\BBSController@showReplyPostForm')
+Route::get('/bbs/{bid}/post/{postid}/replypost', 'Frontend\BBSController@showReplyPostForm')
         ->name('bbs.showreplypostform')
         ->middleware('auth');
 
 // 顯示編輯討論串
-Route::get('bbs/{bid}/post/{postid}/edit/{type?}/{targetpost?}', 'Frontend\BBSController@editPost')
+Route::get('/bbs/{bid}/post/{postid}/edit/{type?}/{targetpost?}', 'Frontend\BBSController@editPost')
         ->name('bbs.showeditpostform')
         ->middleware('auth');
 
 // 顯示刪除確認表單
-Route::get('bbs/{bid}/post/{postid}/delete/{type?}/{targetpost?}', 'Frontend\BBSController@showDeleteConfirmForm')
+Route::get('/bbs/{bid}/post/{postid}/delete/{type?}/{targetpost?}', 'Frontend\BBSController@showDeleteConfirmForm')
        ->name('bbs.showdelconfirm')
        ->middleware('auth');
 
 // 執行建立討論串
-Route::post('bbs/{bid}/doCreatePost', 'Frontend\BBSController@createPost')
+Route::post('/bbs/{bid}/doCreatePost', 'Frontend\BBSController@createPost')
         ->name('bbs.createpost')
         ->middleware('auth');
 
 // 執行建立回文
-Route::post('bbs/{bid}/post/{postid}/doReplyPost', 'Frontend\BBSController@replyPost')
+Route::post('/bbs/{bid}/post/{postid}/doReplyPost', 'Frontend\BBSController@replyPost')
         ->name('bbs.replypost')
         ->middleware('auth');
 
 // 執行編輯文章
-Route::post('bbs/{bid}/post/{postid}/doEdit/{type?}/{targetpost?}', 'Frontend\BBSController@doEditPost')
+Route::post('/bbs/{bid}/post/{postid}/doEdit/{type?}/{targetpost?}', 'Frontend\BBSController@doEditPost')
         ->name('bbs.editpost')
         ->middleware('auth');
 
 // 執行編輯文章
-Route::post('bbs/{bid}/post/{postid}/doDelete/{type?}/{targetpost?}', 'Frontend\BBSController@deletePost')
+Route::post('/bbs/{bid}/post/{postid}/doDelete/{type?}/{targetpost?}', 'Frontend\BBSController@deletePost')
         ->name('bbs.delpost')
         ->middleware('auth');
+
+// 顯示會員資料修改表單
+Route::get('/dashboard', 'Frontend\DashboardController@showData')
+       ->name('dashboard.form')
+       ->middleware('auth');
+
+// 執行更新會員資料
+Route::post('/dashboard/update_userdata', 'Frontend\DashboardController@updateUserData')
+       ->name('dashboard.update.userdata')
+       ->middleware('auth');
+
+// 執行登出工作階段
+Route::get('/dashboard/logoutsession/{sid}', 'Frontend\DashboardController@logoutSession')
+       ->name('dashboard.logout-session')
+       ->middleware('auth');
 
 // 登入/註冊頁面
 Route::get('/useraction', 'Auth\LoginController@showForm')->name('useraction');

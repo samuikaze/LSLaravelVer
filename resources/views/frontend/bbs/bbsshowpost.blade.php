@@ -97,7 +97,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-10 noPadding">
-                                <div class="post" style="background: gray;">
+                                <div class="post" style="background: darkgray;">
                                     <div class="postControl">
                                         <span id="{{ $loop->index+1 }}" class="pull-left poststatus">#{{ (($page['this'] - 1) * $postinfo['dispnums']) + 1 }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ $pd->articleTime }} @if($pd->articleStatus == 1)&nbsp;&nbsp;|&nbsp;&nbsp;編輯於 {{ $pd->articleEdittime }}@elseif($pd->articleStatus == 4)&nbsp;&nbsp;|&nbsp;&nbsp;已刪除@endif</span>
                                         <span class="posteditor">大 中 小</span>
@@ -159,7 +159,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-10 noPadding">
-                                <div class="post" style="background: gray;">
+                                <div class="post" style="background: darkgray;">
                                     <div class="postControl">
                                         <span id="{{ $loop->index+1 }}" class="pull-left poststatus">#{{ (($page['this'] - 1) * $postinfo['dispnums']) + $loop->index + 1 }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ $pd->articleTime }}@if($pd->articleStatus == 1)&nbsp;&nbsp;|&nbsp;&nbsp;編輯於 {{ $pd->articleEdittime }}@elseif($pd->articleStatus == 4)&nbsp;&nbsp;|&nbsp;&nbsp;已刪除@endif</span>
                                         <span class="posteditor">大 中 小</span>

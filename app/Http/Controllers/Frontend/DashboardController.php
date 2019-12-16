@@ -1,0 +1,210 @@
+<?php
+
+namespace App\Http\Controllers\Frontend;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Cookie;
+
+class DashboardController extends Controller
+{
+    /**
+     * 顯示會員儀錶板表單資料
+     * @param Request $request Request 實例
+     * @return view 視圖
+     */
+    public function showData(Request $request)
+    {
+        /**
+         * 從 URL 取得一開始要顯示的頁面是哪個
+         * a 可以有以下三種參數，為空時預設選擇第一項
+         * 分別為「資料管理」、「訂單管理」和「登入管理」
+         * userdata、userorders、usersessions
+         */
+        if(!empty($request->query('a'))){
+            if(in_array($request->query('a'), ['userdata', 'userorders', 'usersessions'])){
+                $board['display'] = $request->query('a');
+            }else{
+                return redirect(route('dashboard.form'))
+                       ->withErrors([
+                           'msg'=> '沒有該功能，重新導向至使用者設定頁面',
+                           'type'=> 'error',
+                       ]);
+            }
+        }else{
+            $board['display'] = 'userdata';
+        }
+        // 取得使用者的資料後再修改權限的名稱
+        $userdata = User::find(Auth::user()->uid)->first();
+        $userdata->userPriviledge = User::find(Auth::user()->uid)->priv()->value('privName');
+        // 訂單資料
+        $orderBulider = User::find(Auth::user()->uid)->orders();
+        $orderdata = [
+            'nums'=> $orderBulider->count(),
+            'data'=> $orderBulider->get(),
+        ];
+        // 登入階段資料
+        $loginSessionBuilder = User::find(Auth::user()->uid)->sessions();
+        $sessiondata = [
+            'nums'=> $loginSessionBuilder->count(),
+            'data'=> $loginSessionBuilder->get(),
+        ];
+        // 找出目前的登入階段在哪個索引
+        foreach($sessiondata['data'] as $i => $sdd){
+            if($sdd->sessionID == Cookie::get('loginSession')){
+                $sessiondata['thisIndex'] = $i;
+                break;
+            }
+        }
+        $bc = [
+            ['url' => route('dashboard.form', ['?a=' . $board['display']]), 'name' => '帳號管理'],
+        ];
+        return view('frontend.dashboard.mainform', compact('bc', 'board', 'userdata', 'orderdata', 'sessiondata'));
+    }
+
+    /**
+     * 執行更新使用者資料
+     * @param Request $request Request 實例
+     * @return Redirect redirect 實例
+     */
+    public function updateUserData(Request $request)
+    {
+        // 先檢查是不是有上傳檔案又把刪除檔案打勾
+        if($request->hasFile('ImageUpload') && $request->has('delavatorimage')){
+            return back()
+                   ->withErrors([
+                       'msg'=> '上傳與刪除虛擬形象不能同時執行！',
+                       'type'=> 'error',
+                   ]);
+        }
+        // 再判斷修不修改密碼
+        switch(empty($request->input('password'))){
+            // 要修改
+            case false:
+                // 驗證輸入的表單內容
+                $validator = Validator::make($request->all(),[
+                    'avatorimage' => ['sometimes', 'file', 'mimes:jpeg,jpg,png,gif', 'max:8192'],
+                    'delavatorimage' => ['nullable', Rule::in(['true'])],
+                    'password' => ['required', 'string', 'min:3', 'confirmed'],
+                    'usernickname' => ['required', 'string', 'max:50'],
+                    'email' => ['required', 'string', 'email', 'max:50'],
+                    'userrealname' => ['nullable', 'string', 'max:50'],
+                    'userphone' => ['nullable', 'regex:/(0)[0-9]{9}/'],
+                    'useraddress' => ['nullable', 'string', 'max:100'],
+                ]);
+                break;
+            // 不修改
+            default:
+                // 驗證輸入的表單內容
+                $validator = Validator::make($request->all(),[
+                    'avatorimage' => ['sometimes', 'file', 'mimes:jpeg,jpg,png,gif', 'max:8192'],
+                    'delavatorimage' => ['nullable', Rule::in(['true'])],
+                    'usernickname' => ['required', 'string', 'max:50'],
+                    'email' => ['required', 'string', 'email', 'max:50'],
+                    'userrealname' => ['nullable', 'string', 'max:50'],
+                    'userphone' => ['nullable', 'regex:/(0)[0-9]{9}/'],
+                    'useraddress' => ['nullable', 'string', 'max:100'],
+                ]);
+        }
+        // 若驗證失敗
+        if ($validator->fails()) {
+            // 針對錯誤訊息新增一欄訊息類別
+            $validator->errors()->add('type', 'error');
+            return back()
+                   ->withErrors($validator)
+                   ->withInput();
+        }
+        // 沒有錯誤就開始更薪資料與檔案
+        // 有上傳檔案就先處理檔案
+        if($request->hasFile('avatorimage')){
+            // 如果本來就不是預設的虛擬形象則需要先把檔案刪除
+            if(Auth::user()->userAvator != 'exampleAvator.jpg'){
+                $oldFilename = 'images/userAvator/'. Auth::user()->userAvator;
+                Storage::disk('htdocs')->delete($oldFilename);
+            }
+            // 決定新檔案名稱和副檔名
+            $filename = 'user-' . Auth::user()->uid . '.' . $request->file('avatorimage')->extension();
+            // 移動檔案
+            $request->file('avatorimage')->storeAs('images/userAvator/', $filename, 'htdocs');
+        }
+        // 如果沒傳檔案但是要刪除檔案
+        elseif($request->has('delavatorimage') && $request->input('delavatorimage') == 'true'){
+            $oldFilename = 'images/userAvator/'. Auth::user()->userAvator;
+            Storage::disk('htdocs')->delete($oldFilename);
+            $filename = 'exampleAvator.jpg';
+        }
+        // 不做任何動作
+        else{
+            // 沒有傳檔案還是要從 Auth 裡取出檔案名稱，方便資料庫更新
+            $filename = Auth::user()->userAvator;
+        }
+        // 然後更新資料庫資料
+        switch(empty($request->input('password'))){
+            // 要更新密碼
+            case false:
+                User::find(Auth::user()->uid)->update([
+                    'userPW' => Hash::make($request->input('password')),
+                    'userNickname' => $request->input('usernickname'),
+                    'userAvator' => $filename,
+                    'userEmail' => $request->input('email'),
+                    'userRealName' => $request->input('userrealname'),
+                    'userPhone' => $request->input('userphone'),
+                    'userAddress' => $request->input('useraddress'),
+                ]);
+                // 更新完後請使用者重新登入驗證新密碼
+                return redirect(route('dashboard.form'))
+                       ->withErrors([
+                           'msg'=> '更新使用者資料成功，由於密碼已更新，請重新登入驗證新密碼',
+                           'type'=> 'success',
+                       ]);
+                break;
+            // 不更新密碼
+            default:
+                User::find(Auth::user()->uid)->update([
+                    'userNickname' => $request->input('usernickname'),
+                    'userAvator' => $filename,
+                    'userEmail' => $request->input('email'),
+                    'userRealName' => $request->input('userrealname'),
+                    'userPhone' => $request->input('userphone'),
+                    'userAddress' => $request->input('useraddress'),
+                ]);
+                // 更新完就直接回使用者設定頁面
+                return redirect(route('dashboard.form'))
+                       ->withErrors([
+                           'msg'=> '更新使用者資料成功',
+                           'type'=> 'success',
+                       ]);
+        }
+    }
+
+    /**
+     * 執行登出工作階段
+     * @param Request $request Request 實例
+     * @param int $sid 登入階段的 ID
+     * @return Redirect redirect 實例
+     */
+    public function logoutSession(Request $request, $sid)
+    {
+        // 先檢查要登出的階段是不是這位使用者的階段
+        if(User::find(Auth::user()->uid)->sessions()->where('sID', $sid)->count() == 0){
+            return redirect(route('dashboard.form', ['a=usersessions']))
+                   ->withErrors([
+                       'msg'=> '沒有該登入階段，請依正常程序登出工作階段',
+                       'type'=> 'error',
+                   ]);
+        }
+        // 沒有跳轉就開始清資料庫
+        User::find(Auth::user()->uid)->sessions()->where('sID', $sid)->delete();
+        return redirect(route('dashboard.form', ['a=usersessions']))
+               ->withErrors([
+                   'msg'=> '該登入階段已被登出！',
+                   'type'=> 'success',
+               ]);
+    }
+}

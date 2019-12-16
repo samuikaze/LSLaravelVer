@@ -36,7 +36,7 @@ class CheckLoginSession
                     Auth::logout();
                 }else{
                     // 否則就只登出這個裝置（token 不重新產生）
-                    $this->guard()->logoutCurrentDevice();
+                    Auth::logoutCurrentDevice();
                 }
                 $request->session()->invalidate();
                 return $next($request)->withCookie(cookie()->forget('loginSession'));
@@ -46,8 +46,6 @@ class CheckLoginSession
             {
                 // 取得 Sessions 資料
                 $sessData = $sessions->where('sessionID', $sessId)->first();
-                // 取得最後登入時間
-                $lastLoginTime = $sessData->loginTime;
                 // 取得現在時間
                 $nowTime = Carbon::now();
                 // 如果找不到 session 中的 sessionStillAlive 表示 session 已過期

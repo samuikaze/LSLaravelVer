@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12 col-xs-12">
                 @if(! empty(session('errormsg')))
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                    <div @if(session('errormsg')['type'] == 'error') class="alert alert-danger alert-dismissible fade in" @elseif(session('errormsg')['type'] == 'warning')  class="alert alert-warning alert-dismissible fade in"  @else class="alert alert-success alert-dismissible fade in" @endif role="alert" style="margin-top: 1em;">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4><strong>{{ session('errormsg')['msg'] }}</strong></h4>
                     </div>
@@ -80,7 +80,7 @@
                                 <input type="password" class="form-control" name="password" placeholder="請輸入密碼" />
                             </div>
                             <div class="form-group text-left">
-                                <label for="passwordConfirm">確認密碼</label>
+                                <label for="password_confirmation">確認密碼</label>
                                 <input type="password" class="form-control" name="password_confirmation" placeholder="請再次輸入密碼" />
                             </div>
                             <div class="form-group text-left">
