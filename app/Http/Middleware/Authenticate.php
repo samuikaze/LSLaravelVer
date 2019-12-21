@@ -14,12 +14,17 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
+        // 如果不是 AJAX
         if (! $request->expectsJson()) {
             $request->session()->flash('errormsg', [
                 'msg' => '該功能僅限會員使用，請先登入',
                 'type' => 'error',
             ]);
             return route('useraction');
+        }
+        // AJAX 回應
+        else{
+            return response()->json(['error'=> '您未登入'], 401);
         }
     }
 }

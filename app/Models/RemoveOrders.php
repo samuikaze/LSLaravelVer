@@ -4,15 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sessions extends Model
+class RemoveOrders extends Model
 {
-    protected $table = 'sessions';
+    protected $table = 'removeorder';
+    // 變更預設的 ID 欄位名稱
+    protected $primaryKey = 'removeID';
     public $timestamps = false;
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'userName', 'userName');
-    }
 
     /**
      * 宣告使用 save() 和 create() 方法時可以寫入的欄位名稱
@@ -20,13 +17,13 @@ class Sessions extends Model
      * @var array
      */
     protected $fillable = [
-        'userName', 'sessionID', 'useBrowser', 'ipRmtAddr'
+        'targetOrder', 'removeReason', 'removeDate', 'removeStatus'
     ];
 
     /**
      * 讓 Eloquent ORM 返回 datetime 格式
      */
     protected $dates = [
-        'loginTime', 'lastLoginTime'
+        'removeDate'
     ];
 }

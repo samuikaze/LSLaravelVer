@@ -75,7 +75,11 @@
                     </table>
                 </div>
                 <div class="clearfix"></div>
-                <a id="goodsjCart{{ $goodData->goodsOrder }}" data-gid="{{ $goodData->goodsOrder }}" data-clicked="false" class="btn btn-info btn-lg btn-block<?php echo (empty($_SESSION['auth']))? "" : " joinCart"; ?>" <?php echo (empty($_SESSION['auth']))? "disabled=\"disabled\" title=\"此功能登入後才可使用\"" : "";?>>加入購物車</a>
+                @auth
+                    <a id="goodsjCart{{ $goodData->goodsOrder }}" data-gid="{{ $goodData->goodsOrder }}" data-detail="true" data-clicked="false" @if(!$ecpay) class="btn btn-info btn-lg btn-block joinCart" @else class="btn btn-info btn-lg btn-block" disabled="disabled" title="完成站外結帳前此功能不可使用" @endauth>加入購物車</a>
+                @else
+                    <a id="goodsjCart{{ $goodData->goodsOrder }}" data-gid="{{ $goodData->goodsOrder }}" data-detail="true" data-clicked="false" class="btn btn-info btn-lg btn-block" disabled="disabled" title="此功能登入後才可使用">加入購物車</a>
+                @endauth
             </div>
         </div>
         <div class="row">

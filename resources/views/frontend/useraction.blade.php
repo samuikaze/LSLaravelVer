@@ -8,12 +8,6 @@
     <div class="memberForm">
         <div class="row">
             <div class="col-md-12 col-xs-12">
-                @if(! empty(session('errormsg')))
-                    <div @if(session('errormsg')['type'] == 'error') class="alert alert-danger alert-dismissible fade in" @elseif(session('errormsg')['type'] == 'warning')  class="alert alert-warning alert-dismissible fade in"  @else class="alert alert-success alert-dismissible fade in" @endif role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>{{ session('errormsg')['msg'] }}</strong></h4>
-                    </div>
-                @endif
                 <!-- Bootstrap 標籤頁 -->
                 <ul class="nav nav-tabs">
                     @if($query['action'] == 'login' || $query['action'] == 'relogin') <li class="active"> @else <li> @endif<a href="#login-form" data-toggle="tab">登入</a></li>

@@ -33,51 +33,15 @@
     <?php } */ ?>
         <!-- 標籤 -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" @if($board['display'] == 'userdata') class="active" @endif><a href="#usersetting" aria-controls="usersetting" role="tab" data-toggle="tab">資料管理</a></li>
-            <li role="presentation" @if($board['display'] == 'userorders') class="active" @endif><a href="#orderlist" aria-controls="orderlist" role="tab" data-toggle="tab">訂單管理</a></li>
-            <li role="presentation" @if($board['display'] == 'usersessions') class="active" @endif><a href="#sessioncontrol" aria-controls="sessioncontrol" role="tab" data-toggle="tab">登入管理</a></li>
+            <li role="presentation" @if($board['display'] == 'userdata') class="active" @endif><a href="#usersetting" class="urlPush" data-url="a=userdata" aria-controls="usersetting" role="tab" data-toggle="tab">資料管理</a></li>
+            <li role="presentation" @if($board['display'] == 'userorders') class="active" @endif><a href="#orderlist" class="urlPush" data-url="a=userorders" aria-controls="orderlist" role="tab" data-toggle="tab">訂單管理</a></li>
+            <li role="presentation" @if($board['display'] == 'usersessions') class="active" @endif><a href="#sessioncontrol" class="urlPush" data-url="a=usersessions" aria-controls="sessioncontrol" role="tab" data-toggle="tab">登入管理</a></li>
         </ul>
         <!-- 內容 -->
         <div class="tab-content">
             <!-- 帳號資料管理畫面 -->
             <div role="tabpanel" @if($board['display'] == 'userdata') class="tab-pane fade in active" @else class="tab-pane fade" @endif id="usersetting">
                 <!-- 修改資料 -->
-                <?php /* if (!empty($_GET['msg']) && $_GET['msg'] == 'usrseterremptypwdcnfrm') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>如欲修改密碼請確實填妥密碼與確認密碼欄位！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'usersettingerrpwdcnfrm') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>密碼與確認密碼欄位輸入不一致，請再重新輸入一次！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'usersettingerrfilesize') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>上傳的檔案過大，請重新上傳！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'usersettingerrfiletype') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>上傳的檔案類型錯誤！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'usrseterravatorupdel') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>修改語刪除虛擬形象無法同時進行，請確定是要刪除還是修改！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'usrseterravatornodel') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>目前並沒有虛擬形象可以刪除！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'usersettingsuccess') { ?>
-                    <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>資料修改成功！</strong></h4>
-                    </div>
-                <?php } */ ?>
                 <form action="{{ route('dashboard.update.userdata') }}" method="POST" enctype="multipart/form-data" style="margin-top: 1em;">
                     @csrf
                     <div class="form-group">
@@ -162,7 +126,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr class="warning">
-                                <th>訂單編號</th>
+                                <th class="fpattern-resp">訂單編號</th>
                                 <th>應付金額</th>
                                 <th>下訂日期</th>
                                 <th class="fpattern-resp">取貨方式</th>
@@ -175,13 +139,13 @@
                             @foreach($orderdata['data'] as $od)
                                 <!-- 一個訂單項目 -->
                                 <tr>
-                                    <td>{{ $od->orderID }}</td>
+                                    <td class="fpattern-resp">{{ $od->orderSerial }}</td>
                                     <td>{{ $od->orderPrice }}</td>
                                     <td>{{ $od->orderDate }}</td>
                                     <td class="fpattern-resp">{{ $od->orderPattern }}</td>
                                     @if($od->orderStatus == '已申請取消訂單') <td style="color: red;"><strong></strong> @else <td> @endif {{ $od->orderStatus }}</td>
                                     <td>
-                                        <a href="{{-- 詳細資料網址 --}}" class="btn btn-info">詳細資料</a>
+                                        <a href="{{ route('dashboard.orderdetail', ['serial'=> $od->orderSerial]) }}" class="btn btn-info">詳細資料</a>
                                         @switch($od->orderStatus)
                                             @case('已出貨')
                                                 <a href="actions.php?action=notifytaked&oid={{ $od->orderID }}" class="btn btn-info">通知已取貨</a>
@@ -196,13 +160,13 @@
                                                 @break
                                             @case('已通知付款')
                                                 <a class="btn btn-info" disabled="disabled">已通知付款</a>
-                                                <a href="?action=removeorder&oid={{ $od->orderID }}" class="btn btn-danger">取消訂單</a>
+                                                <a href="{{ route('dashboard.removeorder', ['serial'=> $od->orderSerial]) }}" class="btn btn-danger">取消訂單</a>
                                                 @break
                                             @case('已取貨')
-                                                <a href="?action=removeorder&oid={{ $od->orderID }}" class="btn btn-danger">申請退貨</a>
+                                                <a href="{{ route('dashboard.removeorder', ['serial'=> $od->orderSerial]) }}" class="btn btn-danger">申請退貨</a>
                                                 @break
                                             @default
-                                                <a href="?action=removeorder&oid={{ $od->orderID }}" class="btn btn-danger">取消訂單</a>
+                                                <a href="{{ route('dashboard.removeorder', ['serial'=> $od->orderSerial]) }}" class="btn btn-danger">取消訂單</a>
                                         @endswitch
                                     </td>
                                 </tr>
@@ -214,27 +178,6 @@
             </div>
             <!-- 登入階段管理畫面 -->
             <div role="tabpanel" @if($board['display'] == 'usersessions') class="tab-pane fade in active" @else class="tab-pane fade" @endif id="sessioncontrol">
-                <?php /* if (!empty($_GET['msg']) && $_GET['msg'] == 'delsessionerrsid') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>未指定登入階段的識別碼，請依正常程序終止登入階段！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delsessionerrnodata') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>找不到該登入階段，請依正常程序終止登入階段！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delsessionerroperator') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>該登入階段身分與您登入之身分不符，請依正常程序終止登入階段！</strong></h4>
-                    </div>
-                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delsessionsuccess') { ?>
-                    <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>該登入階段登出成功！</strong></h4>
-                    </div>
-                <?php } */ ?>
                 <div class="panel panel-success" style="margin-top: 1em;">
                     <div class="panel-heading">
                         <h3 class="panel-title">您目前的登入階段</h3>
@@ -260,15 +203,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label sessionCtrlTable">上次登入 IP</label>
+                                <label class="col-sm-2 control-label sessionCtrlTable">前次登入 IP</label>
                                 <div class="col-sm-10">
                                     <p class="form-control-static">@if(empty($sessiondata['data'][$sessiondata['thisIndex']]->lastipRmtAddr)) <span style="color:darkgray;">沒有上次的登入記錄</span> @else {{ $sessiondata['data'][$sessiondata['thisIndex']]->lastipRmtAddr }} @endif</p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label sessionCtrlTable">最後登入時間</label>
+                                <label class="col-sm-2 control-label sessionCtrlTable">前次登入時間</label>
                                 <div class="col-sm-7">
-                                    <p class="form-control-static">{{ $sessiondata['data'][$sessiondata['thisIndex']]->loginTime }}</p>
+                                    <p class="form-control-static">@if(empty($sessiondata['data'][$sessiondata['thisIndex']]->lastLoginTime)) <span style="color:darkgray;">沒有上次的登入記錄</span> @else {{ $sessiondata['data'][$sessiondata['thisIndex']]->lastLoginTime }} @endif</p>
                                 </div>
                                 <div class="col-sm-3 text-right">
                                     <a href="{{ route('logout') }}" class="btn btn-danger btn-block">登出我的瀏覽階段</a>
@@ -285,7 +228,7 @@
                                 <td class="ss-id ss-thead"><strong>系統 ID</strong></td>
                                 <td class="ss-other ss-thead"><strong>登入 IP</strong></td>
                                 <td class="ss-other ss-thead use-browser"><strong>使用瀏覽器</strong></td>
-                                <td class="ss-other ss-thead"><strong>登入時間</strong></td>
+                                <td class="ss-other ss-thead"><strong>最後登入時間</strong></td>
                                 <td class="ss-operate ss-thead"><strong>操作</strong></td>
                             </tr>
                         </thead>

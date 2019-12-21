@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Goods;
+use App\Models\Orders;
+use App\Models\RemoveOrders;
 use Cookie;
 
 class DashboardController extends Controller
@@ -66,6 +70,172 @@ class DashboardController extends Controller
             ['url' => route('dashboard.form', ['?a=' . $board['display']]), 'name' => '帳號管理'],
         ];
         return view('frontend.dashboard.mainform', compact('bc', 'board', 'userdata', 'orderdata', 'sessiondata'));
+    }
+
+    /**
+     * 顯示訂單詳細資料
+     * @param Request $request Request 實例
+     * @param int $serial 訂單序號
+     * @return view 視圖
+     */
+    public function orderDetail(Request $request, $serial)
+    {
+        $orderBuilder = User::find(Auth::user()->uid)->orders()->where('orderSerial', $serial);
+        // 找不到訂單編號就踢回上一頁
+        if($orderBuilder->count() == 0){
+            return back()->withErrors([
+                'msg'=> '找不到該訂單編號，請依正常程序檢視訂單詳細資料！',
+                'type'=> 'error',
+            ]);
+        }
+        // 沒問題就開始處理資料
+        // 訂單基本資料
+        $rawdata = $orderBuilder->first();
+        // 訂單商品資料
+        $rawdetail = Orders::find($rawdata->orderID)->orderdetail()->orderBy('goodID', 'ASC')->get();
+        $orderdata = [
+            'serial'=> $serial,
+            'realname'=> $rawdata->orderRealName,
+            'phone'=> $rawdata->orderPhone,
+            'address'=> $rawdata->orderAddress,
+            'total'=> $rawdata->orderPrice,
+            'date'=> $rawdata->orderDate,
+            'casher'=> (empty($rawdata->orderCasher)) ? '取貨付款' : $rawdata->orderCasher,
+            'pattern'=> $rawdata->orderPattern,
+            'freight'=> $rawdata->orderFreight,
+            'status'=> $rawdata->orderStatus,
+        ];
+        // 處理商品資料
+        $goodids = [];
+        // 處理商品編號 ID 陣列
+        foreach($rawdetail as $good){
+            array_push($goodids, $good->goodID);
+        }
+        // 取相關商品資料
+        $rawgooddata = Goods::whereIn('goodsOrder', $goodids)->orderBy('goodsOrder', 'ASC')->get();
+        $detaildata = [];
+        // 處理成要返回給 view 的格式
+        foreach($rawgooddata as $i=> $rd){
+            array_push($detaildata, [
+                'image'=> $rd->goodsImgUrl,
+                'name'=> $rd->goodsName,
+                // 由於都有依照商品編號排序，所以現在循環到的商品資料索引值和訂單商品索引值會互相對應
+                'price'=> $rawdetail[$i]->goodPrice,
+                'qty'=> $rawdetail[$i]->goodQty,
+                'total'=> $rawdetail[$i]->goodPrice * $rawdetail[$i]->goodQty,
+            ]);
+        }
+        $bc = [
+            ['url' => route('dashboard.form', ['a'=> 'userorders']), 'name' => '帳號管理'],
+            ['url' => route(Route::currentRouteName(), ['serial'=> $serial]), 'name' => '訂單詳細資料'],
+        ];
+        return view('frontend.dashboard.orderdetail', compact('bc', 'orderdata', 'detaildata'));
+    }
+
+    /**
+     * 申請退訂表單
+     * @param Request $request Request 實例
+     * @param int $serial 訂單序號
+     * @return view 視圖
+     */
+    public function removeOrder(Request $request, $serial)
+    {
+        $orderBuilder = User::find(Auth::user()->uid)->orders()->where('orderSerial', $serial);
+        // 沒有這筆訂單或已經申請過退訂或早就被取消的訂單就踢回上一頁
+        if($orderBuilder->count() == 0 || $orderBuilder->value('removeApplied') == 1 || $orderBuilder->value('orderStatus') == '訂單已取消'){
+            return back()->withErrors([
+                'msg'=> '找不到該訂單編號、已經申請過退訂或訂單已經被取消，請依正常程序申請退訂！',
+                'type'=> 'error',
+            ]);
+        }
+        // 沒問題就開始處理資料
+        // 訂單基本資料
+        $rawdata = $orderBuilder->first();
+        // 訂單商品資料
+        $rawdetail = Orders::find($rawdata->orderID)->orderdetail()->orderBy('goodID', 'ASC')->get();
+        $orderdata = [
+            'serial'=> $serial,
+            'realname'=> $rawdata->orderRealName,
+            'phone'=> $rawdata->orderPhone,
+            'address'=> $rawdata->orderAddress,
+            'total'=> $rawdata->orderPrice,
+            'date'=> $rawdata->orderDate,
+            'casher'=> (empty($rawdata->orderCasher)) ? '取貨付款' : $rawdata->orderCasher,
+            'pattern'=> $rawdata->orderPattern,
+            'freight'=> $rawdata->orderFreight,
+            'status'=> $rawdata->orderStatus,
+        ];
+        // 處理商品資料
+        $goodids = [];
+        // 處理商品編號 ID 陣列
+        foreach($rawdetail as $good){
+            array_push($goodids, $good->goodID);
+        }
+        // 取相關商品資料
+        $rawgooddata = Goods::whereIn('goodsOrder', $goodids)->orderBy('goodsOrder', 'ASC')->get();
+        $detaildata = [];
+        // 處理成要返回給 view 的格式
+        foreach($rawgooddata as $i=> $rd){
+            array_push($detaildata, [
+                'image'=> $rd->goodsImgUrl,
+                'name'=> $rd->goodsName,
+                // 由於都有依照商品編號排序，所以現在循環到的商品資料索引值和訂單商品索引值會互相對應
+                'price'=> $rawdetail[$i]->goodPrice,
+                'qty'=> $rawdetail[$i]->goodQty,
+                'total'=> $rawdetail[$i]->goodPrice * $rawdetail[$i]->goodQty,
+            ]);
+        }
+        $bc = [
+            ['url' => route('dashboard.form', ['a'=> 'userorders']), 'name' => '帳號管理'],
+            ['url' => route(Route::currentRouteName(), ['serial'=> $serial]), 'name' => '申請取消訂單'],
+        ];
+        return view('frontend.dashboard.removeorder', compact('bc', 'orderdata', 'detaildata'));
+    }
+
+    /**
+     * 執行申請取消訂單
+     * @param Request $request Request 實例
+     * @param int $serial 訂單序號
+     * @return Redirect 實例
+     */
+    public function doRemoveOrder(Request $request, $serial)
+    {
+        $orderBuilder = User::find(Auth::user()->uid)->orders()->where('orderSerial', $serial);
+        // 沒有這筆訂單或已經申請過退訂或早就被取消的訂單就踢回上一頁
+        if($orderBuilder->count() == 0 || $orderBuilder->value('removeApplied') == 1 || $orderBuilder->value('orderStatus') == '訂單已取消'){
+            return back()->withErrors([
+                'msg'=> '找不到該訂單編號、已經申請過退訂或訂單已經被取消，請依正常程序申請退訂！',
+                'type'=> 'error',
+            ]);
+        }
+        // 驗證表單資料
+        $validator = Validator::make($request->all(),[
+            'removereason' => ['required', 'string', 'min:30'],
+        ]);
+        // 若驗證失敗
+        if ($validator->fails()) {
+            // 針對錯誤訊息新增一欄訊息類別
+            $validator->errors()->add('type', 'error');
+            return back()
+                   ->withErrors($validator)
+                   ->withInput();
+        }
+        // 沒問題就取資料更新資料庫
+        $orderData = $orderBuilder->first();
+        RemoveOrders::create([
+            'targetOrder'=> $orderData->orderID,
+            'removeReason'=> $request->input('removereason'),
+        ]);
+        // 然後更新訂單狀態
+        $orderBuilder->update([
+            'orderStatus'=> '已申請取消訂單',
+            'removeApplied'=> 1,
+            'orderApplyStatus'=> $orderData->orderStatus,
+        ]);
+        return redirect(route('dashboard.form', ['a'=> 'userorders']))->withErrors([
+            'msg'=> '申請取消訂單成功，請靜待團隊處理您的訂單',
+            'type'=> 'success',
+        ]);
     }
 
     /**

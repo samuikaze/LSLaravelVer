@@ -50,11 +50,22 @@ class CheckLoginSession
                 $nowTime = Carbon::now();
                 // 如果找不到 session 中的 sessionStillAlive 表示 session 已過期
                 if(!$request->session()->has('sessionStillAlive')){
+                    // 如果購物車有儲存過就先取回購物車資料
+                    if(!empty($sessData->savedCart)){
+                        $cart = [
+                            'goods'=> json_decode($sessData->savedCart, true),
+                            'total'=> $sessData->savedTotal,
+                        ];
+                        $request->session()->put('cart', $cart);
+                    }
+                    // 更新資料庫
                     $sessions->where('sessionID', $sessId)->update([
                         'ipRmtAddr' => $request->ip(),  
                         'lastipRmtAddr' => $sessData->ipRmtAddr,
                         'loginTime' => $nowTime,
+                        'lastLoginTime' => $sessData->loginTime,
                     ]);
+                    // 更新 session
                     $request->session()->put('sessionStillAlive', 'true');
                 }
                 // 如果 session 沒有過期

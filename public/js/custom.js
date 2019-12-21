@@ -203,43 +203,76 @@ $(document).ready(function(){
 });
 
 // URL 變更
-/*$(document).ready(function(){
+$(document).ready(function(){
     $('a.urlPush').on('click', function(){
         // 先判斷有沒有GET值，沒有就加問號，然後取得 URL
         // $(location).attr('search').substr(0, 1) != '?'
-        var url = $(this).attr('href').replace('#', "?type=");
-
+        var url = '?' + $(this).data('url');
         // 推送 URL 至瀏覽器
         window.history.pushState(null, null, url);
     });
-});*/
+});
 
 // 購物車 AJAX
 $(document).ready(function(){
+    // 取得 CSRF token
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // 取得網站的根目錄
+    var baseurl = $('meta[name="web-root"]').attr('content');
+
+    // 顯示錯誤訊息
+    function displayMsg(msg, type){
+        switch(type){
+            case 'error':
+                var msgtype = 'danger';
+                break;
+            case 'warning':
+                var msgtype = 'warning';
+                break;
+            default:
+                var msgtype = 'success';
+        }
+        // 設定模板
+        var msgTemplate = "<div class=\"alert alert-" + msgtype + " alert-dismissible fade in\" role=\"alert\" style=\"margin-top: 1em;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><h4><strong>" + msg + "</strong></h4></div>";
+        // 先清掉原先的錯誤訊息，再把新的顯示出來
+        $('div#ajaxmsg').html('').prepend(msgTemplate);
+    }
+
     // 加入購物車
     $('a.joinCart').on('click', function(){
         var sendgid = $(this).data("gid");
+        var ajaxurl = baseurl + '/ajax/goods/joincart';
         if($(this).data("clicked") != "true"){
             $.ajax({
-                url: 'ajax.php?action=joincart',
+                url: ajaxurl,
                 type: "POST",
                 cache: false,
                 data: 'goodid=' + sendgid,
                 success: function(data) {
                     // AJAX 成功
-                    //console.log(data);
+                    // 清錯誤訊息
+                    $('div#ajaxmsg').html('');
                     var ajaxSuccessSelector = "a#goodsjCart" + sendgid;
-                    if(data == "errornogid" || data == "errorgid"){
-                        $('span.simpleCart_total').html("錯誤！");
-                    }else if(data == "errorincheck"){
-                        $('span.simpleCart_total').html("結帳中！");
-                    }else{
-                        $('span.simpleCart_total').html("NT$" + data);
-                    }
+                    $('span.simpleCart_total').html("NT$" + data.data);
                     $(ajaxSuccessSelector).html("加入購物車成功！").removeClass('btn-info').addClass('btn-success').attr("disabled", "disabled").data("clicked", "true");
+                    // 讓儲存購物車按鈕可按
+                    $('a#savecart').data('clicked', 'false').removeAttr('disabled').removeClass('btn-danger').addClass('btn-info');
+                    $('div#btn-savecart').removeClass('btn-success').addClass('btn-info').removeClass('btn-danger').removeAttr('disabled');
                 },
-                error: function(errData) {
-                    // AJAX 失敗
+                error: function(xhr) {
+                    // 取得伺服器端給予的錯誤訊息
+                    if(xhr.status == 401){
+                        var errorMsg = '您未登入';
+                    }else{
+                        var errorMsg = JSON.parse(xhr.responseText)['error'];
+                    }
+                    // 顯示錯誤訊息
+                    displayMsg(errorMsg, 'error');
                 }
             });
         }
@@ -249,17 +282,25 @@ $(document).ready(function(){
     // 清除購物車
     $('a.simpleCart_empty').on('click', function(){
         $.ajax({
-            url: 'ajax.php?action=clearcart',
+            url: baseurl + '/ajax/goods/resetcart',
             type: "POST",
             cache: false,
             data: 'clearcart=true',
             success: function(data) {
                 // AJAX 成功
-                //console.log(data);
-                $('span.simpleCart_total').html("NT$" + data);
+                $('span.simpleCart_total').html("NT$" + data.data);
+                // 顯示訊息
+                displayMsg(data.msg, 'success');
             },
-            error: function(errData) {
-                // AJAX 失敗
+            error: function(xhr) {
+                // 取得伺服器端給予的錯誤訊息
+                if(xhr.status == 401){
+                    var errorMsg = '您未登入';
+                }else{
+                    var errorMsg = JSON.parse(xhr.responseText)['error'];
+                }
+                // 顯示錯誤訊息
+                displayMsg(errorMsg, 'error');
             }
         });
         return false;
@@ -268,47 +309,32 @@ $(document).ready(function(){
     // 變更購物車商品數量
     $('input#goodsQty').change(function(){
         var gid = $(this).data('gid');
-        var selector = "span#gPrice" + gid;
         $.ajax({
-            url: 'ajax.php?action=changeGQty',
+            url: baseurl + '/goods/modifyqty',
             type: 'POST',
             cache: false,
-            data: 'qty=' + $(this).val() + '&gid=' + gid + '&gPrice=' + $(selector).html(),
+            data: 'qty=' + $(this).val() + '&gid=' + gid,
             success: function(data) {
                 // AJAX 成功
-                /* 將 JSON 資料處理為物件
-                 * 取資料方式為「processedData.<varName>」
-                **/
-                //console.log(data);
-                //console.log($(selector).html());
-                var processedData = JSON.parse(data);
-                // 當商品編號為空
-                if(processedData.msg == 'errornogid'){
-                    if(processedData.erred == 'false'){
-                        var alertContent = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\" style=\"margin-top: 1em;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><h4><strong>無法識別商品編號，請依正常程序修改訂購數量！</strong></h4></div>";
-                        $('div#ajaxmsg').prepend(alertContent);
-                    }
-                }
-                // 若商品數量為空
-                if(processedData.msg == 'errorqty'){
-                    var alertContent = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\" style=\"margin-top: 1em;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><h4><strong>商品數量不可為空或是負數！</strong></h4></div>";
-                    $('div#ajaxmsg').html(alertContent);
-                }else{
-                    $('div#ajaxmsg').html("");
-                }
-                // 若取得的訊息是 success
-                if(processedData.msg == 'success'){
-                    var gid = processedData.gid;
-                    var totalUpdateSelector = "span#gTot" + gid;
-                    $(totalUpdateSelector).html(processedData.nTotal);
-                    $('span#ajaxTotal').html(processedData.ajaxTotal);
-                }
-
-                //console.log(processedData.msg);
+                // 清錯誤訊息
+                $('div#ajaxmsg').html('');
+                // 讓儲存購物車按鈕可按
+                $('a#savecart').data('clicked', 'false').removeAttr('disabled').removeClass('btn-danger').addClass('btn-info')
+                // 更新小計金額
+                var subtotal = "span#gTot" + data.gid;
+                $(subtotal).html('小計：NT$ ' + data.subtotal);
+                // 更新總金額
+                $('span#ajaxTotal').html(data.total);
             },
-            error: function(data) {
-                // AJAX 失敗
-                console.log(data);
+            error: function(xhr) {
+                // 取得伺服器端給予的錯誤訊息
+                if(xhr.status == 401){
+                    var errorMsg = '您未登入';
+                }else{
+                    var errorMsg = JSON.parse(xhr.responseText)['error'];
+                }
+                // 顯示錯誤訊息
+                displayMsg(errorMsg, 'error');
             }
         })
     });
@@ -317,32 +343,71 @@ $(document).ready(function(){
     $('a#removeitem').on('click', function(){
         var gid = $(this).data('gid');
         $.ajax({
-            url: 'ajax.php?action=removeitem',
+            url: baseurl + '/goods/removeitem',
             type: 'POST',
             cache: false,
             data: 'gid=' + gid,
             success: function(data){
-                // AJAX 成功
-                console.log(data);
-                var processedData = JSON.parse(data);
-                var gid = processedData.gid;
-                var removeSelector = 'div#anCartItem' + gid;
+                var removeSelector = 'div#anCartItem' + data.gid;
+                // 清錯誤訊息
+                $('div#ajaxmsg').html('');
                 // 移除該項目
                 $(removeSelector).remove();
-                // 更新右邊總額或小計
-                $('span#ajaxTotal').html(processedData.cartTotal);
+                // 讓儲存購物車按鈕可按
+                $('a#savecart').data('clicked', 'false').removeAttr('disabled').removeClass('btn-danger').addClass('btn-info')
+                // 更新總額
+                $('span#ajaxTotal').html(data.total);
                 // 更新購物車商品數量
-                $('span#itemqty').html(processedData.itemsqty);
-                if(processedData.itemsqty == 0){
-                    $('div.cart-items').html("<div class=\"panel panel-info\"><div class=\"panel-heading\"><h3 class=\"panel-title\">訊息</h3></div><div class=\"panel-body\"><h2 class=\"info-warn\">您的購物車為空。<br /><br /><a href=\"goods.php\" class=\"btn btn-lg btn-success\">立即前往選購</a></div></div>");
-                    $('a#submitorder').attr("href", "goods.php").text('立即選購');
+                $('span#itemqty').html(data.cartnums);
+                // 如果剩餘商品數為零表示購物車已被重置
+                if(data.cartnums == 0){
+                    var goodsURL = baseurl + '/goods';
+                    $('div.cart-items').html("<div class=\"panel panel-info\"><div class=\"panel-heading\"><h3 class=\"panel-title\">訊息</h3></div><div class=\"panel-body\"><h2 class=\"info-warn\">您的購物車為空。<br /><br /><a href=" + goodsURL + " class=\"btn btn-lg btn-success\">立即前往選購</a></div></div>");
+                    $('a#ecpaysubmit, a#savecart').remove();
+                    $('a#submitorder').attr("href", goodsURL).text('立即選購');
                 }
             },
-            error: function(data){
-                // AJAX 失敗
-                console.log(data);
+            error: function(xhr){
+                // 取得伺服器端給予的錯誤訊息
+                if(xhr.status == 401){
+                    var errorMsg = '您未登入';
+                }else{
+                    var errorMsg = JSON.parse(xhr.responseText)['error'];
+                }
+                // 顯示錯誤訊息
+                displayMsg(errorMsg, 'error');
             }
         });
+    });
+
+    // 儲存購物車
+    $('a#savecart').on('click', function (){
+        if($(this).attr('disabled') != "disabled" && $(this).data('clicked') != "true"){
+            $.ajax({
+                url: baseurl + '/goods/savecart',
+                type: 'POST',
+                cache: false,
+                data: "savecart=true",
+                success: function(data){
+                    // AJAX 成功
+                    // 讓該按鈕不可按
+                    $('a#savecart').attr("disabled", "disabled").removeClass('btn-info').addClass('btn-success').data('clicked', "true");
+                    $('div#btn-savecart').removeClass('btn-info').addClass('btn-success').attr('disabled', 'disabled');
+                    // 顯示錯誤訊息
+                    displayMsg(data.msg, 'success');
+                },
+                error: function(xhr){
+                    // 取得伺服器端給予的錯誤訊息
+                    if(xhr.status == 401){
+                        var errorMsg = '您未登入';
+                    }else{
+                        var errorMsg = JSON.parse(xhr.responseText)['error'];
+                    }
+                    // 顯示錯誤訊息
+                    displayMsg(errorMsg, 'error');
+                }
+            });
+        }
     });
 
     // 通知已讀

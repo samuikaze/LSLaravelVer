@@ -137,7 +137,7 @@ class LoginController extends Controller
             // 用此方式 remember_token 會重新產生
             Auth::logout();
         }else{
-            // 否則就只登出這個裝置（token 不蟲新產生）
+            // 否則就只登出這個裝置（token 不重新產生）
             Auth::logoutCurrentDevice();
         }
         $request->session()->invalidate();

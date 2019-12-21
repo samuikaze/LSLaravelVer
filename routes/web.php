@@ -25,10 +25,25 @@ Route::get('/news/detail/{id}', 'Frontend\NewsController@show')->name('news.deta
 Route::get('/product', 'Frontend\ProductController@index')->name('product');
 
 // 商品一覽
-Route::get('/goods/{page?}', 'Frontend\GoodsController@index')->name('goods');
+Route::get('/goods', 'Frontend\GoodsController@viewgoods')->name('goods');
 
 // 商品詳細
-Route::get('/goods/goodDetail/{goodId}', 'Frontend\GoodsController@show')->name('gooddetail');
+Route::get('/goods/goodDetail/{goodId}', 'Frontend\GoodsController@goodsdetail')->name('gooddetail');
+
+// 檢視購物車
+Route::get('/goods/viewcart', 'Frontend\GoodsController@viewcart')
+       ->name('goods.viewcart')
+       ->middleware('auth');
+
+// 站內結帳
+Route::match(['get', 'post'], 'goods/checkout/step/{step?}', 'Frontend\GoodsController@checkout')
+       ->name('goods.checkout')
+       ->middleware('auth');
+
+// 執行取消結帳
+Route::post('/goods/cancelcheckout', 'Frontend\GoodsController@cancelCheckout')
+       ->name('goods.cancelcheckout')
+       ->middleware('auth');
 
 // 討論區（選擇討論板）
 Route::get('/bbs', 'Frontend\BBSController@index')->name('boardselect');
@@ -96,6 +111,21 @@ Route::get('/dashboard', 'Frontend\DashboardController@showData')
        ->name('dashboard.form')
        ->middleware('auth');
 
+// 檢視訂單詳細資料
+Route::get('/dashboard/orderdetail/{serial}', 'Frontend\DashboardController@orderDetail')
+       ->name('dashboard.orderdetail')
+       ->middleware('auth');
+
+// 申請取消訂單表單
+Route::get('/dashboard/removeorder/{serial}', 'Frontend\DashboardController@removeOrder')
+       ->name('dashboard.removeorder')
+       ->middleware('auth');
+
+// 執行申請取消訂單
+Route::post('/dashboard/removeorder/{serial}/apply', 'Frontend\DashboardController@doRemoveOrder')
+       ->name('dashboard.dormorder')
+       ->middleware('auth');
+
 // 執行更新會員資料
 Route::post('/dashboard/update_userdata', 'Frontend\DashboardController@updateUserData')
        ->name('dashboard.update.userdata')
@@ -117,3 +147,27 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 // 執行註冊
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
+
+/**
+ * AJAX 路由
+ */
+// 執行加入購物車
+Route::post('/ajax/goods/joincart', 'Frontend\GoodsController@joincart')
+       ->middleware('auth');
+
+// 執行變更購物車內商品數量
+Route::post('/goods/modifyqty', 'Frontend\GoodsController@modifyQty')
+       ->middleware('auth');
+
+// 執行重置購物車
+Route::post('/goods/resetcart', 'Frontend\GoodsController@resetcart')
+       ->name('goods.resetcart')
+       ->middleware('auth');
+
+// 執行移除購物車項目
+Route::post('/goods/removeitem', 'Frontend\GoodsController@removeItem')
+       ->middleware('auth');
+
+// 執行儲存購物車
+Route::post('/goods/savecart', 'Frontend\GoodsController@savecart')
+       ->middleware('auth');

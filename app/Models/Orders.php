@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Orders extends Model
 {
     protected $table = 'orders';
+    // 變更預設的 ID 欄位名稱
+    protected $primaryKey = 'orderID';
     public $timestamps = false;
 
     public function user()
@@ -20,7 +22,7 @@ class Orders extends Model
      * @var array
      */
     protected $fillable = [
-        'orderMember', 'orderContent', 'orderRealName', 'orderPhone', 'orderAddress', 'orderPrice', 'orderCasher', 'orderPattern', 'orderFreight', 'orderStatus'
+        'orderSerial', 'orderMember', 'orderContent', 'orderRealName', 'orderPhone', 'orderAddress', 'orderPrice', 'orderCasher', 'orderPattern', 'orderFreight', 'orderStatus'
     ];
 
     /**
@@ -29,4 +31,12 @@ class Orders extends Model
     protected $dates = [
         'orderDate'
     ];
+
+    /**
+     * orderDetail 資料表關聯
+     */
+    public function orderdetail()
+    {
+        return $this->hasMany(OrderDetail::class, 'orderID', 'orderID');
+    }
 }
