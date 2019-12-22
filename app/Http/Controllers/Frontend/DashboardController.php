@@ -377,4 +377,132 @@ class DashboardController extends Controller
                    'type'=> 'success',
                ]);
     }
+
+    /**
+     * 檢視通知
+     * @param Request $request Request 實例
+     * @return view 視圖
+     */
+    public function viewnotify(Request $request)
+    {
+        $nBuilder = User::find(Auth::user()->uid)->notifications();
+        // 取通知資料
+        $notifyrawdata = $nBuilder->get();
+        // 處理顯示資料
+        $notifydata = [
+            'totalNums'=> $nBuilder->count(),
+            'unreadNums'=> $nBuilder->where('notifyStatus', 'u')->count(),
+            'data'=> $notifyrawdata,
+        ];
+        $bc = [
+            ['url' => route(Route::currentRouteName()), 'name' => '通知一覽'],
+        ];
+        return view('frontend.dashboard.notifications', compact('bc', 'notifydata'));
+    }
+
+    /**
+     * [AJAX] 執行已讀單則或全部通知
+     * @param Request $request Request 實例
+     * @return JSON json 回應 
+     */
+    public function readNotify(Request $request)
+    {
+        // 如果 POST 過來的資料沒有 action 欄位就踢走
+        if(empty($request->input('action'))){
+            return response()->json(['error'=> '請依正常程序已讀通知！'], 400);
+        }
+        // 判斷輸入的值來決定是要已讀單則還是全部已讀
+        switch($request->input('action')){
+            // 已讀所有通知
+            case 'readallnotify':
+                // 如果沒有未讀訊息就返回錯誤訊息
+                if(User::find(Auth::user()->uid)->notifications()->where('notifyStatus', 'u')->count() == 0){
+                    return response()->json(['error'=> '沒有未讀通知可以已讀！'], 400);
+                }
+                // 更新資料庫
+                User::find(Auth::user()->uid)->notifications()->where('notifyStatus', 'u')->update([
+                    'notifyStatus'=> 'r',
+                ]);
+                // 返回回應
+                return response()->json(['result'=> 'success', 'unreadnums'=> 0], 200);
+                break;
+            // 已讀單則通知
+            default:
+                // 如果沒有該則通知就返回錯誤訊息
+                if(User::find(Auth::user()->uid)->notifications()->where('notifyID', $request->input('notifyid'))->count() == 0){
+                    return response()->json(['error'=> '請依正常程序移除通知！'], 400);
+                }
+                // 先驗證資料
+                $validator = Validator::make($request->all(), [
+                    'notifyid' => ['required', 'int'],
+                    'isgoto' => ['required', 'string', Rule::in(['true', 'false'])],
+                ]);
+                // 若驗證失敗
+                if ($validator->fails()) {
+                    return response()->json(['error'=> '請依正常程序已讀通知！'], 400);
+                }
+                // 沒問題就更新資料庫
+                User::find(Auth::user()->uid)->notifications()->where('notifyID', $request->input('notifyid'))->update([
+                    'notifyStatus'=> 'r',
+                ]);
+                // 取得未讀通知數量
+                $unreadnums = User::find(Auth::user()->uid)->notifications()->where('notifyStatus', 'u')->count();
+                if($request->input('isgoto') == 'true'){
+                    $link = true;
+                }else{
+                    $link = false;
+                }
+                // 返回回應
+                return response()->json(['result'=> 'success', 'unreadnums'=> $unreadnums, 'link'=> $link], 200);
+        }
+    }
+
+    /**
+     * [AJAX] 移除單則或全部通知
+     * @param Request $request Request 實例
+     * @return JSON json 回應 
+     */
+    public function deleteNotify(Request $request)
+    {
+        // 如果 POST 過來的資料沒有 action 欄位就踢走
+        if(empty($request->input('action'))){
+            return response()->json(['error'=> '請依正常程序已讀通知！'], 400);
+        }
+        // 判斷輸入的值來決定是要刪除單則還是全部刪除
+        switch($request->input('action')){
+            // 刪除所有通知
+            case 'delallnotify':
+                // 如果沒有通知就返回錯誤訊息
+                if(User::find(Auth::user()->uid)->notifications()->where('notifyTarget', Auth::user()->userName)->count() == 0){
+                    return response()->json(['error'=> '請依正常程序移除通知！'], 400);
+                }
+                // 更新資料庫
+                User::find(Auth::user()->uid)->notifications()->where('notifyTarget', Auth::user()->userName)->delete();
+                // 返回回應
+                return response()->json(['result'=> 'success', 'unreadnums'=> 0], 200);
+                break;
+            // 刪除單則通知
+            default:
+                // 如果沒有該則通知就返回錯誤訊息
+                if(User::find(Auth::user()->uid)->notifications()->where('notifyID', $request->input('notifyid'))->count() == 0){
+                    return response()->json(['error'=> '請依正常程序移除通知！'], 400);
+                }
+                // 先驗證資料
+                $validator = Validator::make($request->all(), [
+                    'notifyid' => ['required', 'int'],
+                ]);
+                // 若驗證失敗
+                if ($validator->fails()) {
+                    return response()->json(['error'=> '請依正常程序已讀通知！'], 400);
+                }
+                // 沒問題就更新資料庫
+                User::find(Auth::user()->uid)->notifications()->where('notifyID', $request->input('notifyid'))->delete();
+                // 取得未讀通知數量
+                $unreadnums = User::find(Auth::user()->uid)->notifications()->where('notifyStatus', 'u')->count();
+                // 取得所有通知數量
+                $notifynums = User::find(Auth::user()->uid)->notifications()->where('notifyTarget', Auth::user()->userName)->count();
+                // 返回回應
+                return response()->json(['result'=> 'success', 'unreadnums'=> $unreadnums, 'notifynums'=> $notifynums], 200);
+        }
+    }
 }

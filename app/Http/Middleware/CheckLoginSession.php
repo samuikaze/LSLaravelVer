@@ -76,6 +76,8 @@ class CheckLoginSession
                         'loginTime' => $nowTime,
                     ]);
                 }
+                // 最後給出未讀通知數量
+                $request->session()->put('unotify', User::find(Auth::user()->uid)->notifications()->where('notifyStatus', 'u')->count());
             }
         }
         return $next($request);

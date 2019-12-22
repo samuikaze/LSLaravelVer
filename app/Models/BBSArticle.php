@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BBSArticle extends Model
 {
+    // 變更預設的 ID 欄位名稱
+    protected $primaryKey = 'articleID';
     protected $table = 'bbsarticle';
     public $timestamps = false;
 

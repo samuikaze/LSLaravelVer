@@ -241,12 +241,12 @@
                     @else
                         <div class="dropdown pull-right" style="display: inline-block; ">
                             <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                {{ Auth::user()->userNickname }}&nbsp;&nbsp;<span id="notifyFQty" class="badge">{{-- $notifyunreadnums --}}0</span>
+                                {{ Auth::user()->userNickname }}&nbsp;&nbsp;<span id="notifyFQty" class="badge">{{ Session::get('unotify') }}</span>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                                 <li class="dropdown-header">使用者選單</li>
-                                <li><a href="notification.php?action=viewnotifies"><span id="notifyQty" class="badge">{{-- $notifyunreadnums --}}0</span>&nbsp;則通知</a></li>
+                                <li><a href="{{ route('dashboard.viewnotify') }}"><span id="notifyQty" class="badge">{{ Session::get('unotify') }}</span>&nbsp;則通知</a></li>
                                 <li><a href="{{ route('dashboard.form', ['a=userdata']) }}">使用者設定</a></li>
                                 <li><a href="{{ route('dashboard.form', ['a=userorders']) }}">確認訂單</a></li>
                                 <li><a href="{{ route('logout') }}">登出</a></li>

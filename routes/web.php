@@ -136,6 +136,11 @@ Route::get('/dashboard/logoutsession/{sid}', 'Frontend\DashboardController@logou
        ->name('dashboard.logout-session')
        ->middleware('auth');
 
+// 檢視通知頁面
+Route::get('/notifications', 'Frontend\DashboardController@viewnotify')
+       ->name('dashboard.viewnotify')
+       ->middleware('auth');
+
 // 登入/註冊頁面
 Route::get('/useraction', 'Auth\LoginController@showForm')->name('useraction');
 
@@ -170,4 +175,12 @@ Route::post('/goods/removeitem', 'Frontend\GoodsController@removeItem')
 
 // 執行儲存購物車
 Route::post('/goods/savecart', 'Frontend\GoodsController@savecart')
+       ->middleware('auth');
+
+// 執行已讀（單則或全部）通知
+Route::post('/notifications/readnotify', 'Frontend\DashboardController@readNotify')
+       ->middleware('auth');
+
+// 執行移除（單則或全部）通知
+Route::post('/notifications/deletenotify', 'Frontend\DashboardController@deleteNotify')
        ->middleware('auth');

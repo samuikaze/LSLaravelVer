@@ -73,8 +73,19 @@ class User extends Authenticatable
         return $this->hasMany(Orders::class, 'orderMember', 'userName');
     }
 
+    /**
+     * 權限資料表關聯
+     */
     public function priv()
     {
         return $this->hasOne(UserPriviledge::class, 'privNum', 'userPriviledge');
+    }
+
+    /**
+     * 通知資料表關連
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notifications::class, 'notifyTarget', 'userName');
     }
 }

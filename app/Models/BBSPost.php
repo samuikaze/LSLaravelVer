@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BBSPost extends Model
 {
+    // 變更預設的 ID 欄位名稱
+    protected $primaryKey = 'postID';
     protected $table = 'bbspost';
     public $timestamps = false;
 
@@ -24,4 +26,12 @@ class BBSPost extends Model
     protected $dates = [
         'postTime', 'lastUpdateTime', 'postEdittime'
     ];
+
+    /**
+     * 回文資料表關聯
+     */
+    public function replies()
+    {
+        return $this->hasMany(BBSArticle::class, 'articlePost', 'postID');
+    }
 }

@@ -13,6 +13,7 @@ use App\Models\BBSArticle;
 use App\Models\GlobalSettings;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Notifications;
 use Exception;
 use Carbon\Carbon;
 
@@ -258,7 +259,7 @@ class BBSController extends Controller
                 'postBoard' => $boardinfo['id'],
             ]);
             // 取得新文章的 ID
-            $newPostID = $post->id;
+            $newPostID = $post->postID;
             // 直接跳轉至新文章
             return redirect(route('viewdiscussion', ['bid' => $bid, 'postid' => $newPostID]))
                    ->withErrors([
@@ -356,6 +357,9 @@ class BBSController extends Controller
                 'lastUpdateUserID' => Auth::user()->userName,
                 'lastUpdateTime' => Carbon::now(),
             ]);
+            // 給予主貼文發文者通知
+            $notifytext = '文章「' . $postinfo['title'] . '」已有新回覆！';
+            $this->notifyuser('新回文通知', $notifytext, $boardinfo, $postinfo);
             // 由於有載入動畫的緣故，不實作跳轉至最新回文
             // 總回文數
             $replyNums = BBSArticle::where('articlePost', $postinfo['id'])->count();
@@ -607,6 +611,9 @@ class BBSController extends Controller
                     'postStatus' => 1,
                     'postEdittime' => Carbon::now(),
                 ]);
+                // 給予主貼文發文者通知
+                $notifytext = '文章「' . $postinfo['title'] . '」已被編輯！';
+                $this->notifyuser('文章被編輯通知', $notifytext, $boardinfo, $postinfo);
                 return redirect(route('viewdiscussion', ['bid'=> $boardinfo['id'], 'postid'=> $postinfo['id']]))
                        ->withErrors([
                            'msg'=> '編輯文章成功',
@@ -1038,5 +1045,39 @@ class BBSController extends Controller
             default:
                 throw new Exception('未知的類型');
         }
+    }
+
+    /**
+     * 推送通知
+     * @param string $notifytitle 通知標題
+     * @param string $notifycontent 通知內容
+     * @param array $boardinfo 討論板資訊陣列
+     * @param array $postinfo 討論串資訊陣列
+     */
+    public function notifyuser(string $notifytitle, string $notifycontent, array $boardinfo, array $postinfo)
+    {
+        // 先取目前貼文所有的使用者（不重覆）
+        $userRaw = BBSPost::find($postinfo['id'])->replies()->get('articleUserID');
+        // 把使用者名稱放進陣列
+        $users = [BBSPOST::where('postID', $postinfo['id'])->first()->postUserID];
+        foreach($userRaw as $user){
+            array_push($users, $user->articleUserID);
+        }
+        // 把重複的 ID 拿掉
+        $users = array_unique($users);
+        // 把自己的 ID 拿掉
+        unset($users[array_search(Auth::user()->userName, $users)]);
+        // 處理要放的訊息
+        $notifies = [];
+        foreach($users as $userid){
+            array_push($notifies, [
+                'notifyTitle'=> $notifytitle,
+                'notifySource'=> '系統',
+                'notifyContent'=> $notifycontent,
+                'notifyTarget'=> $userid,
+                'notifyURL'=> route('viewdiscussion', ['bid'=> $boardinfo['id'], 'postid'=> $postinfo['id']]),
+            ]);
+        }
+        Notifications::insert($notifies);
     }
 }
