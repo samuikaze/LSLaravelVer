@@ -10,7 +10,6 @@
         <div class="thumbnail">
             <a href="#"><img src="{{ asset('images/bbs/board/' . $board->boardImage) }}" style="width: 640px; height: 310px"></a>
             <div class="caption">
-                <!--<p class="numbers fRight">文章數 <span>99,999</span></p>-->
                 <h3 class="pull-left">{{ $board->boardName }} </h3>
                 <div class="fLeft">{!! $board->boardDescript !!}</div>
                 <div class="clearfix"></div>

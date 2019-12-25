@@ -246,10 +246,9 @@ $(document).ready(function(){
     // 加入購物車
     $('a.joinCart').on('click', function(){
         var sendgid = $(this).data("gid");
-        var ajaxurl = baseurl + '/ajax/goods/joincart';
         if($(this).data("clicked") != "true"){
             $.ajax({
-                url: ajaxurl,
+                url: baseurl + '/ajax/goods/joincart',
                 type: "POST",
                 cache: false,
                 data: 'goodid=' + sendgid,
@@ -417,7 +416,6 @@ $(document).ready(function(){
             url: baseurl + '/notifications/readnotify',
             type: 'POST',
             cache: false,
-            /* dataType: "HTML", */
             data: 'action=readnotify&notifyid=' + $(this).data('notifyid') + '&isgoto=' + $(this).data('isgoto'),
             success: function(data){
                 // AJAX 成功
@@ -543,6 +541,86 @@ $(document).ready(function(){
                     $(removeTarget).fadeOut(300, function(){
                         $('div#forMsg').html(toggleContent).fadeIn(300);
                     });
+                },
+                error: function(xhr){
+                    // 取得伺服器端給予的錯誤訊息
+                    if(xhr.status == 401){
+                        var errorMsg = '您未登入';
+                    }else{
+                        var errorMsg = JSON.parse(xhr.responseText)['error'];
+                    }
+                    // 顯示錯誤訊息
+                    displayMsg(errorMsg, 'error');
+                }
+            });
+        }
+    });
+
+    // 通知已付款
+    $('a#notifypaid').on('click', function(){
+        // 避免一再的送出要求
+        if($(this).attr('id') == 'notifypaid'){
+            // 要更新的欄位
+            var updateID = 'td#' + $(this).data('target');
+            // 把需要的資料先處理起來
+            var datas = JSON.stringify({
+                orderid: $(this).data('serial')
+            });
+            $.ajax({
+                url: baseurl + '/dashboard/notifypaid',
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: datas,
+                contentType: 'application/json;charset=utf-8',
+                success: function(data){
+                    // 使該按鈕不能按
+                    $('a#notifypaid').removeClass('btn-info').addClass('btn-success').removeAttr('id').removeAttr('style').attr('id', 'notifiedpaid').attr('disabled', 'disabled');
+                    // 更新訂單狀態欄
+                    $(updateID).html('已通知付款');
+                    // 顯示訊息
+                    displayMsg(data.msg, 'success');
+                },
+                error: function(xhr){
+                    // 取得伺服器端給予的錯誤訊息
+                    if(xhr.status == 401){
+                        var errorMsg = '您未登入';
+                    }else{
+                        var errorMsg = JSON.parse(xhr.responseText)['error'];
+                    }
+                    // 顯示錯誤訊息
+                    displayMsg(errorMsg, 'error');
+                }
+            });
+        }
+    });
+
+    // 通知已取貨
+    $('a#notifytaked').on('click', function(){
+        // 避免一再的送出要求
+        if($(this).attr('id') == 'notifytaked'){
+            // 要更新的欄位
+            var updateID = 'td#' + $(this).data('target');
+            // 把需要的資料先處理起來
+            var datas = JSON.stringify({
+                orderid: $(this).data('serial')
+            });
+            $.ajax({
+                url: baseurl + '/dashboard/notifytaked',
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: datas,
+                contentType: 'application/json;charset=utf-8',
+                success: function(data){
+                    // 使該按鈕不能按
+                    $('a#notifytaked').removeClass('btn-info').addClass('btn-success').removeAttr('id').removeAttr('style').attr('id', 'notifiedtaked').attr('disabled', 'disabled');
+                    // 更新訂單狀態欄
+                    $(updateID).html('已取貨');
+                    // 讓取消訂單可以按
+                    $('a#cancelorder').removeAttr('disabled').attr('href', data.rurl).html('申請退貨');
+                    // 顯示訊息
+                    displayMsg(data.msg, 'success');
                 },
                 error: function(xhr){
                     // 取得伺服器端給予的錯誤訊息

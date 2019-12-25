@@ -250,8 +250,10 @@
                                 <li><a href="{{ route('dashboard.form', ['a=userdata']) }}">使用者設定</a></li>
                                 <li><a href="{{ route('dashboard.form', ['a=userorders']) }}">確認訂單</a></li>
                                 <li><a href="{{ route('logout') }}">登出</a></li>
-                                <?php echo (Auth::user()->userPriviledge == 99) ? "<li class=\"dropdown-header\">管理者選單</li>" : "";
-                                echo (Auth::user()->userPriviledge == 99) ? "<li><a href=\"admin/index.php\">後台管理</a>" : "";?>
+                                @if(Auth::user()->userPriviledge == Session::get('bpriv')) 
+                                    <li class="dropdown-header">管理者選單</li>
+                                    <li><a href="{{ route('admin.index') }}">後台管理</a>
+                                @endif
                             </ul>
                         </div>
                     @endif

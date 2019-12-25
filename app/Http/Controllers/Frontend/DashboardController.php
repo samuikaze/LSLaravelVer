@@ -290,7 +290,7 @@ class DashboardController extends Controller
                    ->withErrors($validator)
                    ->withInput();
         }
-        // 沒有錯誤就開始更薪資料與檔案
+        // 沒有錯誤就開始更新資料與檔案
         // 有上傳檔案就先處理檔案
         if($request->hasFile('avatorimage')){
             // 如果本來就不是預設的虛擬形象則需要先把檔案刪除
@@ -504,5 +504,58 @@ class DashboardController extends Controller
                 // 返回回應
                 return response()->json(['result'=> 'success', 'unreadnums'=> $unreadnums, 'notifynums'=> $notifynums], 200);
         }
+    }
+
+    /**
+     * [AJAX] 執行通知已付款
+     * @param Request $request Request 實例
+     * @return JSON json 回應
+     * $request->orderid
+     */
+    public function notifyPaid(Request $request)
+    {
+        // 驗證表單資料
+        $validator = Validator::make($request->all(), [
+            'orderid'=> ['required'],
+        ]);
+        // 若驗證失敗
+        if ($validator->fails()) {
+            return response()->json(['error'=> '請依正常程序操作！'], 400);
+        }
+        // 檢查該筆訂單存不存在
+        if(User::find(Auth::user()->uid)->orders()->where('orderSerial', $request->orderid)->count() == 0){
+            return response()->json(['error'=> '請依正常程序操作！'], 400);
+        }
+        // 沒問題就更新資料庫
+        User::find(Auth::user()->uid)->orders()->where('orderSerial', $request->orderid)->update([
+            'orderStatus'=> '已取貨',
+        ]);
+        return response()->json(['msg'=> '成功通知團隊您已付款，請稍待團隊為您出貨！'], 200);
+    }
+
+    /**
+     * [AJAX] 執行通知已取貨
+     * @param Request $request Request 實例
+     * @return JSON json 回應
+     */
+    public function notifyTaked(Request $request)
+    {
+        // 驗證表單資料
+        $validator = Validator::make($request->all(), [
+            'orderid'=> ['required'],
+        ]);
+        // 若驗證失敗
+        if ($validator->fails()) {
+            return response()->json(['error'=> '請依正常程序操作！'], 400);
+        }
+        // 檢查該筆訂單存不存在
+        if(User::find(Auth::user()->uid)->orders()->where('orderSerial', $request->orderid)->count() == 0){
+            return response()->json(['error'=> '請依正常程序操作！'], 400);
+        }
+        // 沒問題就更新資料庫
+        User::find(Auth::user()->uid)->orders()->where('orderSerial', $request->orderid)->update([
+            'orderStatus'=> '已取貨',
+        ]);
+        return response()->json(['msg'=> '感謝您的訂購，歡迎再次使用本服務！', 'rurl'=> route('dashboard.removeorder', ['serial'=> $request->orderid])], 200);
     }
 }

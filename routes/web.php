@@ -154,33 +154,141 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
 
 /**
- * AJAX 路由
+ * AJAX 路由，每個都會經過 auth 這個 middleware 驗證登入狀態
  */
-// 執行加入購物車
-Route::post('/ajax/goods/joincart', 'Frontend\GoodsController@joincart')
-       ->middleware('auth');
+Route::middleware(['auth'])->group(function() {
+    // 執行加入購物車
+    Route::post('/ajax/goods/joincart', 'Frontend\GoodsController@joincart');
 
-// 執行變更購物車內商品數量
-Route::post('/goods/modifyqty', 'Frontend\GoodsController@modifyQty')
-       ->middleware('auth');
+    // 執行變更購物車內商品數量
+    Route::post('/goods/modifyqty', 'Frontend\GoodsController@modifyQty');
 
-// 執行重置購物車
-Route::post('/goods/resetcart', 'Frontend\GoodsController@resetcart')
-       ->name('goods.resetcart')
-       ->middleware('auth');
+    // 執行重置購物車
+    Route::post('/goods/resetcart', 'Frontend\GoodsController@resetcart')
+        ->name('goods.resetcart');
 
-// 執行移除購物車項目
-Route::post('/goods/removeitem', 'Frontend\GoodsController@removeItem')
-       ->middleware('auth');
+    // 執行移除購物車項目
+    Route::post('/goods/removeitem', 'Frontend\GoodsController@removeItem');
 
-// 執行儲存購物車
-Route::post('/goods/savecart', 'Frontend\GoodsController@savecart')
-       ->middleware('auth');
+    // 執行儲存購物車
+    Route::post('/goods/savecart', 'Frontend\GoodsController@savecart');
 
-// 執行已讀（單則或全部）通知
-Route::post('/notifications/readnotify', 'Frontend\DashboardController@readNotify')
-       ->middleware('auth');
+    // 執行通知已付款
+    Route::post('/dashboard/notifypaid', 'Frontend\DashboardController@notifyPaid');
 
-// 執行移除（單則或全部）通知
-Route::post('/notifications/deletenotify', 'Frontend\DashboardController@deleteNotify')
-       ->middleware('auth');
+    // 執行通知已取貨
+    Route::post('/dashboard/notifytaked', 'Frontend\DashboardController@notifyTaked');
+
+    // 執行已讀（單則或全部）通知
+    Route::post('/notifications/readnotify', 'Frontend\DashboardController@readNotify');
+
+    // 執行移除（單則或全部）通知
+    Route::post('/notifications/deletenotify', 'Frontend\DashboardController@deleteNotify');
+});
+
+/**
+ * 後台路由，會經過「priv」這個 middleware 驗證存取權限，
+ * 該 middleware 可視 kernel 下查閱，後台網址如下
+ * ~/admin/{routeName}
+ */
+Route::prefix('admin')->middleware(['auth', 'priv'])->group(function() {
+    // 後台首頁
+    Route::get('/', 'Backend\HomeController@home')
+           ->name('admin.index');
+
+    // 輪播一覽與新增輪播
+    Route::get('/carousel/a/{action}', 'Backend\Article\CarouselSettingController@carouselindex')
+           ->name('admin.article.carousel');
+    
+    // 管理輪播
+    Route::get('/carousel/editcarousel/{cid}', 'Backend\Article\CarouselSettingController@editCarousel')
+           ->name('admin.article.editcarousel');
+
+    // 刪除輪播確認表單
+    Route::get('/carousel/deletecarousel/{cid}/confirm', 'Backend\Article\CarouselSettingController@confirmDelCarousel')
+           ->name('admin.article.delcsconfirm');
+
+    // 執行新增輪播
+    Route::post('/carousel/addcarousel', 'Backend\Article\CarouselSettingController@addCarousel')
+           ->name('admin.article.addcarousel');
+
+    // 執行編輯輪播
+    Route::post('/carousel/editcarousel/{cid}/edit', 'Backend\Article\CarouselSettingController@doEditCarousel')
+           ->name('admin.article.doeditcs');
+
+    // 執行刪除輪播
+    Route::post('carousel/deletecarousel/{cid}/fire', 'Backend\Article\CarouselSettingController@fireDelCarousel')
+           ->name('admin.article.dodeletecs');
+
+    // 最新消息一覽與新增消息
+    Route::get('/news/a/{action}', 'Backend\Article\NewsController@newsindex')
+           ->name('admin.article.news');
+
+    // 編輯消息表單
+    Route::get('/news/editnews/{newsid}', 'Backend\Article\NewsController@editNews')
+           ->name('admin.article.editnews');
+
+    // 刪除消息確認表單
+    Route::get('/news/deletenews/{newsid}/confirm', 'Backend\Article\NewsController@delNewsConfirm')
+           ->name('admin.article.delnewsconfirm');
+    
+    // 執行編輯消息
+    Route::post('/news/editnews/{newsid}/fire', 'Backend\Article\NewsController@fireEditNews')
+           ->name('admin.article.doeditnews');
+
+    // 執行張貼新消息
+    Route::post('/news/addnews', 'Backend\Article\NewsController@addNews')
+           ->name('admin.article.addnews');
+
+    // 執行刪除消息
+    Route::post('/news/deletenews/{newsid}/fire', 'Backend\Article\NewsController@fireDelNews')
+           ->name('admin.article.firedelnews');
+
+    // 作品一覽與新增作品
+    Route::get('/product/a/{action}', 'Backend\Article\ProductController@productindex')
+           ->name('admin.article.product');
+
+    // 作品編輯表單
+    Route::get('/product/editproduct/{pid}', 'Backend\Article\ProductController@editProduct')
+           ->name('admin.article.editproduct');
+
+    // 作品刪除確認表單
+    Route::get('/product/deleteproduct/{pid}/confirm', 'Backend\Article\ProductController@delProdConfirm')
+           ->name('admin.article.delprodconfirm');
+
+    // 執行新增作品
+    Route::post('/product/addproduct', 'Backend\Article\ProductController@addProduct')
+           ->name('admin.article.addproduct');
+
+    // 執行編輯作品
+    Route::post('/product/editproduct/{pid}/fire', 'Backend\Article\ProductController@fireEditProduct')
+           ->name('admin.article.doeditproduct');
+
+    // 執行刪除作品
+    Route::post('/product/deleteproduct/{pid}/fire', 'Backend\Article\ProductController@fireDelProduct')
+           ->name('admin.article.firedelproduct');
+
+    // 討論板管理
+    Route::get('/bbs/a/{action}', 'Backend\BBS\BBSController@bbsindex')
+           ->name('admin.bbs.bbs');
+
+    // 編輯討論板表單
+    Route::get('bbs/editboard/{bid}', 'Backend\BBS\BBSController@editBoard')
+           ->name('admin.bbs.editboard');
+
+    // 確認刪除討論板表單
+    Route::get('bbs/deleteboard/{bid}/confirm', 'Backend\BBS\BBSController@delBoardConfirm')
+           ->name('admin.bbs.delboardconfirm');
+
+    // 執行新增討論板
+    Route::post('bbs/createboard', 'Backend\BBS\BBSController@createBoard')
+           ->name('admin.bbs.createboard');
+
+    // 執行編輯討論板
+    Route::post('bbs/editboard/{bid}/fire', 'Backend\BBS\BBSController@fireEditBoard')
+           ->name('admin.bbs.doeditboard');
+
+    // 執行刪除討論板
+    Route::post('bbs/deleteboard/{bid}/fire', 'Backend\BBS\BBSController@fireDelBoard')
+           ->name('admin.bbs.deleteboard');
+});

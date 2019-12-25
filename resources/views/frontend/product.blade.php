@@ -34,7 +34,11 @@
                             </div>
                             <hr class="fLeft prodDivide" />
                             <div class="col-md-12 col-xs-12 relDate noPadding">
-                                <p>發售日：{{ date("Y / m / d", strtotime($pd->prodRelDate)) }}</p>
+                                @if($reldate == '發售日未定')
+                                    <p>發售日：<span style="color: gray;">{{ $reldate[$loop->index] }}</span></p>
+                                @else
+                                    <p>發售日：{{ $reldate[$loop->index] }}</p>
+                                @endif
                             </div>
                         </div>
                         <div class="clearfix"></div>

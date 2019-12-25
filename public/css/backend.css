@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap');
+
+* {
+    font-family: 'Noto Sans TC', '微軟正黑體';
+}
+
+.content-body {
+    padding-top: 55px;
+}
+
+.content-body .breadcrumb {
+    background-color: unset;
+    border-bottom: 1px gray solid;
+    border-radius: 0px;
+}
+
+.breadcrumb > li + li:before {
+    color: rgb(151, 151, 151);
+    content: " > ";
+    padding: 0 5px;
+}
+
+.breadcrumb  li.active {
+    font-size: 1.3em;
+}
+
+.news-order {
+    width: 10%;
+}
+
+.news-title {
+    width: 70%;
+}
+
+.news-admin {
+    width: 20%;
+}
+
+.board-order {
+    width: 5%;
+}
+
+.board-title {
+    width: 60%;
+}
+
+.board-status {
+    width: 10%;
+}
+
+.board-admin {
+    width: 20%;
+}
+
+.goodsid {
+    vertical-align: middle !important;
+    width: 10%;
+}
+
+.goodname {
+    vertical-align: middle !important;
+    width: 50%;
+}
+
+.goodother {
+    vertical-align: middle !important;
+    width: 10%;
+}
+
+.goodadmin {
+    width: 20%;
+}
+
+.news-admin a {
+    margin-right: 0.5em;
+}
+
+.news-warn {
+    color: red !important;
+    padding: 0 auto;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
+.info-warn {
+    color: #31708f !important;
+    padding: 0 auto;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
+.warning-warn {
+    color: #8a6d3b !important;
+    padding: 0 auto;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
+.danger-warn {
+    color: #a94442 !important;
+    padding: 0 auto;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
+.admTabType {
+    width: 30%;
+    text-align: right;
+}
+
+.admTabOpt {
+    text-align: left;
+}
+
+.noResize {
+    resize: none !important;
+}
+
+.badge-primary {
+    background-color: #03a9f4;
+}
+
+.badge-success {
+    background-color: #8bc34a;
+}
+
+.alert h4 {
+    margin-bottom: 0;
+}
+
+form {
+    margin-top: 1em;
+}
+
+.sessionCtrlTable {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}

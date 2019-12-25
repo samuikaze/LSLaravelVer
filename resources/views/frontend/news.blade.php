@@ -47,7 +47,7 @@
                         <ul class="pagination">
                             @if ($cPage == 1) <li class="disabled"><a aria-label="Previous"> @else <li><a href="{{ route('news', ['page' => $cPage - 1]) }}" aria-label="Previous"> @endif <span aria-hidden="true">«</span></a></li>
                             @for($i = 1; $i <= $tPage; $i++)
-                                @if ($cPage == $i) <li class="active"><a href="{{ route('news', ['page' => $i]) }}"> @else <li><a> @endif {{ $i }} @if ($cPage == $i) <span class="sr-only">(current)</span> @endif </a></li>
+                                @if ($cPage == $i) <li class="active"><a href="{{ route('news', ['page' => $i]) }}"> @else <li><a href="{{ route('news', ['page' => $i]) }}"> @endif {{ $i }} @if ($cPage == $i) <span class="sr-only">(current)</span> @endif </a></li>
                             @endfor
                             @if ($cPage == $tPage) <li class="disabled"><a aria-label="Next"> @else <li><a href="{{ route('news', ['page'=> $cPage + 1]) }}" aria-label="Next"> @endif <span aria-hidden="true">»</span></a></li>
                         </ul>

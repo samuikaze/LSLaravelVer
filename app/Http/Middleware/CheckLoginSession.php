@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\GlobalSettings;
 use Carbon\Carbon;
 use Cookie;
 
@@ -76,6 +77,8 @@ class CheckLoginSession
                         'loginTime' => $nowTime,
                     ]);
                 }
+                // 取得可管理後台的權限並放入 session 中
+                $request->session()->put('bpriv', GlobalSettings::where('settingName', 'backendPriv')->value('settingValue'));
                 // 最後給出未讀通知數量
                 $request->session()->put('unotify', User::find(Auth::user()->uid)->notifications()->where('notifyStatus', 'u')->count());
             }

@@ -146,6 +146,7 @@ return [
     */
 
     'attributes' => [
+        // 前台表單
         'username' => '使用者名稱',
         'password' => '密碼',
         'usernickname' => '暱稱',
@@ -167,6 +168,24 @@ return [
         'clientaddress' => '訂單地址或郵局/超商名稱',
         'clientcasher' => '付款方式',
         'removereason' => '申請取消訂單的原因',
+        // 後台表單
+        'carouselDescript' => '輪播描述',
+        'carouselTarget' => '輪播位址',
+        'carouselImg' => '輪播圖片',
+        'newsType' => '消息類型',
+        'newsTitle' => '消息標題',
+        'newsContent' => '消息內容',
+        'prodname' => '作品名稱',
+        'prodtype' => '作品類型',
+        'prodplatform' => '作品平台',
+        'prodreldate' => '作品發售日期',
+        'produrl' => '作品位址',
+        'proddescript' => '作品描述',
+        'prodimage' => '作品視覺圖',
+        'boardname' => '討論板名稱',
+        'boarddescript' => '討論版描述',
+        'hideboard' => '隱藏討論板',
+        'boardimage' => '討論板圖片',
     ],
 
 ];

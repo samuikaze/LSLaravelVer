@@ -143,20 +143,21 @@
                                     <td>{{ $od->orderPrice }}</td>
                                     <td>{{ $od->orderDate }}</td>
                                     <td class="fpattern-resp">{{ $od->orderPattern }}</td>
-                                    @if($od->orderStatus == '已申請取消訂單') <td style="color: red;"><strong></strong> @else <td> @endif {{ $od->orderStatus }}</td>
+                                    @if($od->orderStatus == '已申請取消訂單') <td id="orderstatus{{ $loop->index }}" style="color: red;"><strong>{{ $od->orderStatus }}</strong></td> @else <td id="orderstatus{{ $loop->index }}">{{ $od->orderStatus }}</td> @endif
                                     <td>
                                         <a href="{{ route('dashboard.orderdetail', ['serial'=> $od->orderSerial]) }}" class="btn btn-info">詳細資料</a>
                                         @switch($od->orderStatus)
                                             @case('已出貨')
-                                                <a href="actions.php?action=notifytaked&oid={{ $od->orderID }}" class="btn btn-info">通知已取貨</a>
-                                                <a class="btn btn-danger" disabled="disabled">貨品已寄出</a>
+                                                <a id="notifytaked" data-serial="{{ $od->orderSerial }}" data-target="orderstatus{{ $loop->index }}" class="btn btn-info">通知已取貨</a>
+                                                <a id="cancelorder" class="btn btn-danger" disabled="disabled">貨品已寄出</a>
                                                 @break
                                             @case('已申請取消訂單')
                                                 <a class="btn btn-info" disabled="disabled">審核中</a>
                                                 <a class="btn btn-danger" disabled="disabled">申請審核中</a>
                                                 @break
                                             @case('等待付款')
-                                                <a href="actions.php?action=notifypaid&oid={{ $od->orderID }}" class="btn btn-info">通知已付款</a>
+                                                <a id="notifypaid" data-serial="{{ $od->orderSerial }}" data-target="orderstatus{{ $loop->index }}" class="btn btn-info">通知已付款</a>
+                                                <a href="{{ route('dashboard.removeorder', ['serial'=> $od->orderSerial]) }}" class="btn btn-danger">取消訂單</a>
                                                 @break
                                             @case('已通知付款')
                                                 <a class="btn btn-info" disabled="disabled">已通知付款</a>
