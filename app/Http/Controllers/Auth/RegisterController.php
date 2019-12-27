@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Request;
+use App\Models\GlobalSettings;
 use Carbon\Carbon;
 
 class RegisterController extends Controller
@@ -51,7 +52,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:50', 'unique:member'],
+            'username' => ['required', 'string', 'max:50', 'unique:member,userName'],
             'usernickname' => ['required', 'string', 'max:50'],
             'password' => ['required', 'string', 'min:3', 'confirmed'],
             'email' => ['required', 'string', 'email', 'max:50'],
@@ -81,6 +82,15 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+        // 先檢查是否有開啟註冊功能
+        $registerable = GlobalSettings::where('settingName', 'registerable')->value('settingValue');
+        if($registerable == 'off'){
+            return redirect(route('index'))->withErrors([
+                'msg'=> '網站目前關閉註冊，如需註冊新帳號請聯絡團隊為您處理！',
+                'type'=> 'error',
+            ]);
+        }
+        
         // 驗證表單資料
         $validator = $this->validator($request->all());
 

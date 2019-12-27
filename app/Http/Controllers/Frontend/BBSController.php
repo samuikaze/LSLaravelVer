@@ -208,6 +208,13 @@ class BBSController extends Controller
      */
     public function showCreatePostForm(Request $request, $bid)
     {
+        // 先檢查是否被禁言
+        if(Auth::user()->userPriviledge == 1){
+            return back()->withErrors([
+                'msg'=> '您處於被禁言狀態，不可發表新文章',
+                'type'=> 'error',
+            ]);
+        }
         // 檢查討論板是否存在
         $boardinfo = $this->checkIDs('board', $bid);
         // 返回的結果不是陣列就是 redirectResponse
@@ -227,6 +234,13 @@ class BBSController extends Controller
      */
     public function createPost(Request $request, $bid)
     {
+        // 先檢查是否被禁言
+        if(Auth::user()->userPriviledge == 1){
+            return back()->withErrors([
+                'msg'=> '您處於被禁言狀態，不可發表新文章',
+                'type'=> 'error',
+            ]);
+        }
         // 檢查討論板是否存在
         $boardinfo = $this->checkIDs('board', $bid);
         // 返回的結果不是陣列就是 redirectResponse
@@ -278,6 +292,13 @@ class BBSController extends Controller
      */
     public function showReplyPostForm(Request $request, $bid, $postid)
     {
+        // 先檢查是否被禁言
+        if(Auth::user()->userPriviledge == 1){
+            return back()->withErrors([
+                'msg'=> '您處於被禁言狀態，不可發表回文',
+                'type'=> 'error',
+            ]);
+        }
         // 檢查討論板及討論串是否存在
         $basicInfo = $this->checkIDs('both', $bid, $postid);
         // 返回的結果不是陣列就是 redirectResponse
@@ -313,6 +334,13 @@ class BBSController extends Controller
      */
     public function replyPost(Request $request, $bid, $postid)
     {
+        // 先檢查是否被禁言
+        if(Auth::user()->userPriviledge == 1){
+            return back()->withErrors([
+                'msg'=> '您處於被禁言狀態，不可發表回文',
+                'type'=> 'error',
+            ]);
+        }
         // 檢查討論板及討論串是否存在
         $basicInfo = $this->checkIDs('both', $bid, $postid);
         // 返回的結果不是陣列就是 redirectResponse
@@ -393,7 +421,14 @@ class BBSController extends Controller
      */
     public function editPost(Request $request, $bid, $postid, $type = null, $targetpost = null)
     {
-        // 先判斷是編輯主文章還是回文
+        // 先檢查是否被禁言或沒登入
+        if(Auth::user()->userPriviledge == 1){
+            return back()->withErrors([
+                'msg'=> '您處於被禁言狀態，不可編輯內文',
+                'type'=> 'error',
+            ]);
+        }
+        // 再判斷是編輯主文章還是回文
         switch($type){
             case 'post':
             case empty($type):
@@ -508,7 +543,14 @@ class BBSController extends Controller
      */
     public function doEditPost(Request $request, $bid, $postid, $type = null, $targetpost = null)
     {
-        // 先判斷是編輯主文章還是回文
+        // 先檢查是否被禁言
+        if(Auth::user()->userPriviledge == 1){
+            return back()->withErrors([
+                'msg'=> '您處於被禁言狀態，不可編輯內文',
+                'type'=> 'error',
+            ]);
+        }
+        // 再判斷是編輯主文章還是回文
         switch($type){
             case 'post':
             case empty($type):

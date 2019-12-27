@@ -15,6 +15,9 @@
 // 首頁
 Route::get('/', 'Frontend\IndexController@index')->name('index');
 
+// 停權帳號顯示頁面（搭配 Middleware）
+Route::match(['get', 'post'], '/banned', 'Frontend\IndexController@accountBanned')->name('banned');
+
 // 最新消息
 Route::get('/news/{page?}', 'Frontend\NewsController@index')->name('news');
 
@@ -273,22 +276,74 @@ Route::prefix('admin')->middleware(['auth', 'priv'])->group(function() {
            ->name('admin.bbs.bbs');
 
     // 編輯討論板表單
-    Route::get('bbs/editboard/{bid}', 'Backend\BBS\BBSController@editBoard')
+    Route::get('/bbs/editboard/{bid}', 'Backend\BBS\BBSController@editBoard')
            ->name('admin.bbs.editboard');
 
     // 確認刪除討論板表單
-    Route::get('bbs/deleteboard/{bid}/confirm', 'Backend\BBS\BBSController@delBoardConfirm')
+    Route::get('/bbs/deleteboard/{bid}/confirm', 'Backend\BBS\BBSController@delBoardConfirm')
            ->name('admin.bbs.delboardconfirm');
 
     // 執行新增討論板
-    Route::post('bbs/createboard', 'Backend\BBS\BBSController@createBoard')
+    Route::post('/bbs/createboard', 'Backend\BBS\BBSController@createBoard')
            ->name('admin.bbs.createboard');
 
     // 執行編輯討論板
-    Route::post('bbs/editboard/{bid}/fire', 'Backend\BBS\BBSController@fireEditBoard')
+    Route::post('/bbs/editboard/{bid}/fire', 'Backend\BBS\BBSController@fireEditBoard')
            ->name('admin.bbs.doeditboard');
 
     // 執行刪除討論板
-    Route::post('bbs/deleteboard/{bid}/fire', 'Backend\BBS\BBSController@fireDelBoard')
+    Route::post('/bbs/deleteboard/{bid}/fire', 'Backend\BBS\BBSController@fireDelBoard')
            ->name('admin.bbs.deleteboard');
+
+    // 會員權限一覽與新增作品
+    Route::get('/member/priviledge/a/{action}', 'Backend\Member\PriviledgeController@privindex')
+           ->name('admin.member.priv');
+
+    // 顯示編輯會元權限表單
+    Route::get('/member/priviledge/editpriv/{privid}', 'Backend\Member\PriviledgeController@editPriv')
+           ->name('admin.member.editpriv');
+
+    // 顯示確認刪除會員權限表單
+    Route::get('/member/priviledge/deletepriv/{privid}/confirm', 'Backend\Member\PriviledgeController@delPrivConfirm')
+           ->name('admin.member.delprivconfirm');
+
+    // 執行新增會員權限
+    Route::post('/member/priviledge/addpriv', 'Backend\Member\PriviledgeController@addPriv')
+           ->name('admin.member.addpriv');
+
+    // 執行編輯會員權限
+    Route::post('/member/priviledge/editpriv/{privid}/fire', 'Backend\Member\PriviledgeController@fireEditPriv')
+           ->name('admin.member.doeditpriv');
+
+    // 執行刪除會員權限
+    Route::post('/member/priviledge/deletepriv/{privid}/fire', 'Backend\Member\PriviledgeController@fireDelPriv')
+           ->name('admin.member.deletepriv');
+
+    // 會員一覽與新增作品
+    Route::get('/member/user/a/{action}', 'Backend\Member\UserController@userindex')
+           ->name('admin.member.user');
+
+    // 管理會員資料表單
+    Route::get('/member/user/edituser/{uid}', 'Backend\Member\UserController@editUser')
+           ->name('admin.member.edituser');
+
+    // 刪除會員確認表單
+    Route::get('/member/user/deleteuser/{uid}/confirm', 'Backend\Member\UserController@delUserConfirm')
+           ->name('admin.member.deluserconfirm');
+
+    // 執行新增（註冊）新會員
+    Route::post('/member/user/adduser', 'Backend\Member\UserController@addUser')
+           ->name('admin.member.adduser');
+    
+    // 執行編輯會員資料
+    Route::post('/member/user/edituser/{uid}/fire', 'Backend\Member\UserController@fireEditUser')
+           ->name('admin.member.doedituser');
+
+    // 執行刪除帳號
+    Route::post('/member/user/deleteuser/{uid}/fire', 'Backend\Member\UserController@fireDelUser')
+           ->name('admin.member.deleteuser');
+
+    // 執行搜尋會員帳號
+    Route::post('/member/user/searchuser', 'Backend\Member\UserController@fireSearchUser')
+           ->name('admin.member.searchuser');
 });

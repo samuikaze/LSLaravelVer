@@ -29,9 +29,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">會員管理 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">會員權限</a></li>
-                            <li><a href="#">會員管理</a></li>
-                            <li><a href="#">封鎖清單</a></li>
+                            <li><a href="{{ route('admin.member.user', ['action'=> 'list']) }}">會員管理</a></li>
+                            <li><a href="{{ route('admin.member.priv', ['action'=> 'list']) }}">會員權限</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

@@ -78,7 +78,7 @@
                 {{-- 有商品時才顯示結帳和儲存鈕 --}}
                 @else
                     <a id="ecpaysubmit" class="btn btn-success btn-block btn-lg" {{-- href="userorder.php?action=order&casher=ecpay" --}} disabled="disabled">綠界結帳（未開放）</a>
-                    <a href="{{ route('goods.checkout', ['step'=> 1]) }}" id="submitorder" class="btn btn-success btn-block btn-lg">立即結帳</a>
+                    <a @if(Auth::user()->userPriviledge != 2) href="{{ route('goods.checkout', ['step'=> 1]) }}" @else disabled="disabled" title="您已被禁止下訂訂單" @endif id="submitorder" class="btn btn-success btn-block btn-lg">立即結帳</a>
                     <hr class="cartbtn-margin" />
                     <a id="savecart" class="btn btn-info btn-lg btn-block" title="將購物清單儲存下來">儲存購物車</a>
                 @endif

@@ -1,6 +1,7 @@
 // 編輯頁面預覽圖
 $(document).ready(function () {
-    $("#carouselImg, #prodimage, #boardimage, #goodimage").change(function () {
+    $("#carouselImg, #prodimage, #boardimage, #goodimage, #avatorimage").change(function () {
+        var selector = $(this).attr('id');
         if ($(this).data('prevtype') == 'add') {
             // 若有上傳檔案
             if (this.files && this.files[0]) {
@@ -27,9 +28,15 @@ $(document).ready(function () {
                     if($("#imgPreview").length){
                         $('#imgPreview').attr('src', e.target.result);
                     }else{
-                        var appendDOM = "&nbsp;&nbsp;<span style=\"font-size: 1.5em;\"><strong><i class=\"fas fa-angle-double-right\"></i></strong></span>&nbsp;&nbsp;<img id=\"imgPreview\" src=\"" + e.target.result + "\" style=\"width: 45%;\"/>";
-                        $('#prevImg').css('width', '100%');
-                        $('#nowimage').css('width', '45%').after(appendDOM);
+                        if(selector == 'avatorimage'){
+                            var appendDOM = "&nbsp;&nbsp;<span style=\"font-size: 1.5em;\"><strong><i class=\"fas fa-angle-double-right\"></i></strong></span>&nbsp;&nbsp;<img id=\"imgPreview\" src=\"" + e.target.result + "\" style=\"width: 45%;\"/>";
+                            $('#prevImg').css('width', '15%');
+                            $('#nowimage').css('width', '15%').after(appendDOM);
+                        }else{
+                            var appendDOM = "&nbsp;&nbsp;<span style=\"font-size: 1.5em;\"><strong><i class=\"fas fa-angle-double-right\"></i></strong></span>&nbsp;&nbsp;<img id=\"imgPreview\" src=\"" + e.target.result + "\" style=\"width: 45%;\"/>";
+                            $('#prevImg').css('width', '100%');
+                            $('#nowimage').css('width', '45%').after(appendDOM);
+                        }
                     }
                 }
                 reader.readAsDataURL(this.files[0]);

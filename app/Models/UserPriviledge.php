@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserPriviledge extends Model
 {
+    protected $primaryKey = 'privNum';
     protected $table = 'mempriv';
     public $timestamps = false;
 

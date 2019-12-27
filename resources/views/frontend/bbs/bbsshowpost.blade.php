@@ -22,12 +22,18 @@
 @else
     <div class="container-fluid">
         <div class="row">
-            {{-- 被鎖定和被刪除的文章不要顯示回覆文章按鈕 --}}
-            @if(!in_array($postDatas[0]->postStatus, [2, 3, 4]))
-                <div class="dropdown pull-right">
-                    <a href="{{ route('bbs.showreplypostform', ['bid' => $boardinfo['id'], 'postid' => $postinfo['id']]) }}" class="btn btn-success">回覆此文章</a>
-                </div>
-            @endif
+            {{-- 被鎖定和被刪除的文章不讓回覆文章按鈕可按 --}}
+            <div class="dropdown pull-right">
+                @auth
+                    @if(!in_array($postDatas[0]->postStatus, [2, 3, 4]) && Auth::user()->userPriviledge != 1)
+                        <a href="{{ route('bbs.showreplypostform', ['bid' => $boardinfo['id'], 'postid' => $postinfo['id']]) }}" class="btn btn-success">回覆此文章</a>
+                    @else
+                        <a disabled="disabled" title="您處於禁言狀態或文章已被鎖定" class="btn btn-success">回覆此文章</a>
+                    @endif
+                @else
+                    <a disabled="disabled" title="請先登入" class="btn btn-success">回覆此文章</a>
+                @endauth
+            </div>
             {{-- 開始跑主文章和回文 --}}
             @foreach($postDatas as $pd)
                 {{-- 第一次迴圈要處理主文章和第一則回文 --}}
@@ -49,7 +55,7 @@
                             <div class="post">
                                 <div class="postControl">
                                     <span id="ar0" class="pull-left poststatus">#0&nbsp;&nbsp;|&nbsp;&nbsp;{{ $pd->postTime }} @if($pd->postStatus == 1) &nbsp;&nbsp;|&nbsp;&nbsp;編輯於 {{ $pd->postEdittime }} @endif</span>
-                                    <span class="posteditor">@if(! in_array($postinfo['status'], [2, 3, 4])) @auth @if(Auth::user()->userName == $pd->postUserID) <a class="post-link" href="{{ route('bbs.showeditpostform', ['bid'=> $boardinfo['id'],'postid'=> $postinfo['id']]) }}">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;@endif @if(Auth::user()->userName == $pd->articleUserID || Auth::user()->userPriviledge >= $boardinfo['adminPriv'])<a class="post-link" href="{{ route('bbs.showdelconfirm', ['bid'=> $boardinfo['id'], 'postid'=> $postinfo['id']]) }}">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;@endif @endauth @endif 大 中 小</span>
+                                    <span class="posteditor">@if(! in_array($postinfo['status'], [2, 3, 4])) @auth @if(Auth::user()->userName == $pd->postUserID) @if(Auth::user()->userPriviledge != 1)<a class="post-link" href="{{ route('bbs.showeditpostform', ['bid'=> $boardinfo['id'],'postid'=> $postinfo['id']]) }}">編輯</a>&nbsp;&nbsp;| @endif&nbsp;&nbsp;@endif @if(Auth::user()->userName == $pd->postUserID || Auth::user()->userPriviledge >= $boardinfo['adminPriv'])<a class="post-link" href="{{ route('bbs.showdelconfirm', ['bid'=> $boardinfo['id'], 'postid'=> $postinfo['id']]) }}">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;@endif @endauth @endif 大 中 小</span>
                                 </div>
                                 @if(!empty($pd->postTitle)) <h2 class="postTitle">{{ $pd->postTitle }}</h2><hr class="postHR" /> @endif <p class="postContent">{!! $pd->postContent !!}</p>
                             </div>
@@ -74,7 +80,7 @@
                                 <div class="post">
                                     <div class="postControl">
                                         <span id="{{ $loop->index+1 }}" class="pull-left poststatus">#{{ (($page['this'] - 1) * $postinfo['dispnums']) + 1 }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ $pd->articleTime }} @if($pd->articleStatus == 1) &nbsp;&nbsp;|&nbsp;&nbsp;編輯於 {{ $pd->articleEdittime }} @endif</span>
-                                        <span class="posteditor">@auth @if(Auth::user()->userName == $pd->articleUserID) <a class="post-link" href="{{ route('bbs.showeditpostform', ['bid'=> $boardinfo['id'],'postid'=> $postinfo['id'], 'type'=> 'reply', 'targetpost'=> $pd->articleID]) }}">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;@endif @if(Auth::user()->userName == $pd->articleUserID || Auth::user()->userPriviledge >= $boardinfo['adminPriv'])<a class="post-link" href="{{ route('bbs.showdelconfirm', ['bid'=> $boardinfo['id'], 'postid'=> $postinfo['id'], 'type'=> 'reply', 'targetpost'=> $pd->articleID]) }}">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;@endif @endauth 大 中 小</span>
+                                        <span class="posteditor">@auth @if(Auth::user()->userName == $pd->articleUserID) @if(Auth::user()->userPriviledge != 1)<a class="post-link" href="{{ route('bbs.showeditpostform', ['bid'=> $boardinfo['id'],'postid'=> $postinfo['id'], 'type'=> 'reply', 'targetpost'=> $pd->articleID]) }}">編輯</a>&nbsp;&nbsp;| @endif&nbsp;&nbsp;@endif @if(Auth::user()->userName == $pd->articleUserID || Auth::user()->userPriviledge >= $boardinfo['adminPriv'])<a class="post-link" href="{{ route('bbs.showdelconfirm', ['bid'=> $boardinfo['id'], 'postid'=> $postinfo['id'], 'type'=> 'reply', 'targetpost'=> $pd->articleID]) }}">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;@endif @endauth 大 中 小</span>
                                     </div>
                                     @if(!empty($pd->articleTitle)) <h2 class="postTitle">{{ $pd->articleTitle }}</h2><hr class="postHR" /> @endif <p class="postContent">{!! $pd->articleContent !!}</p>
                                 </div>
@@ -137,7 +143,7 @@
                                 <div class="post">
                                     <div class="postControl">
                                         <span id="{{ $loop->index+1 }}" class="pull-left poststatus">#{{ (($page['this'] - 1) * $postinfo['dispnums']) + $loop->index + 1 }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ $pd->articleTime }}@if($pd->articleStatus == 1) &nbsp;&nbsp;|&nbsp;&nbsp;編輯於 {{ $pd->articleEdittime }} @endif</span>
-                                        <span class="posteditor">@auth @if(Auth::user()->userName == $pd->articleUserID) <a class="post-link" href="{{ route('bbs.showeditpostform', ['bid'=> $boardinfo['id'],'postid'=> $postinfo['id'], 'type'=> 'reply', 'targetpost'=> $pd->articleID]) }}">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;@endif @if(Auth::user()->userName == $pd->articleUserID || Auth::user()->userPriviledge >= $boardinfo['adminPriv'])<a class="post-link" href="{{ route('bbs.showdelconfirm', ['bid'=> $boardinfo['id'], 'postid'=> $postinfo['id'], 'type'=> 'reply', 'targetpost'=> $pd->articleID]) }}">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;@endif @endauth 大 中 小</span>
+                                        <span class="posteditor">@auth @if(Auth::user()->userName == $pd->articleUserID) @if(Auth::user()->userPriviledge != 1)<a class="post-link" href="{{ route('bbs.showeditpostform', ['bid'=> $boardinfo['id'],'postid'=> $postinfo['id'], 'type'=> 'reply', 'targetpost'=> $pd->articleID]) }}">編輯</a>&nbsp;&nbsp;| @endif&nbsp;&nbsp;@endif @if(Auth::user()->userName == $pd->articleUserID || Auth::user()->userPriviledge >= $boardinfo['adminPriv'])<a class="post-link" href="{{ route('bbs.showdelconfirm', ['bid'=> $boardinfo['id'], 'postid'=> $postinfo['id'], 'type'=> 'reply', 'targetpost'=> $pd->articleID]) }}">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;@endif @endauth 大 中 小</span>
                                     </div>
                                     @if(!empty($pd->articleTitle)) <h2 class="postTitle">{{ $pd->articleTitle }}</h2><hr class="postHR" /> @endif <p class="postContent">{!! $pd->articleContent !!}</p>
                                 </div>
@@ -181,12 +187,18 @@
                     @endif
                 @endif
             @endforeach
-            {{-- 被鎖定和被刪除的文章不要顯示回覆文章按鈕 --}}
-            @if(!in_array($postDatas[0]->postStatus, [2, 3, 4]))
-                <div class="dropdown pull-right">
-                    <a href="{{ route('bbs.showreplypostform', ['bid' => $boardinfo['id'], 'postid' => $postinfo['id']]) }}" class="btn btn-success">回覆此文章</a>
-                </div>
-            @endif
+            {{-- 被鎖定和被刪除的文章不讓回覆文章按鈕可按 --}}
+            <div class="dropdown pull-right">
+                @auth
+                    @if(!in_array($postDatas[0]->postStatus, [2, 3, 4]) && Auth::user()->userPriviledge != 1)
+                        <a href="{{ route('bbs.showreplypostform', ['bid' => $boardinfo['id'], 'postid' => $postinfo['id']]) }}" class="btn btn-success">回覆此文章</a>
+                    @else
+                        <a disabled="disabled" title="您處於禁言狀態或文章已被鎖定" class="btn btn-success">回覆此文章</a>
+                    @endif
+                @else
+                    <a disabled="disabled" title="請先登入" class="btn btn-success">回覆此文章</a>
+                @endauth
+            </div>
             <div class="clearfix"></div>
             {{-- 總頁數大於一頁就顯示按鈕 --}}
             @if($page['total'] > 1)

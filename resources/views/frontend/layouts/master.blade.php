@@ -181,7 +181,10 @@
                                     <input type="hidden" name="refer" value="{{ url()->current() }}" />
                                     <div class="text-center" style="margin: 10px auto 0 0;">
                                         <input type="submit" class="btn btn-success" name="loginButton" value="登入" />
-                                        <input type="button" id="register" class="btn btn-info" value="註冊" />
+                                        {{-- 有開註冊功能才顯示 --}}
+                                        @if(Session::get('registerable') == 'on')
+                                            <input type="button" id="register" class="btn btn-info" value="註冊" />
+                                        @endif
                                     </div>
                                 </form>
                             </div>
@@ -190,33 +193,36 @@
                 </div>
             </div>
         </div>
-        <div class="hp_register" style="display: none;">
-            <div class="register">
-                <div class="container">
-                    <div id="reg" class="col-md-4 text-center">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">註冊</h3>
-                            </div>
-                            <div class="panel-body">
-                                <form name="register-form" method="POST" action="{{ route('register') }}">
-                                    @csrf
-                                    <div class="form-group"><input type="text" class="form-control" name="username" placeholder="請輸入帳號" /></div>
-                                    <div class="form-group"><input type="text" class="form-control" name="usernickname" placeholder="請輸入您的暱稱" /></div>
-                                    <div class="form-group"><input type="password" class="form-control" name="password" placeholder="請輸入密碼" /></div>
-                                    <div class="form-group"><input type="password" class="form-control" name="password_confirmation" placeholder="請再次輸入密碼" /></div>
-                                    <div class="form-group"><input type="email" class="form-control" name="email" placeholder="請輸入電子信箱地址" /></div>
-                                    <input type="hidden" name="refer" value="{{ url()->current() }}" />
-                                    <div class="text-center" style="margin: 10px auto 0 0;">
-                                        <input type="submit" class="btn btn-success" name="registerButton" id="reg-submit" value="註冊" />
-                                    </div>
-                                </form>
+        {{-- 有開註冊功能才顯示 --}}
+        @if(Session::get('registerable') == 'on')
+            <div class="hp_register" style="display: none;">
+                <div class="register">
+                    <div class="container">
+                        <div id="reg" class="col-md-4 text-center">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">註冊</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <form name="register-form" method="POST" action="{{ route('register') }}">
+                                        @csrf
+                                        <div class="form-group"><input type="text" class="form-control" name="username" placeholder="請輸入帳號" /></div>
+                                        <div class="form-group"><input type="text" class="form-control" name="usernickname" placeholder="請輸入您的暱稱" /></div>
+                                        <div class="form-group"><input type="password" class="form-control" name="password" placeholder="請輸入密碼" /></div>
+                                        <div class="form-group"><input type="password" class="form-control" name="password_confirmation" placeholder="請再次輸入密碼" /></div>
+                                        <div class="form-group"><input type="email" class="form-control" name="email" placeholder="請輸入電子信箱地址" /></div>
+                                        <input type="hidden" name="refer" value="{{ url()->current() }}" />
+                                        <div class="text-center" style="margin: 10px auto 0 0;">
+                                            <input type="submit" class="btn btn-success" name="registerButton" id="reg-submit" value="註冊" />
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
         <!-- 登入與註冊結束 -->
         @include('frontend.layouts.header')
         <div class="about-section" id="about">
@@ -225,6 +231,8 @@
                 <ol class="breadcrumb">
                     @if (Route::currentRouteName() == 'index')
                         <li class="thisPosition" style="color: #23527c;"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</li>
+                    @elseif(Route::currentRouteName() == 'banned')
+                        <li class="thisPosition" style="color: #23527c;"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;帳號被停權</li>
                     @else
                         <li><a href="{{ route('index') }}"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
                         @foreach ($bc as $i => $b)

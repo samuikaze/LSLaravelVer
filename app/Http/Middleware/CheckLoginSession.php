@@ -83,6 +83,8 @@ class CheckLoginSession
                 $request->session()->put('unotify', User::find(Auth::user()->uid)->notifications()->where('notifyStatus', 'u')->count());
             }
         }
+        // 取得有沒有開啟註冊功能
+        $request->session()->put('registerable', GlobalSettings::where('settingName', 'registerable')->value('settingValue'));
         return $next($request);
     }
 }

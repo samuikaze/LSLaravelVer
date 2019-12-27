@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\GlobalSettings;
 use App\Models\Sessions;
 use Browser;
 use Carbon\Carbon;
@@ -141,6 +142,11 @@ class LoginController extends Controller
             Auth::logoutCurrentDevice();
         }
         $request->session()->invalidate();
-        return back()->withCookie(cookie()->forget('loginSession'));
+        // 如果前一頁是停權頁就跳回首頁
+        if(url()->previous() == route('banned')){
+            return redirect(route('index'));
+        }else{
+            return back()->withCookie(cookie()->forget('loginSession'));
+        }
     }
 }

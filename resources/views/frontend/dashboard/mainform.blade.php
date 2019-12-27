@@ -5,32 +5,6 @@
 @section('content')
 <div class="row">
     <div class="col-md-10 col-md-push-1">
-    <?php /* if (!empty($_GET['msg']) && $_GET['msg'] == 'notifyerrnooid') { ?>
-        <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4><strong>無法識別訂單編號，請依正常程序操作！</strong></h4>
-        </div>
-    <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'notifysuccess') { ?>
-        <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4><strong>已通知團隊您已付款！</strong></h4>
-        </div>
-    <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'removeerrnoremovereason') { ?>
-        <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4><strong>請確實輸入您的申請原因！</strong></h4>
-        </div>
-    <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'removeerrnoorderstatus') { ?>
-        <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4><strong>無法取得訂單狀態，請依正常程序操作！</strong></h4>
-        </div>
-    <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'removesuccess') { ?>
-        <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4><strong>完成取消訂單申請！</strong></h4>
-        </div>
-    <?php } */ ?>
         <!-- 標籤 -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" @if($board['display'] == 'userdata') class="active" @endif><a href="#usersetting" class="urlPush" data-url="a=userdata" aria-controls="usersetting" role="tab" data-toggle="tab">資料管理</a></li>

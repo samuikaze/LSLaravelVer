@@ -18,7 +18,12 @@
                             <li><a href="#">同人創作</a></li>
                         </ul>
                     @endif
-                    <a href="{{ route('bbs.showcreatepostform', ['bid' => $boardinfo['id']]) }}" class="btn btn-success">張貼文章</a>
+                    {{-- 沒被禁言張貼文章鈕才可以按 --}}
+                    @auth
+                        <a @if(Auth::user()->userPriviledge != 1) href="{{ route('bbs.showcreatepostform', ['bid' => $boardinfo['id']]) }}" @else disabled="disabled" title="禁言狀態下不可發表新文章" @endif class="btn btn-success">張貼文章</a>
+                    @else
+                        <a disabled="disabled" title="請先登入" class="btn btn-success">張貼文章</a>
+                    @endif
                 </div>
             </div>
             {{-- 如果討論板有文章就開始處理顯示文章 --}}
@@ -71,7 +76,12 @@
                             <li><a href="#">同人創作</a></li>
                         </ul>
                     @endif
-                    <a href="{{ route('bbs.showcreatepostform', ['bid' => $boardinfo['id']]) }}" class="btn btn-success">張貼文章</a>
+                    {{-- 沒被禁言張貼文章鈕才可以按 --}}
+                    @auth
+                        <a @if(Auth::user()->userPriviledge != 1) href="{{ route('bbs.showcreatepostform', ['bid' => $boardinfo['id']]) }}" @else disabled="disabled" title="禁言狀態下不可發表新文章" @endif class="btn btn-success">張貼文章</a>
+                    @else
+                        <a disabled="disabled" title="請先登入" class="btn btn-success">張貼文章</a>
+                    @endif
                 </div>
             </div>
             {{-- 總頁數大於一頁就顯示頁數按鈕 --}}
@@ -99,7 +109,12 @@
                     <h2 class="news-warn" style="color: #8a6d3b !important;">討論板目前無文章<br /><br />
                         <div class="btn-group" role="group">
                             <a href="{{ route('boardselect') }}" class="btn btn-lg btn-info">返回討論板一覽</a>
-                            <a href="{{ route('bbs.showcreatepostform', ['bid' => $boardinfo['id']]) }}" class="btn btn-lg btn-success">按此張貼新文章</a>
+                            {{-- 沒被禁言張貼文章鈕才可以按 --}}
+                            @auth
+                                <a @if(Auth::user()->userPriviledge != 1) href="{{ route('bbs.showcreatepostform', ['bid' => $boardinfo['id']]) }}" @else disabled="disabled" title="禁言狀態下不可發表新文章" @endif class="btn btn-lg btn-success">張貼文章</a>
+                            @else
+                                <a disabled="disabled" title="請先登入" class="btn btn-lg btn-success">張貼文章</a>
+                            @endif
                         </div>
                     </h2>
                 </div>

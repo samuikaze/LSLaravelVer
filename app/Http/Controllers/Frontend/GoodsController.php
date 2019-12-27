@@ -131,6 +131,13 @@ class GoodsController extends Controller
      */
     public function checkout(Request $request, $step)
     {
+        // 先檢查有沒有被禁止下訂
+        if(Auth::user()->userPriviledge == 2){
+            return redirect(route('goods.viewcart'))->withErrors([
+                'msg'=> '由於您的購物行為不佳，團隊禁止您下訂任何訂單',
+                'type'=> 'error',
+            ]);
+        }
         // 若購物車是空的
         if(empty($request->session()->get('cart')['goods'])){
             return back()->withErrors([

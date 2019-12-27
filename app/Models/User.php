@@ -36,7 +36,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'userName', 'userEmail', 'userPW', 'userNickname', 'userAvator', 'userRealName', 'userPhone', 'userAddress'
+        'userName', 'userEmail', 'userPW', 'userNickname', 'userAvator', 'userPriviledge', 'userRealName', 'userPhone', 'userAddress'
     ];
 
     /**
@@ -87,5 +87,13 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notifications::class, 'notifyTarget', 'userName');
+    }
+
+    /**
+     * 討論板主貼文關連
+     */
+    public function posts()
+    {
+        return $this->hasMany(BBSPost::class, 'postUserID', 'userName');
     }
 }

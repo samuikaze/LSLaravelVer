@@ -42,7 +42,7 @@ class BBSController extends Controller
         $bc = [
             ['url' => route(Route::currentRouteName(), ['action'=> $action]), 'name' => '討論板新增與一覽'],
         ];
-        return view('backend.article.bbs.bbsform', compact('bc', 'info'));
+        return view('backend.bbs.bbsform', compact('bc', 'info'));
     }
 
     /**
@@ -67,7 +67,7 @@ class BBSController extends Controller
             ['url' => route('admin.bbs.bbs', ['action'=> 'list']), 'name' => '討論板新增與一覽'],
             ['url' => route(Route::currentRouteName(), ['bid'=> $bid]), 'name' => '編輯「' . $bdata->boardName . '」'],
         ];
-        return view('backend.article.bbs.editboard', compact('bc', 'bdata'));
+        return view('backend.bbs.editboard', compact('bc', 'bdata'));
     }
 
     /**
@@ -93,7 +93,7 @@ class BBSController extends Controller
             ['url' => route('admin.bbs.bbs', ['action'=> 'list']), 'name' => '討論板新增與一覽'],
             ['url' => route(Route::currentRouteName(), ['bid'=> $bid]), 'name' => '確認刪除「' . $bdata->boardName . '」'],
         ];
-        return view('backend.article.bbs.delboardconfirm', compact('bc', 'bdata', 'cuser'));
+        return view('backend.bbs.delboardconfirm', compact('bc', 'bdata', 'cuser'));
     }
 
     /**

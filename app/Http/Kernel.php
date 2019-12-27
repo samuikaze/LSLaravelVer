@@ -38,6 +38,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             // 每個頁面都檢查有沒有被登出
             \App\Http\Middleware\CheckLoginSession::class,
+            // 檢查帳號有沒有被停權
+            \App\Http\Middleware\CheckAccountStatus::class,
         ],
 
         'api' => [
@@ -76,6 +78,7 @@ class Kernel extends HttpKernel
     protected $middlewarePriority = [
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\CheckAccountStatus::class,
         \App\Http\Middleware\CheckLoginSession::class,
         \App\Http\Middleware\Authenticate::class,
         \Illuminate\Routing\Middleware\ThrottleRequests::class,

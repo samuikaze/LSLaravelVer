@@ -45,7 +45,7 @@ class DashboardController extends Controller
             $board['display'] = 'userdata';
         }
         // 取得使用者的資料後再修改權限的名稱
-        $userdata = User::find(Auth::user()->uid)->first();
+        $userdata = User::where('uid', Auth::user()->uid)->first();
         $userdata->userPriviledge = User::find(Auth::user()->uid)->priv()->value('privName');
         // 訂單資料
         $orderBulider = User::find(Auth::user()->uid)->orders();
@@ -210,7 +210,7 @@ class DashboardController extends Controller
         }
         // 驗證表單資料
         $validator = Validator::make($request->all(),[
-            'removereason' => ['required', 'string', 'min:30'],
+            'removereason' => ['required', 'string', 'min:30', 'max:100'],
         ]);
         // 若驗證失敗
         if ($validator->fails()) {
@@ -246,7 +246,7 @@ class DashboardController extends Controller
     public function updateUserData(Request $request)
     {
         // 先檢查是不是有上傳檔案又把刪除檔案打勾
-        if($request->hasFile('ImageUpload') && $request->has('delavatorimage')){
+        if($request->hasFile('avatorimage') && $request->has('delavatorimage')){
             return back()
                    ->withErrors([
                        'msg'=> '上傳與刪除虛擬形象不能同時執行！',
@@ -299,7 +299,7 @@ class DashboardController extends Controller
                 Storage::disk('htdocs')->delete($oldFilename);
             }
             // 決定新檔案名稱和副檔名
-            $filename = 'user-' . Auth::user()->uid . '.' . $request->file('avatorimage')->extension();
+            $filename = 'user-' . hexdec(uniqid()) . '.' . $request->file('avatorimage')->extension();
             // 移動檔案
             $request->file('avatorimage')->storeAs('images/userAvator/', $filename, 'htdocs');
         }
@@ -318,7 +318,7 @@ class DashboardController extends Controller
         switch(empty($request->input('password'))){
             // 要更新密碼
             case false:
-                User::find(Auth::user()->uid)->update([
+                User::where('uid', Auth::user()->uid)->update([
                     'userPW' => Hash::make($request->input('password')),
                     'userNickname' => $request->input('usernickname'),
                     'userAvator' => $filename,
@@ -336,7 +336,7 @@ class DashboardController extends Controller
                 break;
             // 不更新密碼
             default:
-                User::find(Auth::user()->uid)->update([
+                User::where('uid', Auth::user()->uid)->update([
                     'userNickname' => $request->input('usernickname'),
                     'userAvator' => $filename,
                     'userEmail' => $request->input('email'),
