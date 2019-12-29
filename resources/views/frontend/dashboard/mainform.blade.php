@@ -129,6 +129,9 @@
                                                 <a class="btn btn-info" disabled="disabled">審核中</a>
                                                 <a class="btn btn-danger" disabled="disabled">申請審核中</a>
                                                 @break
+                                            @case('訂單已取消')
+                                                <a class="btn btn-danger" disabled="disabled">訂單已取消</a>
+                                                @break
                                             @case('等待付款')
                                                 <a id="notifypaid" data-serial="{{ $od->orderSerial }}" data-target="orderstatus{{ $loop->index }}" class="btn btn-info">通知已付款</a>
                                                 <a href="{{ route('dashboard.removeorder', ['serial'=> $od->orderSerial]) }}" class="btn btn-danger">取消訂單</a>

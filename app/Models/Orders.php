@@ -39,4 +39,12 @@ class Orders extends Model
     {
         return $this->hasMany(OrderDetail::class, 'orderID', 'orderID');
     }
+
+    /**
+     * RemoveOrders 資料表關聯
+     */
+    public function refund()
+    {
+        return $this->hasMany(RemoveOrders::class, 'targetOrder', 'orderID');
+    }
 }

@@ -36,7 +36,7 @@ class GoodsController extends Controller
         // 設定每頁顯示幾行
         $goodsNum = GlobalSettings::where('settingName', 'goodsNum')->value('settingValue');
         // 計算頁數
-        $page['total'] = ceil(Goods::count() / $goodsNum);
+        $page['total'] = ceil(Goods::where('goodsStatus', 'up')->count() / $goodsNum);
         // 取得特定頁面商品
         // 先以頁數算起始值
         $start = $goodsNum * ($page['this'] - 1);
@@ -45,7 +45,7 @@ class GoodsController extends Controller
          * skip 是 SQL 中 LIMIT a, b 中的 a 值
          * take 是 SQL 中 LIMIT a, b 中的 b 值
          */
-        $goods = Goods::skip($start)->take($goodsNum)->get();
+        $goods = Goods::where('goodsStatus', 'up')->skip($start)->take($goodsNum)->get();
         // 沒登入或是沒有購物車 session 就顯示 0
         if(!Auth::check() || empty($request->session()->get('cart')['total'])){
             $cartTotal = 0;
@@ -68,6 +68,14 @@ class GoodsController extends Controller
      */
     public function goodsdetail(Request $request, $goodId)
     {
+        $gBuilder = Goods::where('goodsOrder', $goodId);
+        // 如果找不到商品或商品已停售就踢走
+        if($gBuilder->count() == 0 || $gBuilder->value('goodsStatus') != 'up'){
+            return redirect(route('goods'))->withErrors([
+                'msg' => '找不到商品或商品已停止販售',
+                'type' => 'error',
+            ]);
+        }
         // 取得商品數量顏色區分的閥值
         $goodQtyDanger = GlobalSettings::where('settingName', 'goodQtyDanger')->value('settingValue');
         // 取得目標商品的資料列
@@ -147,6 +155,18 @@ class GoodsController extends Controller
         }
         // 沒問題就判斷 $step 來決定要顯示的資料
         $cart = $request->session()->get('cart');
+        // 檢查購物車內容物是不是有已停止販售的商品
+        $goodsdata = Goods::whereIn('goodsOrder', array_keys($cart['goods']))->get();
+        foreach($goodsdata as $good){
+            if($good->goodsStatus != 'up'){
+                return back()
+                       ->withInput()
+                       ->withErrors([
+                           'msg'=> '購物車中含有已停售的商品，請先移除後再進行結帳！',
+                           'type'=> 'error',
+                       ]);
+            }
+        }
         // 先處理麵包屑
         $bc = [
             ['url' => route('goods'), 'name' => '周邊商品一覽'],
@@ -399,9 +419,9 @@ class GoodsController extends Controller
         }else{
             $gid = (int)$request->input('goodid');
         }
-        // 如果找不到商品編號就返回錯誤訊息
-        if(Goods::where('goodsOrder', $gid)->count() < 1){
-            return response()->json(['error'=> '找不到該商品！'], 400);
+        // 如果找不到商品編號貨商品已被停售就返回錯誤訊息
+        if(Goods::where('goodsOrder', $gid)->count() == 0 || Goods::where('goodsOrder', $gid)->value('goodsStatus') != 'up'){
+            return response()->json(['error'=> '找不到該商品或該商品已停售！'], 400);
         }
         // 否則就把商品加進購物車
         // 如果購物車內已經有商品了
@@ -483,10 +503,14 @@ class GoodsController extends Controller
             // 更新數量
             $cart['goods'][$gid] = $qty;
             // 取得商品單價以便更新小計和總額
-            $prices = Goods::whereIn('goodsOrder', array_keys($cart['goods']))->get(['goodsOrder', 'goodsPrice']);
+            $prices = Goods::whereIn('goodsOrder', array_keys($cart['goods']))->get(['goodsOrder', 'goodsPrice', 'goodsStatus']);
             $total = 0;
             $subtotal = 0;
             foreach($prices as $price){
+                // 檢查每樣在購物車中的商品是不是都還在正常販售
+                if($price->goodsStatus != 'up'){
+                    return response()->json(['error'=> '購物車中含有已停售的商品，請移除該商品或重置購物車後重試'], 400);
+                }
                 // 如果循環到的商品編號是這次更新的編號就計算小計金額
                 if($price->goodsOrder == $gid){
                     $subtotal = $cart['goods'][$price->goodsOrder] * $price->goodsPrice;

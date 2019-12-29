@@ -346,4 +346,60 @@ Route::prefix('admin')->middleware(['auth', 'priv'])->group(function() {
     // 執行搜尋會員帳號
     Route::post('/member/user/searchuser', 'Backend\Member\UserController@fireSearchUser')
            ->name('admin.member.searchuser');
+
+    // 商品一覽與新增商品
+    Route::get('/goods/good/a/{action}', 'Backend\Goods\GoodsController@goodindex')
+           ->name('admin.goods.good');
+
+    // 編輯商品表單
+    Route::get('/good/editgood/{gid}', 'Backend\Goods\GoodsController@editGood')
+           ->name('admin.good.editgood');
+
+    // 確認移除商品表單
+    Route::get('/good/deletegood/{gid}/confirm', 'Backend\Goods\GoodsController@delGoodConfirm')
+           ->name('admin.goods.delgoodconfirm');
+
+    // 執行上架商品
+    Route::post('/good/addgood/', 'Backend\Goods\GoodsController@addGood')
+           ->name('admin.goods.addgood');
+    
+    // 執行編輯商品
+    Route::post('/good/editgood/{gid}/fire', 'Backend\Goods\GoodsController@fireEditGood')
+           ->name('admin.good.doeditgood');
+
+    // 執行移除商品
+    Route::post('/good/deletegood/{gid}/fire', 'Backend\Goods\GoodsController@fireDelGood')
+           ->name('admin.goods.delgood');
+
+    // 訂單一覽
+    Route::get('/good/orders/a/{action}', 'Backend\Goods\OrderController@orderindex')
+           ->name('admin.goods.orders');
+
+    // 訂單詳細一覽
+    Route::get('/good/orders/detail/{oid}', 'Backend\Goods\OrderController@orderDetail')
+           ->name('admin.goods.orderdetail');
+
+    // 執行變更訂單狀態
+    Route::post('/good/orders/detail/{oid}/modifyorder', 'Backend\Goods\OrderController@modifyOrderStatus')
+           ->name('admin.goods.modifyorder');
+
+    // 審核取消訂單
+    Route::post('/good/orders/detail/{oid}/reviewrefund', 'Backend\Goods\OrderController@reviewRefund')
+           ->name('admin.goods.reviewrefund');
+
+    // 主要系統設定
+    Route::get('/system/configs', 'Backend\System\ConfigController@systemConfig')
+           ->name('admin.system.configs');
+
+    // 執行修改主要設定
+    Route::post('/system/configs/modify', 'Backend\System\ConfigController@fireModifyConfig')
+           ->name('admin.system.modifyconfigs');
+
+    // 資料庫管理頁面
+    Route::get('/system/database', 'Backend\System\ConfigController@systemDB')
+           ->name('admin.system.database');
+
+    // 執行最佳化或修復資料庫
+    Route::post('/system/database/{action}/fire', 'Backend\System\ConfigController@fireDBOptimize')
+           ->name('admin.system.dboptimize');
 });

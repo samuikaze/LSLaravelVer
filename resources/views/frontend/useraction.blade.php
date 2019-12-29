@@ -12,9 +12,7 @@
                 <ul class="nav nav-tabs">
                     @if($query['action'] == 'login' || $query['action'] == 'relogin') <li class="active"> @else <li> @endif<a href="#login-form" data-toggle="tab">登入</a></li>
                     {{-- 如果註冊功能有開啟才顯示 --}}
-                    @if(Session::get('registerable') == 'on')
-                        @if($query['action'] == 'register') <li class="active"> @else <li> @endif<a href="#register-form" data-toggle="tab">註冊</a></li>
-                    @endif
+                    @if($query['action'] == 'register') <li class="active"> @else <li> @endif<a href="#register-form" data-toggle="tab">註冊</a></li>
                 </ul>
                 <div class="tab-content">
                     <div @if($query['action'] == 'login' || $query['action'] == 'relogin') class="tab-pane fade in active" @else class="tab-pane fade" @endif id="login-form">
@@ -34,8 +32,8 @@
                         </form>
                     </div>
                     {{-- 如果註冊功能有開啟才顯示 --}}
-                    @if(Session::get('registerable') == 'on')
-                        <div @if($query['action'] == 'register') class="tab-pane fade in active" @else class="tab-pane fade" @endif id="register-form">
+                    <div @if($query['action'] == 'register') class="tab-pane fade in active" @else class="tab-pane fade" @endif id="register-form">
+                        @if(Session::get('registerable') == 'on')
                             <form method="POST" action="{{ route('register') }}" style="margin-top: 1em;">
                                 @csrf
                                 <div class="form-group text-left">
@@ -61,11 +59,19 @@
                                 <input type="hidden" name="refer" @if(url()->previous() != route('useraction')) value="{{ url()->previous() }}" @else value="{{ route('index') }}" @endif  />
                                 <input type="submit" class="btn btn-success btn-lg" name="submit" value="註冊" />
                             </form>
-                        </div>
-                    @endif
+                        @else
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">資訊</h3>
+                                </div>
+                                <div class="panel-body text-center">
+                                    <h2 class="news-warn">註冊功能目前關閉</h2>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 @else

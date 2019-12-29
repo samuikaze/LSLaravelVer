@@ -36,15 +36,15 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商品管理 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">商品管理</a></li>
-                            <li><a href="#">訂單管理</a></li>
+                            <li><a href="{{ route('admin.goods.good', ['action'=> 'list']) }}">商品管理</a></li>
+                            <li><a href="{{ route('admin.goods.orders', ['action'=> 'list']) }}">訂單管理</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系統設定 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">主要系統設定</a></li>
-                            <li><a href="#">資料庫管理</a></li>
+                            <li><a href="{{ route('admin.system.configs') }}">主要系統設定</a></li>
+                            <li><a href="{{ route('admin.system.database') }}">資料庫管理</a></li>
                             <li><a href="{{ route('index') }}">離開後台</a></li>
                         </ul>
                     </li>
