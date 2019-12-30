@@ -1,6 +1,11 @@
 /node_modules
 /public/hot
 /public/storage
+/public/images/bbs/board/board-*.*
+/public/images/carousel/carousel-*.*
+/public/images/goods/goods-*.*
+/public/images/products/prod-*.*
+/public/images/userAvator/user-*.*
 /storage/*.key
 /vendor
 .env
