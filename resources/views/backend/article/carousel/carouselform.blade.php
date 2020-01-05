@@ -20,7 +20,7 @@
                         <h3 class="panel-title">資訊</h3>
                     </div>
                     <div class="panel-body">
-                        <h2 class="news-info">目前尚未新增任何輪播圖！</h2><br /><br />
+                        <h2 class="info-warn">目前尚未新增任何輪播圖！</h2><br /><br />
                     </div>
                 </div>
             @else

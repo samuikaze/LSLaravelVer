@@ -14,6 +14,10 @@ use App\Models\GlobalSettings;
 use App\Models\User;
 use App\Models\Orders;
 use App\Models\OrderDetail;
+use App\Models\Ordertemp;
+use App\Models\Orderdetailtemp;
+use Exception;
+use DB;
 
 class GoodsController extends Controller
 {
@@ -111,6 +115,8 @@ class GoodsController extends Controller
                 'total'=> $cart['total'],
                 'step'=> (empty($cart['checkoutstep'])) ? null : $cart['checkoutstep'],
                 'ecpay'=> (empty($cart['ecpaycheckout'])) ? false : true,
+                // 這個是資料還沒送到綠界時給前端模板判斷用的
+                'isEcpay'=> (empty($cart['ecpay'])) ? false : true,
             ];
         }
         // 購物車為空
@@ -397,6 +403,336 @@ class GoodsController extends Controller
                 ]);
         }
     }
+    
+    /**
+     * 綠界結帳
+     * @param Request $request Request 實例
+     * @param int $step 目前步驟
+     * @return redirect 重新導實例
+     */
+    public function ecpayCheckout(Request $request, $step)
+    {
+        // 先檢查有沒有被禁止下訂
+        if(Auth::user()->userPriviledge == 2){
+            return redirect(route('goods.viewcart'))->withErrors([
+                'msg'=> '由於您的購物行為不佳，團隊禁止您下訂任何訂單',
+                'type'=> 'error',
+            ]);
+        }
+        // 若購物車是空的
+        if(empty($request->session()->get('cart')['goods'])){
+            return back()->withErrors([
+                'msg'=> '您的購物車內沒有商品或結帳階段過期，請將商品加入購物車後再試一次！',
+                'type'=> 'error',
+            ]);
+        }
+        // 沒問題就判斷 $step 來決定要顯示的資料
+        $cart = $request->session()->get('cart');
+        // 檢查購物車內容物是不是有已停止販售的商品
+        $goodsdata = Goods::whereIn('goodsOrder', array_keys($cart['goods']))->get();
+        foreach($goodsdata as $good){
+            if($good->goodsStatus != 'up'){
+                return back()
+                       ->withInput()
+                       ->withErrors([
+                           'msg'=> '購物車中含有已停售的商品，請先移除後再進行結帳！',
+                           'type'=> 'error',
+                       ]);
+            }
+        }
+        // 先處理麵包屑
+        $bc = [
+            ['url' => route('goods'), 'name' => '周邊商品一覽'],
+            ['url' => route('goods.viewcart'), 'name' => '檢視購物車'],
+            ['url' => route(Route::currentRouteName(), ['step'=> $step]), 'name' => '結帳'],
+        ];
+        switch($step){
+            case 1:
+                $checkoutinfo = [
+                    'step'=> $step,
+                    'title'=> '第一步 - 選擇結帳方式',
+                    // 取得結帳方式
+                    'pattern'=> CheckoutPattern::where('type', 'freight')->where('cashType', 'cash')->get(),
+                    'selected'=> (empty($cart['coPattern'])) ? null : $cart['coPattern'],
+                ];
+                return view('frontend.goods.ecpay.step1', compact('bc', 'checkoutinfo', 'cart'));
+                break;
+            case 2:
+                // 如果 $request 有 fPattern 這個 input 值就是從第一步過來的
+                unset($cart['ecpaycheckout']);
+                $request->session()->put('cart', $cart);
+                if($request->has('fPattern')){
+                    // 先驗證資料
+                    $validData = CheckoutPattern::where('type', 'freight')->where('cashType', 'cash')->get(['pattern']);
+                    foreach($validData as $i=> $val){
+                        if($i == 0){
+                            $rules = $val->pattern;
+                        }else{
+                            $rules .= "," . $val->pattern;
+                        }
+                    }
+                    // 驗證表單資料
+                    $validator = Validator::make($request->all(), [
+                        'fPattern' => ['required', 'string', 'in:'.$rules],
+                    ]);
+                    // 若驗證失敗
+                    if ($validator->fails()) {
+                        // 針對錯誤訊息新增一欄訊息類別
+                        $validator->errors()->add('type', 'error');
+                        return back()
+                            ->withErrors($validator)
+                            ->withInput();
+                    }
+                    // 然後把剛剛的結帳方式先寫進 session 內
+                    $cart['coPattern'] = $request->input('fPattern');
+                    // 寫入最後的步驟
+                    $cart['checkoutstep'] = $step;
+                    // 給前端模板識別是站外結帳用
+                    $cart['ecpay'] = true;
+                    // 更新 session
+                    $request->session()->put('cart', $cart);
+                }
+                // 處理顯示的資料
+                $copInfo = CheckoutPattern::where('pattern', $cart['coPattern'])->first();
+                $checkoutinfo = [
+                    'step'=> $step,
+                    'title'=> '第二步 - 填寫基本資料',
+                    'pattern'=> $cart['coPattern'],
+                    'fee'=> $copInfo->fee,
+                    'cashtype'=> $copInfo->cashType,
+                    'isRAddr'=> $copInfo->isRAddr,
+                ];
+                // 如果有送過資料，只是回來修改的話
+                if(!empty($cart['orderdata'])){
+                    $inputdata = [
+                        'name'=> $cart['orderdata']['name'],
+                        'phone'=> $cart['orderdata']['phone'],
+                        'address'=> $cart['orderdata']['address'],
+                    ];
+                }
+                // 否則填入帳號內儲存的資料或留空
+                else{
+                    $inputdata = [
+                        'name'=> (empty(Auth::user()->userRealName)) ? null : Auth::user()->userRealName,
+                        'phone'=> (empty(Auth::user()->userPhone)) ? null : Auth::user()->userPhone,
+                        'address'=> (empty(Auth::user()->userAddress)) ? null : Auth::user()->userAddress,
+                        'casher'=> null,
+                    ];
+                }
+                // 把資料返回給視圖
+                return view('frontend.goods.ecpay.step2' , compact('bc', 'checkoutinfo', 'inputdata', 'cart'));
+                break;
+            case 3:
+                // $temp = DB::table('debug')->where('id', 5)->first();
+                // dd(json_decode($temp->content, true));
+                // 先驗證表單資料
+                $validator = Validator::make($request->all(), [
+                    'clientname' => ['required', 'string', 'min:3', 'max:50'],
+                    'clientphone' => ['required', 'regex:/(0)[0-9]{9}/', 'max:20'],
+                    'clientaddress' => ['required', 'string', 'min:3', 'max:100'],
+                ]);
+                // 若驗證失敗
+                if ($validator->fails()) {
+                    // 針對錯誤訊息新增一欄訊息類別
+                    $validator->errors()->add('msg', $rules)->add('type', 'error');
+                    return back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+                // 沒有錯誤就儲存資料進 session
+                $cart['orderdata'] = [
+                    'name'=> $request->input('clientname'),
+                    'phone'=> $request->input('clientphone'),
+                    'address'=> $request->input('clientaddress'),
+                    'casher'=> (empty($request->input('clientcasher'))) ? null : $request->input('clientcasher'),
+                ];
+                // 先把資料丟進資料庫暫存
+                // 取運費
+                $fee = CheckoutPattern::where('pattern', $cart['coPattern'])->first()->fee;
+                $serial = hexdec(uniqid());
+                // 鎖定購物車的修改
+                $cart['ecpaycheckout'] = true;
+                $cart['orderserial'] = $serial;
+                // 先取得各商品單價
+                $prices = Goods::whereIn('goodsOrder', array_keys($cart['goods']))->get(['goodsOrder', 'goodsName', 'goodsPrice']);
+                // 把各商品單價儲存下來(0: 數量, 1: 單價)
+                $ordercontent = [];
+                $goods = [];
+                // 這邊順便把要 POST 給綠界的商品資料也一併處理起來
+                foreach($prices as $price){
+                    // 處理要寫資料庫的商品
+                    array_push($ordercontent, [
+                        // 最後插入的 ID 就是對應的訂單編號
+                        'orderSerial'=> $serial,
+                        // 這次循環的 goodsOrder 就是商品編號
+                        'goodID'=> $price->goodsOrder,
+                        // 商品數量從購物車取
+                        'goodQty'=> $cart['goods'][$price->goodsOrder],
+                        // 商品價格
+                        'goodPrice'=> $price->goodsPrice,
+                    ]);
+
+                    // 處理要 POST 給綠界的資料
+                    array_push($goods, [
+                        'Name' => $price->goodsName,
+                        'Price' => (int) $price->goodsPrice,
+                        'Currency' => "元",
+                        'Quantity' => (int) $cart['goods'][$price->goodsOrder],
+                    ]);
+                }
+                // 寫入訂單資料（訂購資料）
+                Ordertemp::create([
+                    'orderSerial'=> $serial,
+                    'orderMember'=> Auth::user()->userName,
+                    'orderRealName'=> $cart['orderdata']['name'],
+                    'orderPhone'=> $cart['orderdata']['phone'],
+                    'orderAddress'=> $cart['orderdata']['address'],
+                    'orderPrice'=> $cart['total'] + $fee,
+                    'orderPattern'=> $cart['coPattern'],
+                    'orderFreight'=> $fee,
+                ]);
+                // 寫入訂單內容（商品）
+                Orderdetailtemp::insert($ordercontent);
+                // 更新 session
+                $request->session()->put('cart', $cart);
+                // 由於會送資料出去給綠界，跳轉會中斷 PHP 的執行，所以要直接下 save() 方法儲存資料
+                $request->session()->save();
+                // 然後送資料給綠界
+                try {
+                    $order = new \ECPay_ALLInOne();
+                    // 服務參數
+                    $params = $this->getEcpayParam();
+                    $order->ServiceURL = $params['ServiceURL'];
+                    $order->HashKey = $params['HashKey'];
+                    $order->HashIV = $params['HashIV'];
+                    $order->MerchantID = $params['MerchantID'];
+                    $order->EncryptType = $params['EncryptType'];
+        
+                    // 基本參數 (請依系統規劃自行調整)
+                    $MerchantTradeNo = $serial;
+                    // 付款完成通知回傳的網址
+                    $order->Send['ReturnURL'] = route('goods.ecpay.process');
+                    // 訂單編號
+                    $order->Send['MerchantTradeNo'] = $serial;
+                    // 交易時間
+                    $order->Send['MerchantTradeDate'] = date('Y/m/d H:i:s');
+                    // 交易金額
+                    $order->Send['TotalAmount'] = $cart['total'] + $fee;
+                    // 交易描述
+                    $order->Send['TradeDesc'] = "test";
+                    // 付款方式:全功能
+                    $order->Send['ChoosePayment'] = \ECPay_PaymentMethod::ALL;
+                    // 客戶完成付款後返回網站的按鈕網址
+                    $order->Send['ClientBackURL'] = route('goods.ecpay.checkout', ['step'=> 4]);
+                    // 訂單的商品資料（上面處理完了，直接拿來用）
+                    $order->Send['Items'] = $goods;
+                    // 送資料給綠界
+                    $order->CheckOut();
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+                break;
+            case 4:
+                // 先判斷有沒有結帳成功，也就是訂單有沒有被寫入資料庫
+                if(Orders::where('orderSerial', $cart['orderserial'])->count() == 0){
+                    // 結帳未成功就刪除訂單資料
+                    Ordertemp::where('orderSerial', $cart['orderserial'])->delete();
+                    Orderdetailtemp::where('orderSerial', $cart['orderserial'])->delete();
+                    // 清掉訂單序號（重送資料會重新產生）
+                    unset($cart['orderserial']);
+                    // 解鎖購物車變更
+                    unset($cart['ecpaycheckout']);
+                    // 更新 session
+                    $request->session()->put('cart', $cart);
+                    return redirect(route('goods.ecpay.checkout', ['step'=> 2]))->withErrors([
+                        'msg'=> '您的結帳未成功，請重新結帳一次！',
+                        'type'=> 'error',
+                    ]);
+                }
+                // 如果結帳成功就顯示完成頁面
+                else{
+                    // 資料寫入由另一個方法處理，這邊就是處理顯示資料就好
+                    $fee = CheckoutPattern::where('pattern', $cart['coPattern'])->first()->fee;
+                    $result = [
+                        'serial'=> $cart['orderserial'],
+                        'total'=> $cart['total'] + $fee,
+                    ];
+                    $checkoutinfo = [
+                        'title'=> '完成訂單！',
+                        'step'=> 4,
+                    ];
+                    // 刪除購物車內容
+                    $request->session()->forget('cart');
+                    // 站內外結帳完成頁都一樣就沿用
+                    return view('frontend.goods.checkout.step4', compact('bc', 'result', 'checkoutinfo'));
+                }
+                break;
+        }
+        
+    }
+
+    /**
+     * 處理綠界平台回傳的資料
+     */
+    public function ecpayReceiveData(Request $request)
+    {
+        try {
+            // 收到綠界科技的付款結果訊息，並判斷檢查碼是否相符
+            $services = $this->getEcpayParam();
+            $AL = new \ECPay_AllInOne();
+            $AL->MerchantID = $services['MerchantID'];
+            $AL->HashKey = $services['HashKey'];
+            $AL->HashIV = $services['HashIV'];
+            // 加密方式
+            /**「ECPay_EncryptType::ENC_MD5」為 MD5
+             * 「ECPay_EncryptType::ENC_SHA256」為 SHA256 
+             */
+            $AL->EncryptType = \ECPay_EncryptType::ENC_SHA256;
+            $feedback = $AL->CheckOutFeedback();
+            // 訂單序號
+            $serial = $feedback['MerchantTradeNo'];
+            // 取出使用者的資料，正式寫進訂單表中，然後刪除那筆暫存資料
+            $orderdata = Ordertemp::where('orderSerial', $serial)->first();
+            $ordergoods = Orderdetailtemp::where('orderSerial', $serial)->get();
+            // 寫入訂單資料並取得這筆資料插入後的自動增加 ID
+            $order = Orders::create([
+                'orderSerial'=> $serial,
+                'orderMember'=> $orderdata->orderMember,
+                'orderRealName'=> $orderdata->orderRealName,
+                'orderPhone'=> $orderdata->orderPhone,
+                'orderAddress'=> $orderdata->orderAddress,
+                // 由於 POST 過來都會是文字格式，要轉成與資料庫相應的格式才不會出錯
+                'orderPrice'=> (int)$feedback['TradeAmt'],
+                'orderDate'=> date('Y-m-d H:i:s', strtotime($feedback['TradeDate'])),
+                'orderCasher'=> "信用卡",
+                'orderPattern'=> $orderdata->orderPattern,
+                'orderFreight'=> $orderdata->orderFreight,
+                'orderStatus'=> "等待出貨",
+            ]);
+            // 處理要寫資料庫的商品
+            $detail = [];
+            foreach($ordergoods as $good){
+                array_push($detail, [
+                    // 最後插入的 ID 就是對應的訂單編號
+                    'orderID'=> $order->orderID,
+                    // 商品編號
+                    'goodID'=> $good->goodID,
+                    // 商品數量
+                    'goodQty'=> $good->goodQty,
+                    // 商品價格
+                    'goodPrice'=> $good->goodPrice,
+                ]);
+            }
+            OrderDetail::insert($detail);
+            // 然後刪除資料庫中暫存的訂單
+            Ordertemp::where('orderSerial', $serial)->delete();
+            Orderdetailtemp::where('orderSerial', $serial)->delete();
+            // 在網頁端回應 1|OK
+            echo '1|OK';
+        } catch(Exception $e) {
+            echo '0|' . $e->getMessage();
+        }
+    }
 
     /**
      * [AJAX] 加入購物車
@@ -630,5 +966,19 @@ class GoodsController extends Controller
         else{
             return response()->json(['data'=> 0, 'msg'=> '重置購物車成功！'], 200);
         }
+    }
+
+    /**
+     * 取得綠界結帳的服務參數
+     */
+    public function getEcpayParam()
+    {
+        return array(
+            'ServiceURL' => "https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5",
+            'HashKey' => '5294y06JbISpM5x9',
+            'HashIV' => 'v77hoKGq4kWxNNIS',
+            'MerchantID' => '2000132',
+            'EncryptType' => '1',
+        );
     }
 }

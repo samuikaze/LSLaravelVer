@@ -33,11 +33,16 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "SDK\\": "app/SDK/"
         },
         "classmap": [
             "database/seeds",
-            "database/factories"
+            "database/factories",
+            "app/SDK"
+        ],
+        "files": [
+            "app/SDK/ECPay.Payment.Integration.php"
         ]
     },
     "autoload-dev": {

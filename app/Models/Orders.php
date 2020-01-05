@@ -22,7 +22,7 @@ class Orders extends Model
      * @var array
      */
     protected $fillable = [
-        'orderSerial', 'orderMember', 'orderContent', 'orderRealName', 'orderPhone', 'orderAddress', 'orderPrice', 'orderCasher', 'orderPattern', 'orderFreight', 'orderStatus'
+        'orderSerial', 'orderMember', 'orderContent', 'orderRealName', 'orderPhone', 'orderAddress', 'orderPrice', 'orderDate', 'orderCasher', 'orderPattern', 'orderFreight', 'orderStatus'
     ];
 
     /**

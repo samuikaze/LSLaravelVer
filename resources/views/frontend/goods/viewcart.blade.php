@@ -77,7 +77,7 @@
                     <hr class="cartbtn-margin" />
                 {{-- 有商品時才顯示結帳和儲存鈕 --}}
                 @else
-                    <a id="ecpaysubmit" class="btn btn-success btn-block btn-lg" {{-- href="userorder.php?action=order&casher=ecpay" --}} disabled="disabled">綠界結帳（未開放）</a>
+                    <a id="ecpaysubmit" class="btn btn-success btn-block btn-lg" @if(Auth::user()->userPriviledge != 2) href="{{ route('goods.ecpay.checkout', ['step'=> 1]) }}" @else disabled="disabled" title="您已被禁止下訂訂單" @endif>綠界結帳</a>
                     <a @if(Auth::user()->userPriviledge != 2) href="{{ route('goods.checkout', ['step'=> 1]) }}" @else disabled="disabled" title="您已被禁止下訂訂單" @endif id="submitorder" class="btn btn-success btn-block btn-lg">立即結帳</a>
                     <hr class="cartbtn-margin" />
                     <a id="savecart" class="btn btn-info btn-lg btn-block" title="將購物清單儲存下來">儲存購物車</a>
@@ -88,7 +88,12 @@
                     <input type="submit" name="submit" class="btn btn-danger btn-lg btn-block rstcart" value="重置購物車" />
                 </form>
             @else
-                <a href="{{ route('goods.checkout', ['step'=> $cartinfo['step']]) }}" id="submitorder" class="btn btn-success btn-block btn-lg">繼續結帳</a>
+                {{-- 如果 isEcpay 是 true 表示是站外結帳 --}}
+                @if($cartinfo['isEcpay'] == true)
+                    <a href="{{ route('goods.ecpay.checkout', ['step'=> $cartinfo['step']]) }}" id="submitorder" class="btn btn-success btn-block btn-lg">繼續結帳</a>
+                @else
+                    <a href="{{ route('goods.checkout', ['step'=> $cartinfo['step']]) }}" id="submitorder" class="btn btn-success btn-block btn-lg">繼續結帳</a>
+                @endif
                 <hr class="cartbtn-margin" />
                 <a id="savecart" class="btn btn-info btn-lg btn-block" title="將購物清單儲存下來">儲存購物車</a>
                 <form onsubmit="return confirm('重置購物車會連同結帳狀態一起被重置，您確定嗎？');"action="{{ route('goods.resetcart') }}" method="POST">

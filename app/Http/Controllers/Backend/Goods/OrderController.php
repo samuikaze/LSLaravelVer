@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Goods;
 
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
@@ -136,6 +137,25 @@ class OrderController extends Controller
                 $oBuilder->update([
                     'orderStatus'=> '已出貨',
                 ]);
+                // 更新商品數量
+                // 取訂單內的商品資料
+                $goods = Orders::find($oid)->orderdetail()->get();
+                // 處理 SQL 語句
+                $orderCondition = "";
+                $inCondition = "";
+                foreach($goods as $good){
+                    if(empty($inCondition)){
+                        $inCondition = $good->goodID;
+                    }else{
+                        $inCondition .= "," . $good->goodID;
+                    }
+                    $orderCondition .= " WHEN " . $good->goodID . " THEN `goodsQty`-" . $good->goodQty;
+                }
+                $sql = "UPDATE `goodslist` SET `goodsQty`=CASE `goodsOrder` $orderCondition END WHERE `goodsOrder` IN ($inCondition)";
+                // 更新資料庫
+                DB::statement(
+                    DB::raw($sql)
+                );
                 // 給予通知
                 Notifications::create([
                     'notifyContent'=> '訂單編號' . $order->orderSerial . '內的商品已經為您出貨，待物流送達後即可取貨！',

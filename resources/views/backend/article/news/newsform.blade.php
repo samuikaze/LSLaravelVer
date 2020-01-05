@@ -19,7 +19,7 @@
                         <h3 class="panel-title">訊息</h3>
                     </div>
                     <div class="panel-body text-center">
-                        <h2 class="info-warn">目前沒有任何作品！</h2>
+                        <h2 class="info-warn">目前沒有任何消息！</h2>
                     </div>
                 </div>
             {{-- 有消息就顯示 --}}

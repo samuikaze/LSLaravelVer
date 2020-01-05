@@ -39,9 +39,18 @@ Route::get('/goods/viewcart', 'Frontend\GoodsController@viewcart')
        ->middleware('auth');
 
 // 站內結帳
-Route::match(['get', 'post'], 'goods/checkout/step/{step?}', 'Frontend\GoodsController@checkout')
+Route::match(['get', 'post'], 'goods/checkout/step/{step}', 'Frontend\GoodsController@checkout')
        ->name('goods.checkout')
        ->middleware('auth');
+
+// 綠界結帳
+Route::match(['get', 'post'], 'goods/ecpay/step/{step}', 'Frontend\GoodsController@ecpayCheckout')
+       ->name('goods.ecpay.checkout')
+       ->middleware('auth');
+
+// 處理綠界平台回傳的資料
+Route::post('goods/ecpay/processdata/', 'Frontend\GoodsController@ecpayReceiveData')
+       ->name('goods.ecpay.process');
 
 // 執行取消結帳
 Route::post('/goods/cancelcheckout', 'Frontend\GoodsController@cancelCheckout')
