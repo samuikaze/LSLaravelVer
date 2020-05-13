@@ -8,16 +8,16 @@
     - phpMyAdmin 4.8.5
 - ngrok （測試金流回傳資料用）
 - composer
-- Laravel Framework 6.0.3
+- Laravel Framework 6.18.14
 
 # 在本地機器檢視專案
 如要在本地機器上檢視專案請先執行下列動作：
-1. 先以 composer 安裝 Laravel Framework 6.0.3 並建立一個新專案資料夾。
-2. `git clone` 到剛剛建立的專案資料夾內。
+1. `git clone` 到剛剛建立的專案資料夾內。
+2. 執行 `composer install` 及 `npm run dev` 安裝專案所需的所有套件。
 3. 將 `.env.example` 重新命名為 `.env` 並修改網站資料與資料庫相關設定。
 4. 在專案根目錄執行指令 `php artisan migrate:refresh --seed` 將資料庫及資料建立好。
 5. 將以下資料夾權限設定為 `755` 或 `777`：
-    - public/images/bbs/noard
+    - public/images/bbs/board
     - public/images/carousel
     - public/images/goods
     - public/images/products
